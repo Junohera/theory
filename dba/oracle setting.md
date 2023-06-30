@@ -1,0 +1,81 @@
+## set up Oracle Enterprise Linux & Oracle
+
+
+
+## compatibility
+
+> Linux and Oracle
+
+1) CentOS + Oracle
+2) OEL(7,8,9) + ORACLE(~~11g~~, 12c, 19c, 21c)
+3) OEL(7) + RAC(12C)
+
+### if Oracle Enterprise Linux : Oracle
+
+| Oracle Version | Oracle Enterprise Linux Version |
+| -------------- | ------------------------------- |
+| ~~11g~~        | **7**, 8, 9                     |
+| 12c            | **7**, 8, 9                     |
+| 19c            | 7, **8**, **9**                 |
+| 21c            | 7, **8**, **9**                 |
+
+## Download Product
+
+1. **[oracle](edelivery.oracle.com)**
+2. sign in
+3. add to cart product
+   1. **Oracle Linux 7.6 ( Oracle Linux )**
+   2. **Oralce Database 12c Enterprise Edition 12.2.0.1.0 ( Oracle Database Enterprise Edition )**
+4. checkout
+   1. **Oracle Database 12.2.0.1.0**
+      1. Platform: Linux x86
+   2. **Oracle Linux 7.6.0.0.0**
+      1. Platform: x86 64 bit
+5. install download manager
+6. run download manager
+7. next
+
+
+
+
+
+## Download Xmanager
+
+> Oracle 설치를 GUI가 지원되지 않는 환경(linux, unix)에서 설치시
+> 설치화면을 윈도우 환경에 가시적으로 진행하기 위한 유틸성 프로그램
+
+1. [Netsarang](https://www.netsarang.com/ko/xmanager-download/)
+
+2. install xmanager
+
+3. run xmanager passive
+
+4. get ip
+   ```
+   ipconfig
+   ipconfig | findstr "IPv4 주소"
+   ```
+
+5. enter linux
+
+   1. set server DISPLAY and test
+
+      ```shell
+      export DISPLAY=${YOUR_ID}:0.0
+      xclock
+      ```
+
+---
+
+> ref capture
+
+1. <img src="./assets/image-20230630143737081.png" alt="image-20230630143737081" style="zoom:200%;" />
+   <img src="./assets/image-20230630143837407.png" alt="image-20230630143837407" style="zoom: 200%;" />
+
+![image-20230630143914630](./assets/image-20230630143914630.png)
+
+![image-20230630143946677](./assets/image-20230630143946677.png)
+
+**window | linux GUI**
+
+![image-20230630152315069](./assets/image-20230630152315069.png)
