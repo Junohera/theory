@@ -54,9 +54,20 @@
    ```
    ipconfig
    ipconfig | findstr "IPv4 주소"
+   
+   or
+   
+   ipconfig | cat -n | head -9 | tail -1 | awk -F: '{print $NF}' | awk -F" " '{print $NF}'
    ```
+   
+5. install xclock
 
-5. enter linux
+   1. ```shell
+      su - root
+      yum install -y xorg-x11-apps
+      ```
+
+6. enter linux
 
    1. set server DISPLAY and test
 
