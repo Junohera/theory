@@ -139,11 +139,55 @@ select * from table(dbms_xplan.display_cursor(null, null, 'allstats last'));
     CREATE CONSTRAINT
     GRANT PERMISSION
     ```
-    
-    
 
-※ INDEX UNUSABLE 주의사항
+**※ INDEX UNUSABLE 주의사항**
+
 1. INDEX UNUSABLE 실행
 2. TRUNCATE 실행
 3. 1번에서 UNUSABLE했던 INDEX들이 다시 USABLE상태로 되돌아옴.
 => 시나리오 검토잘하고, 절차별 앞뒤로 확인
+
+### View
+
+- `Simple View`
+- `Composite View`
+- `Data DIctionary View`
+
+### Regex
+
+**특수기호**
+
+- `^`: 시작
+- `$`: 끝
+- `.`: 한글자
+- `+`: 1회 이상
+- `\`: 무력화
+
+**문자**
+
+- `[[:alpha:]]`
+- `[a-z]`
+- `[a-Z]`
+- `[A-z]`
+- `[a-zA-Z]`
+- `[가-힣]`
+
+**숫자**
+
+- `[[:digit:]]`
+- `[0-9]`
+- `\d`
+
+문자 **또는** 숫자
+
+- `[[:alnum]]`
+- `\w`
+
+#### methods
+
+1. `regexp_replace`: 문자열 치환 및 삭제
+2. `regexp_substr`: 문자열 추출
+3. `regexp_instr`: 문자열의 위치 추출
+4. `regexp_like`: 문자열을 선택(where절에서만 사용)(=grep)
+5. `regexp_count`: 문자열 수 반환
+

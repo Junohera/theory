@@ -198,18 +198,21 @@ oel7
 1. Installation Option
    - uncheck oracle support
 2. Select Installation Option
-  - Install database software only
+     - Install database software only
 3. Select Database Installation Option
-  - Single instance database installation
+     - Single instance database installation
 4. Select Database Edition
-  - Enterprise Edition
+     - Enterprise Edition
 5. Specify Installation Location
-  - Oracle base
-  	- `/${ORACLE PRODUCT}/app/oracle`
-  	- `/oracle12/app/oracle`
-  - Software location
-  	- `/${ORACLE PRODUCT}/app/oracle/product/12.2.0.1/db_1`
-  	- `/oracle12/app/oracle/product/12.2.0.1/db_1`
+
+     - Oracle base
+
+         	- `/${ORACLE PRODUCT}/app/oracle`
+         	- `/oracle12/app/oracle`
+     - Software location
+
+         	- `/${ORACLE PRODUCT}/app/oracle/product/12.2.0.1/db_1`
+         	- `/oracle12/app/oracle/product/12.2.0.1/db_1`
 6. just next
 7. Install Product
   - `su - root`
