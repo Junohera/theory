@@ -409,6 +409,10 @@ netca
   - Save as a database template
   - Generate database creation scripts
 
+### complete
+
+![image-20230705110622747](./assets/image-20230705110622747.png)
+
 # ref capture
 
 ![캡처](./assets/capture.PNG)
