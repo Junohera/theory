@@ -411,7 +411,7 @@ netca
 
 # ref capture
 
-![캡처](./assets/캡처.PNG)
+![캡처](./assets/capture.PNG)
 
 ![1](./assets/1.PNG)
 
