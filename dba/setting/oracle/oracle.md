@@ -1,4 +1,7 @@
+[toc]
+
 # set up OEL
+
 > Oracle Enterprise Linux & ORACLE 12c
 
 ### in vmware
@@ -168,19 +171,17 @@ oel7
 
   - ````shell
     ipconfig | findstr "IPv4 주소"
-    
-    or
-    
-    ipconfig | cat -n | head -9 | tail -1 | awk -F: '{print $NF}' | awk -F" " '{print "export DISPLAY="$NF":0.0; export LANG=C;"}'
+    ipconfig | cat -n | head -9 | tail -1 | awk -F: '{print $NF}' | awk -F" " '{print "DISPLAY="$NF":0.0; export DISPLAY; LANG=C; export LANG;"}'
+    # DISPLAY=192.168.17.17:0.0; export DISPLAY; LANG=C; export LANG;
     ````
-
+    
   - ```shell
     su - root
     yum install -y xorg-x11-apps
     export DISPLAY=${YOUR_ID}:0.0
     xclock
     ```
-
+  
 - as a oracle
 
   - ```shell
@@ -277,11 +278,13 @@ export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
 
 DISPLAY, LANG 동일하게 유지
 
+- check run Xmanager Passive
+
 ```shell
 su - oracle
 ps -ef | grep lsnr | grep -v grep
 
-#ipconfig | cat -n | head -9 | tail -1 | awk -F: '{print $NF}' | awk -F" " '{print "DISPLAY="$NF":0.0; export DISPLAY; LANG=C; export LANG;"}'
+ipconfig | cat -n | head -9 | tail -1 | awk -F: '{print $NF}' | awk -F" " '{print "DISPLAY="$NF":0.0; export DISPLAY; LANG=C; export LANG;"}'
 # DISPLAY=192.168.17.17:0.0; export DISPLAY; LANG=C; export LANG;
 
 export DISPLAY=${YOUR_ID}:0.0
@@ -372,14 +375,14 @@ netca
 
   - Connection mode
 
-    - ✅Delicated server mode
+    - ✅Dedicated server mode
 
       > 1:1
       > <img src="./assets/image-20230705104542361.png" alt="image-20230705104542361"  />
       >
       > 명령처리 빠름, resource 낭비
       >
-      > > 일반적으로 WAS(Web Application Server)에서 Connection Pool을 점유하면서 서비스하게 되므로 **안정적인 서비스를 제공해야하는 환경이라면 Delicated server mode를 사용하는게  일반적**이다.
+      > > 일반적으로 WAS(Web Application Server)에서 Connection Pool을 점유하면서 서비스하게 되므로 **안정적인 서비스를 제공해야하는 환경이라면 Dedicated server mode를 사용하는게  일반적**이다.
 
     - Shared server mode
 
@@ -411,13 +414,29 @@ netca
 
 ### complete
 
-![image-20230705110622747](./assets/image-20230705110622747.png)
+- finish
+  ![image-20230705110622747](./assets/image-20230705110622747.png)
+
+- (Optional) set alias as a oracle
+
+  - ```shell
+    su - oracle
+    cd
+    vi .bash_profile
+    
+    alias 'c=clear'
+    alias "cds=cd $ORACLE_HOME"
+    alias 'his=history | cut -c 8- | uniq | sort -u'
+    alias 'pslsnr=ps -ef | grep lsnr | grep -v grep'
+    alias 'pspmon=ps -ef | grep pmon | grep -v grep'
+    alias 'myip=ifconfig | head -2 | tail -1 | awk -Fnetmask '"'"'{print $1}\'"'"' | awk -F" " '"'"'{print $NF}'"'"''
+    
+    . .bash_profile
+    ```
 
 # ref capture
 
-![캡처](./assets/capture.PNG)
-
-![1](./assets/1.PNG)
+![capture1](./assets/capture1.png)
 
 ![2](./assets/2.PNG)
 
@@ -459,8 +478,6 @@ netca
 
 ![image-20230704152008881](./assets/image-20230704152008881.png)
 
-### NETCA
-
 ### DBCA
 
 ![image-20230705093843689](./assets/image-20230705093843689.png)
@@ -480,3 +497,4 @@ netca
 ![image-20230705102507565](./assets/image-20230705102507565.png)
 
 ![image-20230705104503617](./assets/image-20230705104503617.png)
+

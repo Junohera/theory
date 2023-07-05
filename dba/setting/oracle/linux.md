@@ -1,3 +1,5 @@
+[toc]
+
 ## set up Oracle Enterprise Linux & Oracle
 
 
@@ -34,10 +36,6 @@
 5. install download manager
 6. run download manager
 7. next
-
-
-
-
 
 ## Download Xmanager
 
@@ -78,7 +76,7 @@
 
 ---
 
-> ref capture
+## ref capture
 
 1. <img src="./assets/image-20230630143737081.png" alt="image-20230630143737081" style="zoom:200%;" />
    <img src="./assets/image-20230630143837407.png" alt="image-20230630143837407" style="zoom: 200%;" />
