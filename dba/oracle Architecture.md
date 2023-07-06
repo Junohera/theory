@@ -35,6 +35,8 @@
 
 # 아키텍처
 
+<img src="./assets/image-20230706152204850.png" alt="image-20230706152204850" style="zoom: 80%;" />
+
 **oracle server**
 : **instance** + **database**
 
@@ -53,7 +55,10 @@
   - **shared pool**
   - **database buffer cache** 
   - **redo log buffer**
-  - ...
+  - ~~etc~~
+    - **Large Pool**
+    - **Java Pool**
+    - **Extreme Pool**
 
 ## Shared pool [^Shared pool]
 
@@ -103,6 +108,55 @@
 - **Pinned Buffer**[^Pinned Buffer]: 사용중인 객실
 - **Dirty Buffer**[^Dirty Buffer]: 체크아웃했지만, 체크인 불가한 상태
 - **Free Buffer**[^Free Buffer]: 체크인 가능한 상태
+
+## Redo Log Buffer
+
+- dbms 내 모든 변경 내용을 기록(cretae, alter, insert, update, delete, ...)
+- 장애복구를 위해 변경사항을 추적하기 위함
+- 모든 변경 내용은 먼저 메모리의 Redo Log Buffer에 기록
+  -> 특정 시점에 디스크 영역의 Redo Log File에 내려씀(LGWR [^LGWR])
+- 동적 변경 불가
+- log buffer로 크기 지정
+
+✔ **Redo Log Buffer를 기록하지 않는 경우**
+- **Direct Load**
+  - SQL Loader
+  - insert /*+ append */
+  - 기타 이관툴의 direct mode
+- **enable nologging** 
+  - table(CTAS)
+  - index
+  - DML
+    - insert
+    - update
+    - delete
+
+## ~~etc~~
+
+### ~~Large Pool~~
+
+> = RMAN Pool
+
+- 대규모 메모리 할당을 위해 제공하는 영역
+- parallel 작업, RMAN 사용시 Large Pool 영역 사용
+- **large_pool_size**: default `0`
+
+### ~~Java Pool~~
+
+- oracle에서 java 사용시 사용되는 영역
+- **java_pool_size**: default `24MB`
+
+### ~~Streams Pool~~
+
+- DB간 데이터 이관(copy)시 사용하는 영역
+- 10G <= New Feature
+- Stream 기능: default **0**(지정하지 않으면 기본적으로 Shared Pool의 10%를 사용)
+
+## Fixed SGA
+
+- Oracle이 **내부적으로 사용하기 위해 생성시키는 공간**
+- 주로 **백그라운드 프로세스들이 필요한** database 전반적인 공유 정보나 각 프로세스들끼리 공유해야 하는 lock 정보 같은 내용들이 저장
+- Oracle이 시작될 때 **자동으로 설정되며 사용자나 관리자가 임의로 변경할 수 없음**
 
 
 ---
@@ -217,6 +271,12 @@ INSTANCE_NAME    STATUS
 db1              OPEN
 ```
 
+***자동 메모리 관리에 대하여...***
+
+> AMM[^AMM], ASMM[^ASMM]
+
+DBA의 사상, 실력, 프로젝트 팀의 분위기 등으로 인해 간혹 Manual하게 메모리 관리를 사용하기도 함.
+
 ---
 
 # foot notes
@@ -242,3 +302,6 @@ db1              OPEN
 [^Free Buffer]: 사용되지 않았거나(Unused) 또는 Dirty Buffer 였다가 디스크로 저장이 되고 다시 재사용 가능하게 된 Block
 [^LRU List]: Buffer Block들의 상태를 관리하고 있는 list
 [^Latch]: 걸쇠,자물쇠 등을 의미(=우선순위를 획득하기 위해 대기하는 행위)
+[^scn]: system change number | system commit number
+[^LGWR]: Log Writter(**L**O**G** **WR**ITTER) is one of background processes
+
