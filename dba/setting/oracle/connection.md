@@ -153,7 +153,7 @@ lsnrctl stop
   
 - 상태 확인 쿼리
   ```sql
-  select status from v$instance;
+  select instance_name, status from v$instance;
   ```
 
 ### ORA-28040: No matching authentication protocol
@@ -195,7 +195,7 @@ alter user system account unlock identified by oracle;
 
 ---
 
-[^check status ]:`select status from v$instance;`
+[^check status ]:`select instance_name, status from v$instance;`
 [^oracle start up flow]: closed -> no mount -> mount -> open
 [^oracle shut down flow]: closed -> dismounted -> instance shutdown
 [^Data Dictionary View]: DBMS가 자동으로 관리하는 뷰(시스템에 대한 전반적인 내용 보관)
@@ -218,7 +218,6 @@ alter user system account unlock identified by oracle;
 [^check process]: `ps -ef | grep lsnr | grep -v grep`
 [^check listener]: `lsnrctl status`
 [^sqlplus]: `sqlplus system/oracle as sysdba || sqlplus / as sysdba`
-[^check status]: `select status from v$instance;`
 [^ping]: `ping ${TARGET_SERVER}`
 [^check pmon]: `ps -ef | grep pmon | grep -v grep`
 [^잠금 해제 및 비번 변경]: `alter user system account unlock identified by oracle;`
