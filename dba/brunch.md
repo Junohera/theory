@@ -34,8 +34,7 @@ ps -ef | grep pmon | grep -v grep # pspmon
 - [ ] tnsnames.ora 확인
   ```shell
   # bash shell in window 
-  echo $PATH
-  ??? # TODO: GET associated oracle paths
+  echo $PATH | sed 's/:/\n/g' | grep app | grep product | cat -n
   ```
 
 
