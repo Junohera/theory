@@ -1,6 +1,4 @@
 - [ ] drawio로 architecture 구성도 똑같이 그려보기
-- [ ] 페이지교체 알고리즘 정리(LRU: Least Recently Used, LFU: Least Frequently Used)
-- [ ] 전용모드 vs 공유모드 추가정리 및 각주포함하여 정리(dedicated mode vs  shared mode)
 
 
 
@@ -14,7 +12,7 @@
    ex) select sysdate from dual;
 2. **리스너가 해당 서비스 확인**
 3. **server process에 의해 사용자의 접속 및 명령어 전달 관리**
-   user process(client) -> server process 할당(dedicated일 경우 새로운 프로세스 한개 할당)
+   user process(client) -> server process 할당(dedicated[^Dedicated]일 경우 새로운 프로세스 한개 할당)
 
 # 명령어 전달 과정
 
@@ -305,3 +303,6 @@ DBA의 사상, 실력, 프로젝트 팀의 분위기 등으로 인해 간혹 Man
 [^scn]: system change number | system commit number
 [^LGWR]: Log Writter(**L**O**G** **WR**ITTER) is one of background processes
 
+[^Dedicated]: 1:1, WAS(Web Application Server)에서 Connection Pool을 점유하면서 서비스하게 되므로 **안정적인 서비스를 제공해야하는 환경이라면 Dedicated server mode를 사용하는게  일반적**(명령처리가 빠르고, 단점으로는 resource낭비 우려)<img src="./assets/image-20230705104542361.png" alt="image-20230705104542361" style="zoom: 50%;" />
+
+[^Shared]: N:1, 명령처리가 느린 대신 resource의 낭비 최소화)<img src="./assets/image-20230705104552949.png" alt="image-20230705104552949" style="zoom: 50%;" />

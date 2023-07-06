@@ -384,25 +384,14 @@ netca
 
   - Connection mode
 
-    - ✅Dedicated server mode
+    - ✅Dedicated server mode [^Dedicated Server mode]
 
-      > 1:1
-      > <img src="./assets/image-20230705104542361.png" alt="image-20230705104542361"  />
-      >
-      > 명령처리 빠름, resource 낭비
-      >
-      > > 일반적으로 WAS(Web Application Server)에서 Connection Pool을 점유하면서 서비스하게 되므로 **안정적인 서비스를 제공해야하는 환경이라면 Dedicated server mode를 사용하는게  일반적**이다.
-
-    - Shared server mode
-
-      > N:1
-      > <img src="./assets/image-20230705104552949.png" alt="image-20230705104552949" style="zoom: 50%;" />
-      > 명령처리가 느린 대신, resource의 낭비 최소화
-
+    - Shared server mode [^Shared Server mode]
+    
   - Sample schemas
-
+  
     - if dev ✅
-
+  
 - Management Options
 
   - ✅Configure Enterprise Manager (EM) database express
@@ -442,6 +431,15 @@ netca
     
     . .bash_profile
     ```
+
+# foot notes
+
+[^Dedicated Server mode]: 1:1, WAS(Web Application Server)에서 Connection Pool을 점유하면서 서비스하게 되므로 **안정적인 서비스를 제공해야하는 환경이라면 Dedicated server mode를 사용하는게  일반적**(명령처리가 빠르고, 단점으로는 resource낭비 우려)
+
+![image-20230705104542361](./assets/image-20230705104542361.png)
+
+[^Shared Server mode]: N:1, 명령처리가 느린 대신 resource의 낭비 최소화)
+<img src="./assets/image-20230705104552949.png" alt="image-20230705104552949" style="zoom: 50%;" />
 
 # ref capture
 
@@ -506,4 +504,6 @@ netca
 ![image-20230705102507565](./assets/image-20230705102507565.png)
 
 ![image-20230705104503617](./assets/image-20230705104503617.png)
+
+
 
