@@ -176,6 +176,8 @@ SQL> col status format a7
 
 [rlwrap](https://oracle-base.com/articles/linux/rlwrap): rlwrap for Command Line History and Editing in SQL*Plus and RMAN on Linux
 
+**set**
+
 ```shell
 su - root
 rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -185,9 +187,13 @@ su - oracle
 vi ~/.bash_profile
 alias sqlplus='rlwrap sqlplus'
 . ~/.bash_profile
+```
 
+**tutorial**
+
+```shell
 sqlplus / as sysdba
-SQL> SQL> select instance_name, status from v$instance; # AFTER PRESS DOWN ARROW UP, DOWN
+SQL> select instance_name, status from v$instance; # AFTER PRESS DOWN ARROW UP, DOWN
 
 INSTANCE_NAME    STATUS
 ---------------- ------------
@@ -209,7 +215,6 @@ SQL>/ # end
 INSTANCE_NAME    STATUS
 ---------------- ------------
 db1              OPEN
-
 ```
 
 ---
