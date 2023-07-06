@@ -49,7 +49,7 @@
 3. run xmanager passive
 
 4. get ip
-   ```
+   ```shell
    ipconfig
    ipconfig | findstr "IPv4 주소"
    

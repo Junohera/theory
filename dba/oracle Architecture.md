@@ -90,9 +90,7 @@
 
 - 디스크에서 읽은 데이터 블록[^block] 의 복사본을 가지고 동시 **접속된 사용자들은 Database Buffer Cache를 공유하여 Access** 한다
 - LRU[^LRU]알고리즘에 의하여 가장 오래된 것은 디스크에 저장하고 메모리에는 가장 최근 사용 데이터를 저장함으로, **디스크 입출력이 줄어 들고, 데이터베이스 시스템의 성능이 증가** 됨
-- 데이터를 조회할 경우, 해당 데이터를 먼저 Database Buffer Cache에서 찾고
-  있으면 **Logical Read**[^Logical Read]
-  없으면 **Physical Read**[^Physical Read]
+- 데이터를 조회시, Database Buffer Cache에서 있으면 **Logical Read**[^Logical Read], 없으면 **Physical Read**[^Physical Read]
 
 **LRU List[^LRU List]**
 
@@ -109,12 +107,12 @@
 
 ## Redo Log Buffer
 
-- dbms 내 모든 변경 내용을 기록(cretae, alter, insert, update, delete, ...)
+- dbms 내 **모든 변경 내용을 기록**(cretae, alter, insert, update, delete, ...)
 - 장애복구를 위해 변경사항을 추적하기 위함
 - 모든 변경 내용은 먼저 메모리의 Redo Log Buffer에 기록
   -> 특정 시점에 디스크 영역의 Redo Log File에 내려씀(LGWR [^LGWR])
-- 동적 변경 불가
-- log buffer로 크기 지정
+- 😱**동적 변경 불가**
+- **log buffer**로 크기 지정
 
 ✔ **Redo Log Buffer를 기록하지 않는 경우**
 - **Direct Load**
@@ -175,7 +173,7 @@
 
 > 세부내용은 같아도 실행계획 체크할 때
 > 서로 다른 쿼리로 인지되어 실행계획을  공유하지 못하고
-> hard parse처리 될 수 있음.
+> **hard parse**처리 될 수 있음.
 >
 > 하여 **표준을 세우고 지킴으로써**
 > **실행계획을 공유하는 방향으로 데이터 접근 구간의 퍼포먼스 향상**
@@ -204,11 +202,12 @@ select *
 
 ```sql
 # only Server
-shutdown
-startup
+SQL> shutdown
+SQL> startup
 
 # anywhere
-select
+SQL> select
+ORANGE> select
 ```
 
 ##### ***DB 인스턴스 이름 및 상태 조회***
@@ -228,7 +227,7 @@ SQL> col status format a7
 
 [rlwrap](https://oracle-base.com/articles/linux/rlwrap): rlwrap for Command Line History and Editing in SQL*Plus and RMAN on Linux
 
-**set**
+**set up**
 
 ```shell
 su - root

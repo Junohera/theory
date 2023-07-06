@@ -8,6 +8,22 @@
 
 ### 위치
 
+**if is Git Bash**
+
+✔**open every tnsnames.ora in window**
+
+```shell
+clear;num=0;for tnsoranames_path in $(echo $PATH| sed 's/:/\n/g'| grep app| grep product| sed 's/\/bin//'| awk '{print $1"/NETWORK/ADMIN"}'); do if [ -d $tnsoranames_path ]; then num=$(expr $num + 1);echo '---------------------------------------------------------------------------------------------------------------------------------------------------------';echo "no: $num";echo "path: $tnsoranames_path";cd $tnsoranames_path;cat -n tnsnames.ora;echo; fi done;
+```
+
+✔**open tnsnames.ora directory at top priority in oracle environment path**
+
+```shell
+clear;cd $(echo $PATH| sed 's/:/\n/g'| grep app| grep product| head -1| sed 's/\/bin//'| awk '{print $1"/NETWORK/ADMIN"}');cat -n tnsnames.ora;echo ;echo "┌────────────────────────────────────────┐";echo "│   위의 본문에서 대상 SID를 입력하세요. │";echo "└────────────────────────────────────────┘";read sid;clear;echo "PATH: $(pwd)/tnsnames.ora";from=$(cat -n tnsnames.ora| grep -w "${sid} ="| awk -F" " '{print $1}');to=$(expr $from + 7);echo "FROM: ${from}, TO: ${to}";cat -n tnsnames.ora| sed -n "${from},${to}p";echo; echo "do you wanna open ? (just open)";read ans;explorer .; explorer tnsnames.ora;exit;
+```
+
+**if not exist git bash**
+
 ```shell
 /app/${USER}/product/${VERSION}/${SID}/NETWORK/ADMIN/tnsnames.ora
 ```
@@ -44,7 +60,7 @@ ${SID_AS_A_ALIAS} =
   )
 ```
 
-##### apply
+##### applied
 
 ```shell
 db1 = 

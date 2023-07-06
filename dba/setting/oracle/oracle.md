@@ -217,12 +217,16 @@ oel7
 
      - Oracle base
 
-         	- `/${ORACLE PRODUCT}/app/oracle`
-         	- `/oracle12/app/oracle`
+         ```shell
+         /${ORACLE PRODUCT}/app/oracle
+         /oracle12/app/oracle
+         ```
      - Software location
-
-         	- `/${ORACLE PRODUCT}/app/oracle/product/12.2.0.1/db_1`
-         	- `/oracle12/app/oracle/product/12.2.0.1/db_1`
+     
+         ```shell
+         /${ORACLE PRODUCT}/app/oracle/product/${VERSION}/${SID}
+         /oracle12/app/oracle/product/12.2.0.1/db_1
+         ```
 6. just next
 7. Install Product
   - `su - root`
@@ -255,6 +259,8 @@ export CLASSPATH=\$ORACLE_HOME/jlib:\$ORACLE_HOME/rdbms/jlib
 ```
 
 **change `ORACLE_HOSTNAME, ORACLE_UNQNAME, ORACLE_BASE, ORACLE_SID`**
+
+> remove backslash(\\)
 
 ```shell
 # Oracle Settings
