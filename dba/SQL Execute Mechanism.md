@@ -10,6 +10,8 @@
 
 - 한번 수행된 SQL 문장의 실행계획과 관련 정보를 보관
 - 재활용을 통해 ~~Hard parse([^hard parse])~~가 아닌 ***Soft parse([^soft parse])***로 수행하도록 함.
+- ~~`force`: 강제로 항상 Library Cache에 저장되게하여 항상 soft parse를 하는 경우~~
+  상황:~~프로젝트 전원 멍충멍충 주니어~~
 
 **1. 해시함수는 대소를 구분하므로 대소가 달라지면 해시값이 달라짐**
 
@@ -31,13 +33,10 @@
 **- 바인드 변수 처리**
 
 - 상수를 그대로 노출시키지 않고 변수로 변경하는 방법
-  - ex: where empno = :emp_number;
+  - ex: `where empno = :emp_number;`
 
 
 **- 커서공유 방법을 force로 변경**
-
-- force로 변경하게 되면 항상 커서를 공유함
-  - 이에 따라, Library Cache Hit Ratio가 높아짐(지양)
 
 # DQL의 실행원리
 
@@ -61,7 +60,7 @@
 
 **execute**
 
-- 사용자가 원하는 데이터를 1차적으로 **Database Buffer Cache**에서 찾고 있으면 Logical Read, 없으면 Physical Read
+- 사용자가 원하는 데이터를 1차적으로 **Database Buffer Cache**에 존재 ? **Logical Read** : **Physical Read**
 - 이 때, 데이터의 이동 단위는 **block**(**db_block_size** 크기만큼, default: 8K)
 
 **fetch**

@@ -221,3 +221,5 @@ alter user system account unlock identified by oracle;
 [^ping]: `ping ${TARGET_SERVER}`
 [^check pmon]: `ps -ef | grep pmon | grep -v grep`
 [^잠금 해제 및 비번 변경]: `alter user system account unlock identified by oracle;`
+[^alert log]: Database에 위험 및 경고 등의 내용을 담는 곳
+
