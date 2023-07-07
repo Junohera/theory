@@ -1,0 +1,6 @@
+- [ ] DBA 관점 storage관리하기 위한 단위 등에 대해 정리 block, extent, segment, initial, next(to Storage.md)
+- [ ] process의 관계 도식화(to process.md)
+- [ ] architecture 도식화(to oracle Architecture.md)
+  - [ ] 구성도
+  - [ ] 시퀀스다이어그램
+- [ ] sql -> txt로 된 파일들의 필기 포맷 맞추기
