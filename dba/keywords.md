@@ -193,6 +193,15 @@ select * from table(dbms_xplan.display_cursor(null, null, 'allstats last'));
 4. `regexp_like`: 문자열을 선택(where절에서만 사용)(=grep)
 5. `regexp_count`: 문자열 수 반환
 
+
+
+### quota
+
+> 할당량
+
+- user당 tablespace별 부여가능
+- 특정 tablespace 내 허가된 사용량
+
 ### tablespace
 
 - table의 집합, 영역(물리적 사이즈를 갖지 않음)
@@ -203,7 +212,7 @@ tablespace를 구성하는 **물리적 파일인 *datafile*들의 사이즈의 �
 **tablespace의 disk usage를 확인할 수는 있음**
 (마치 linux에서 directory의 사이즈는 없지만, directory안에 포함된 파일들의 사이즈를 통해 알 수 있는 것 처럼)
 
-### **default tablespace**
+#### **default tablespace**
 
 - user 생성시 user 단위 선언 가능(생략시 users tablespace가 자동 지정됨)
 - 특정 user가 테이블 생성시 tablespace를 지정하지 않을 때 자동 지정되는 tablespace
@@ -215,13 +224,13 @@ create user ?
 default tablespace ???
 ```
 
-**temporary tablespace**
+#### **temporary tablespace**
 
 - 정렬을 위한 공간(디스크에서 수행되므로 느리게 진행됨)
   물론 1차정렬은 메모리인 PGA에서 진행됨.
 - 다른 역할도 있지만, 지금 단계에서는 정렬공간으로만 알고있으면 됨.
 
-### 정렬 수행 
+### 정렬 수행
 
 1. PGA
 2. temporary tablespace
