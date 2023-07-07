@@ -71,7 +71,7 @@ ls -al
 1. `sqlnet.ora`
    - (과거) 접속 IP 허가 목록을 관리하는 파일
 2. `listener.ora`
-   - 리스너 설정과 관련된 파일
+   - 리스너 설정과 관련된 파일(server IP가 listener.ora 파일에 설정된 IP와 일치해야함, 만약 hostname일 경우, /etc/hosts 파일에 기록된 정보와 동일해야함.)
 3. `tnsnames.ora`
    - 다른 DBMS에 접속할 때 필요한 접속정보 기록
 
@@ -202,9 +202,9 @@ alter user system account unlock identified by oracle;
 
 > Static Dictionary View
 >
-> - dba_XXX
-> - all_XXX
-> - user_XXX
+> - dba_XXX: just total
+> - all_XXX: Owned by me + not owned by me but accessible
+> - user_XXX: Owned by me
 >
 > Dynamic Performance View
 >

@@ -3,12 +3,21 @@
 # 0. Summary
 
 ```shell
-sqlplus / as sysdba # SQL> startup
+# SERVER
+ps -ef | grep pmon | grep -v grep
+ps -ef | grep lsnr | grep -v grep
+
 lsnrctl status
+
+sqlplus / as sysdba # SQL> startup
 lsnrctl start
 lsnrctl status
+
 ps -ef | grep lsnr | grep -v grep # pslsnr
 ps -ef | grep pmon | grep -v grep # pspmon
+
+# CLIENT
+select instance_name, status from v$instance;
 ```
 
 ---

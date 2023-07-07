@@ -31,8 +31,8 @@ clear;cd $(echo $PATH| sed 's/:/\n/g'| grep app| grep product| head -1| sed 's/\
 ### 우선순위
 
 >  client와 server를 여러번 설치했을 경우
-> 설치시마다 tnsnames.ora파일을 생성하고
-> 가장 최우선 순위에 해당하는 `tnsnames.ora`만 읽어들인다.
+>  설치시마다 tnsnames.ora파일을 생성하고
+>  가장 최우선 순위에 해당하는 `tnsnames.ora`만 읽어들인다.
 
 - 가장 상단에 있는 환경변수의 순서가 우선순위이므로
   **환경변수 순서를 수정**하거나 **가장 위에 존재하는 위치의 tnsnames.ora파일을 수정**하도록 한다.

@@ -20,7 +20,7 @@
 2. **server process 할당**
 3. **sql 체크(parse)**
    - **syntax check**: 적절한 문법을 사용하였는지(오타는 없는지) 검사(구문)
-   - **semantic check**: sql에 명시된 객체들이 실제 존재하는지 검사(의미론)
+   - **semantic check**: sql에 명시된 객체들이 실제 존재하는지 검사(의미론), Dictionary Cache
 4. **실행계획 체크** (execution plan)
    1. **soft parse**
       메모리에 재사용 가능한 실행계획이 있을 경우(library cache hit ratio[^library cache hit ratio])
@@ -302,6 +302,6 @@ DBA의 사상, 실력, 프로젝트 팀의 분위기 등으로 인해 간혹 Man
 [^scn]: system change number | system commit number
 [^LGWR]: Log Writter(**L**O**G** **WR**ITTER) is one of background processes
 
-[^Dedicated]: 1:1, WAS(Web Application Server)에서 Connection Pool을 점유하면서 서비스하게 되므로 **안정적인 서비스를 제공해야하는 환경이라면 Dedicated server mode를 사용하는게  일반적**(명령처리가 빠르고, 단점으로는 resource낭비 우려)<img src="./assets/image-20230705104542361.png" alt="image-20230705104542361" style="zoom: 50%;" />
+[^Dedicated]: 1:1, WAS(Web Application Server)에서 Connection Pool을 이용해 서비스하게 되므로 **안정적인 서비스를 제공해야하는 환경이라면 Dedicated server mode를 사용하는게  일반적**, 왜냐하면 DBMS의 shared mode의 역할을 WAS의 Connection Pool이 대체하여 알아서 관리하게 될 경우,  굳이 shared server mode를 사용할 이유가 없음. (명령처리가 빠르고, 단점으로는 resource낭비 우려)                                                                                                      <img src="./assets/image-20230705104542361.png" alt="image-20230705104542361" style="zoom: 50%;" />  ↩
 
-[^Shared]: N:1, 명령처리가 느린 대신 resource의 낭비 최소화)<img src="./assets/image-20230705104552949.png" alt="image-20230705104552949" style="zoom: 50%;" />
+[^Shared]: N:1, 명령처리가 느린 대신 resource의 낭비 최소화<img src="./assets/image-20230705104552949.png" alt="image-20230705104552949" style="zoom: 50%;" />

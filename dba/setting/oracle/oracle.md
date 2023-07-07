@@ -364,8 +364,8 @@ netca
   - Memory
 
     > ASM: Automatic Storage Management
-    > ASMM: Automatic Shared Memoery Management
-    > AMM: Automatic Memory Management
+    > ASMM: Automatic Shared Memoery Management(**only SGA**)
+    > AMM: Automatic Memory Management(**both SGA and PGA**)
     > ![dbms](./assets/dbms.png)
 
     - Use Automatic Shared Memory Management
@@ -440,9 +440,7 @@ netca
 
 # foot notes
 
-[^Dedicated Server mode]: 1:1, WAS(Web Application Server)에서 Connection Pool을 점유하면서 서비스하게 되므로 **안정적인 서비스를 제공해야하는 환경이라면 Dedicated server mode를 사용하는게  일반적**(명령처리가 빠르고, 단점으로는 resource낭비 우려)
-
-![image-20230705104542361](./assets/image-20230705104542361.png)
+[^Dedicated Server mode]: 1:1, WAS(Web Application Server)에서 Connection Pool을 이용해 서비스하게 되므로 **안정적인 서비스를 제공해야하는 환경이라면 Dedicated server mode를 사용하는게  일반적**, 왜냐하면 DBMS의 shared mode의 역할을 WAS의 Connection Pool이 대체하여 알아서 관리하게 될 경우,  굳이 shared server mode를 사용할 이유가 없음. (명령처리가 빠르고, 단점으로는 resource낭비 우려)                                                                                                      <img src="./assets/image-20230705104542361.png" alt="image-20230705104542361" style="zoom: 50%;" />  ↩
 
 [^Shared Server mode]: N:1, 명령처리가 느린 대신 resource의 낭비 최소화)
 <img src="./assets/image-20230705104552949.png" alt="image-20230705104552949" style="zoom: 50%;" />
