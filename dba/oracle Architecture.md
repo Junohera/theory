@@ -268,11 +268,20 @@ INSTANCE_NAME    STATUS
 db1              OPEN
 ```
 
-***자동 메모리 관리에 대하여...***
+##### ***자동 메모리 관리에 대하여...***
 
 > AMM[^AMM], ASMM[^ASMM]
 
 DBA의 사상, 실력, 프로젝트 팀의 분위기 등으로 인해 간혹 Manual하게 메모리 관리를 사용하기도 함.
+
+##### alert log ✴
+
+```shell
+cd $ORACLE_HOME
+find . -type d -name trace
+# /oracle12/app/oracle/product/12.2.0.1/db_1/network/trace
+tail -f /oracle12/app/oracle/product/12.2.0.1/db_1/network/trace/alert_db1.log
+```
 
 ---
 
