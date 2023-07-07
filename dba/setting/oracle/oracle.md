@@ -434,6 +434,7 @@ netca
     alias 'pslsnr=ps -ef | grep lsnr | grep -v grep'
     alias 'pspmon=ps -ef | grep pmon | grep -v grep'
     alias 'myip=ifconfig | head -2 | tail -1 | awk -Fnetmask '"'"'{print $1}\'"'"' | awk -F" " '"'"'{print $NF}'"'"''
+    alias 'sss=sqlplus / as sysdba'
     
     . .bash_profile
     ```
