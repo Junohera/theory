@@ -4,14 +4,7 @@
 
 # 커서 공유
 
-> Library Cache에 존재하는 커서가 "커서 공유"
->
-> Cursor ? [^Cursor]
-
-- 한번 수행된 SQL 문장의 실행계획과 관련 정보를 보관
-- 재활용을 통해 ~~Hard parse([^hard parse])~~가 아닌 ***Soft parse([^soft parse])***로 수행하도록 함.
-- ~~`force`: 강제로 항상 Library Cache에 저장되게하여 항상 soft parse를 하는 경우~~
-  상황:~~프로젝트 전원 멍충멍충 주니어~~
+## Sql : Hash
 
 **1. 해시함수는 대소를 구분하므로 대소가 달라지면 해시값이 달라짐**
 
@@ -28,15 +21,35 @@
 > select * from emp where empno = 8888; -> hash fun -> 3333
 > ```
 
-**3. literal SQL에 대한 대응 방법**
-
-**- 바인드 변수 처리**
-
-- 상수를 그대로 노출시키지 않고 변수로 변경하는 방법
-  - ex: `where empno = :emp_number;`
 
 
-**- 커서공유 방법을 force로 변경**
+## Cursor [^Cursor]
+
+Library Cache에 존재하는 커서
+
+한번 수행된 SQL 문장의 실행계획과 관련 정보를 보관
+
+## Cursor Share [^Cursor Share]
+
+재활용을 통해 ~~Hard parse([^hard parse])~~가 아닌 ***Soft parse([^soft parse])***로 수행하는 현상을 "커서 공유"이라 한다
+
+## Cursor Share Mode
+
+**exact**
+
+정확하게 일치하는(대소, 띄어쓰기, 상수) 경우만 커서를 공유(default)
+
+**similar**
+
+비슷한 sql에 대해 실행계획을 공유하도록(12c deprecated)
+
+**force**
+
+literal 처리된 부분에 대해 같은 SQL로 인식, 커서를 공유함
+
+>  ~~프로젝트 전원 멍충멍충 주니어일 경우 아니면 지양~~
+
+
 
 # DQL의 실행원리
 
@@ -72,11 +85,26 @@
 
 parse -> bind -> execute -> fetch
 
+## Literal Sql 대응
+
+**- 바인드 변수 처리**
+
+- 상수를 그대로 노출시키지 않고 변수로 변경하는 방법
+
+  ```sql
+  select *
+    from scott.emp
+   where empno = :emp_number;
+  ```
+
+**- 커서공유 방법을 force로 변경**
+
 ---
 
 [^Dictionary Cache]: 객체(테이블, 컬럼, 사용자 정보 등)의 정보를 저장(=**Data Dictionary Cache**)
 [^library cache]: SQL 명령문, 구문 분석 트리, 실행계획 정보를 갖는 공간 실행계획 정보를 갖는 공간, LRU알고리즘으로 관리됨 SGA.Shared pool.Librach cache
 [^library cache hit ratio]: 실행계획 재사용 비율(=library cache에 적중한 비율), library cache 메모리의 공간이나 구조가 비효율적이거나 literal sql이 무분별하게 사용되었을 경우 등이 주요 저하 요인
-[^Cursor]:  메모리에 데이터를 저장하기 위해 만든 임시 저장공간(공유 커서, 세션커서, 어플리케이션 커서)
+[^Cursor]:  일반적으로는 메모리에 데이터를 저장하기 위해 만든 임시 저장공간(공유 커서, 세션커서, 어플리케이션 커서)이라 칭하지만 **DBMS 관점에서는 Shared Pool의 Library Cache 영역**을 커서라 칭함.
+[^Cursor Share]: 같은 SQL에 대해(same hash value) Library Cache 영역에 이미 존재하는 실행계획을 공유(재사용)하는 현상
 [^soft parse]: 메모리에 재사용 가능한 실행계획이 있을 경우, Library Cacht Hit되어 쿼리가 빠르게 수행
 [^hard parse]: 메모리에 재사용 가능한 실행계획이 없거나 공유할 수 없을 때, Optimazer가 Data Dictionary등을 참조하여 실행계획을 다시 설계한 후, 진행하므로 쿼리가 느리게 수행
