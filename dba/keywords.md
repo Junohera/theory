@@ -201,6 +201,7 @@ select * from table(dbms_xplan.display_cursor(null, null, 'allstats last'));
 
 - user당 tablespace별 부여가능
 - 특정 tablespace 내 허가된 사용량
+- 다른 유저의 DML을 통해 나의 quota를 초과하는 경우, 나의 quota를 늘려주어야한다.
 
 ### tablespace
 
@@ -234,3 +235,11 @@ default tablespace ???
 
 1. PGA
 2. temporary tablespace
+
+### DBA관점에서의 Storage 관리
+
+- tablespace: 논리적인 영역(마치 directory)
+- quota: 유저별로 갖는 논리적인 수치(limit)
+- datafile: 물리적인 영역
+
+위의 세가지를 고려하여 적절하게 증감

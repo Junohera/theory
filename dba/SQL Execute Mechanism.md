@@ -30,7 +30,9 @@
 
 **- 바인드 변수 처리**
 
-- 상수를 그대로 노출시키지 않고, 
+- 상수를 그대로 노출시키지 않고 변수로 변경하는 방법
+  - ex: where empno = :emp_number;
+
 
 **- 커서공유 방법을 force로 변경**
 
@@ -39,7 +41,12 @@
 
 # DQL의 실행원리
 
->  parse -> bind -> execute -> fetch
+>  ⚔ SQL의 실행 과정
+>
+>  1. parse
+>  2. bind
+>  3. execute
+>  4. fetch
 
 **parse**
 
@@ -48,7 +55,19 @@
 - 오류가 없을 경우, 입력 구문을 해시 함수의 반환된 해시값으로 라벨링 후 Library Cache에 저장
 - 해시값이 같을 경우 동일한 SQL로 판단하여 실행계획을 공유함
 
+**bind**
 
+- 변수를 입력받은 값으로 바인딩하는 구간
+
+**execute**
+
+- 사용자가 원하는 데이터를 1차적으로 **Database Buffer Cache**에서 찾고 있으면 Logical Read, 없으면 Physical Read
+- 이 때, 데이터의 이동 단위는 **block**(**db_block_size** 크기만큼, default: 8K)
+
+**fetch**
+
+- 사용자가 원하는 데이터만 골라서 전달하는 행위
+- **block 단위로 캐시된 사이즈**와 **사용자가 원하는 데이터의 사이즈**가 다를 수 있으므로, 사용자가 원하는 사이즈로 뽑아주는 행위
 
 # DML의 실행원리
 
