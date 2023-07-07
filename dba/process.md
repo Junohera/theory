@@ -39,7 +39,7 @@ select name,
 
 ```sql
 select *
-  from v$parameter;
+  from v$processes;
 ```
 
 ✔ **current process unit count at session(server prcess + client information)**[de facto standard]
