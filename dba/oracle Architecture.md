@@ -1,7 +1,3 @@
-- [ ] drawio로 architecture 구성도 똑같이 그려보기
-
-
-
 [toc]
 
 ---
@@ -21,15 +17,15 @@
 3. **sql 체크(parse)**
    - **syntax check**: 적절한 문법을 사용하였는지(오타는 없는지) 검사(구문)
    - **semantic check**: sql에 명시된 객체들이 실제 존재하는지 검사(의미론), Dictionary Cache
-4. **실행계획 체크** (execution plan)
+4. **실행계획 체크** (execution|explain plan)
    1. **soft parse**
       메모리에 재사용 가능한 실행계획이 있을 경우(library cache hit ratio[^library cache hit ratio])
    2. **hard parse**
       메모리에 재사용 가능한 실행계획이 없거나 재사용한 실행계획이 존재하지만 공유할 수 없을 때
       optimizer가 data dictionary 등을 참조하여 실행계획 설계하는 경우
-      1. 처음수행되는 SQL인 경우
-      2. 처음수행되는 SQL은 아니지만, 실행계획을 보관하는 공간에서 사라졌을 경우(LRU 알고리즘으로 메모리아웃, 쉽게 말해 오래된 sql)
-      3. literal sql(상수항을 그대로 사용)의 경우
+      1. 새로운 SQL 수행
+      2. 오래된 SQL 수행(처음수행되는 SQL은 아니지만, 실행계획을 보관하는 공간에서 사라졌을 경우(LRU 알고리즘으로 메모리아웃, 쉽게 말해 오래된 sql))
+      3. Literal SQL 수행 [^Literal SQL]
 
 # 아키텍처
 
@@ -70,12 +66,14 @@
 
 ### Library Cache [^Library Cache]
 
+- 실행 계획을 저장하는 메모리 공간
 - LRU([^LRU])알고리즘으로 관리
 - 동일한 SQL이라 판단되면 실행계획을 공유하므로 문장의 파싱 속도가 향상(soft parsing)
 - Library Cache Hit Ratio [^Library Cache Hit Ratio]를 체크하여 hard parsing을 유발하는 SQL이 많은지 확인
 
 ### Data Dictionary Cache [^Data Dictionary Cache]
 
+- 객체의 정보를 저장하는 메모리 공간
 - **semantic check**시 객체가 Data Dictionary Cache에 있는지 확인하고 있으면 ? pass : disk scan
 
 ### ~~Server Result Cache~~
@@ -88,9 +86,10 @@
 
 > =Buffer Cache
 
+- SQL의 결과를 저장하는 메모리 공간
 - 디스크에서 읽은 데이터 블록[^block] 의 복사본을 가지고 동시 **접속된 사용자들은 Database Buffer Cache를 공유하여 Access** 한다
 - LRU[^LRU]알고리즘에 의하여 가장 오래된 것은 디스크에 저장하고 메모리에는 가장 최근 사용 데이터를 저장함으로, **디스크 입출력이 줄어 들고, 데이터베이스 시스템의 성능이 증가** 됨
-- 데이터를 조회시, Database Buffer Cache에서 있으면 **Logical Read**[^Logical Read], 없으면 **Physical Read**[^Physical Read]
+- 데이터를 조회시, Database Buffer Cache에 있으면 **Logical Read**[^Logical Read], 없으면 **Physical Read**[^Physical Read]
 
 **LRU List[^LRU List]**
 
@@ -114,6 +113,8 @@
 - 😱**동적 변경 불가**
 - **log buffer**로 크기 지정
 
+
+
 ✔ **Redo Log Buffer를 기록하지 않는 경우**
 - **Direct Load**
   - SQL Loader
@@ -126,6 +127,13 @@
     - insert
     - update
     - delete
+
+**✔대용량 트랜잭션 수행시 **
+
+1. redo log buffer를 기록하지 않는 방법으로 대규모 트랜잭션을 수행
+2. 수행 기준 이전, 이후 모두 수동 백업(로그가 존재하지 않아도 사후 장애 발생시 손실 방지)
+
+---
 
 ## ~~etc~~
 
@@ -150,6 +158,9 @@
 
 ## Fixed SGA
 
+> OS나 디바이스에서 항상 고정적으로 사용하고 있는 공간의 개념과 동일
+> ex) 맥북 512GB 중, 실제 사용가능한 영역은 500GB남짓
+
 - Oracle이 **내부적으로 사용하기 위해 생성시키는 공간**
 - 주로 **백그라운드 프로세스들이 필요한** database 전반적인 공유 정보나 각 프로세스들끼리 공유해야 하는 lock 정보 같은 내용들이 저장
 - Oracle이 시작될 때 **자동으로 설정되며 사용자나 관리자가 임의로 변경 할 수 없음**
@@ -159,17 +170,17 @@
 
 # Tip
 
-##### ***실행 속도를 높이는 방법***
+## ***실행 속도를 높이는 방법***
 
 - 구간 관점
-  - 해석: 쿼리를 파싱하는 구간 -> **스펙 및 파라미터 조정**
+  - 해석: 쿼리를 파싱하는 구간 -> **스펙 및 파라미터 조정** 또는 **hard parse에서 soft parse로 유도**
   - 실행: 쿼리가 실행되는 구간 -> **Index 설계, 타입 일관화**
 - 영역 관점
   - ~~disk~~ -> **memory**
 - 범위 관점
   - ~~full scan~~ -> **index**
 
-##### ***표준이 필요한 이유***
+## ***표준이 필요한 이유***
 
 > 세부내용은 같아도 실행계획 체크할 때
 > 서로 다른 쿼리로 인지되어 실행계획을  공유하지 못하고
@@ -196,13 +207,13 @@ select *
  where empno = 2;
 ```
 
-##### ***server client 구분***
+## ***server client 구분***
 
 서버가 실행할 수 있는 명령어와 클라이언트가 실행할 수 있는 명령어는 철저히 구분되어있다.
 
 ```sql
 # only Server
-SQL> shutdown
+SQL> shutdown immediate
 SQL> startup
 
 # anywhere
@@ -210,24 +221,24 @@ SQL> select
 ORANGE> select
 ```
 
-##### ***DB 인스턴스 이름 및 상태 조회***
+## ***DB 인스턴스 이름 및 상태 조회***
 
 ```sql
 select instance_name, status from v$instance;
 ```
 
-##### ***서버 프롬프트 환경 출력 컬럼 사이즈 조절***
+## ***서버 프롬프트 환경 출력 컬럼 사이즈 조절***
 
 ```shell
 SQL> col status format a${N}
 SQL> col status format a7
 ```
 
-##### ***서버 프롬프트 환경에서 sqlplus 화살표 사용하기***
+## ***서버 프롬프트 환경에서 sqlplus 화살표 사용하기***
 
 [rlwrap](https://oracle-base.com/articles/linux/rlwrap): rlwrap for Command Line History and Editing in SQL*Plus and RMAN on Linux
 
-**set up**
+### **set up**
 
 ```shell
 su - root
@@ -240,7 +251,7 @@ alias sqlplus='rlwrap sqlplus'
 . ~/.bash_profile
 ```
 
-**tutorial**
+### **tutorial**
 
 ```shell
 sqlplus / as sysdba
@@ -268,19 +279,28 @@ INSTANCE_NAME    STATUS
 db1              OPEN
 ```
 
-##### ***자동 메모리 관리에 대하여...***
+## ***자동 메모리 관리에 대하여...***
 
 > AMM[^AMM], ASMM[^ASMM]
 
 DBA의 사상, 실력, 프로젝트 팀의 분위기 등으로 인해 간혹 Manual하게 메모리 관리를 사용하기도 함.
 
-##### alert log ✴
+## alert log ✴
+
+**immediate tail follow log**
 
 ```shell
-cd $ORACLE_HOME
-find . -type d -name trace
-# /oracle12/app/oracle/product/12.2.0.1/db_1/network/trace
-tail -f /oracle12/app/oracle/product/12.2.0.1/db_1/network/trace/alert_db1.log
+clear;log_files=$(ls -d $(find / -name alert_db1.log -type f 2> /dev/null) | sed 's/\/alert_db1.log//' | cat -n);maximum_num=$(echo "${log_files}" | wc -l);echo "$log_files";echo "Enter tail follow target number: ";read num;clear;[ $num -gt $maximum_num ] && (echo "Maxmum target number is ${maximum_num}";sleep 1;clear;exit;) || (target_file_path=$(echo "$log_files" | head -${num} | tail -1 | awk -F" " '{print $NF}');echo "Your Entered Number: ${num}";echo "Target file path: ${target_file_path}";acc='.'; for exp in ". . . . ." ". . . ." ". . ." ". ." "."; do (clear;echo $exp;sleep 0.2;) done;clear;cd ${target_file_path};tail -f alert_db1.log;);
+```
+
+**grep directories(safety)**
+
+```shell
+ls -d $(find / -name alert_db1.log -type f 2> /dev/null) | sed 's/\/alert_db1.log//'
+
+# result
+/oracle12
+/oracle12/app/oracle/diag/rdbms/db1/db1/trace
 ```
 
 ---
@@ -314,3 +334,5 @@ tail -f /oracle12/app/oracle/product/12.2.0.1/db_1/network/trace/alert_db1.log
 [^Dedicated]: 1:1, WAS(Web Application Server)에서 Connection Pool을 이용해 서비스하게 되므로 **안정적인 서비스를 제공해야하는 환경이라면 Dedicated server mode를 사용하는게  일반적**, 왜냐하면 DBMS의 shared mode의 역할을 WAS의 Connection Pool이 대체하여 알아서 관리하게 될 경우,  굳이 shared server mode를 사용할 이유가 없음. (명령처리가 빠르고, 단점으로는 resource낭비 우려)                                                                                                      <img src="./assets/image-20230705104542361.png" alt="image-20230705104542361" style="zoom: 50%;" />  ↩
 
 [^Shared]: N:1, 명령처리가 느린 대신 resource의 낭비 최소화<img src="./assets/image-20230705104552949.png" alt="image-20230705104552949" style="zoom: 50%;" />
+[^Literal SQL]: 상수를 그대로 노출하는 SQL
+
