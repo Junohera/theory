@@ -28,9 +28,9 @@ select instance_name, status from v$instance;
 
 ### server
 
-- [ ] hosts 확인
+- [x] hosts 확인
   
-  - [ ] **A**: get Physical_Host_Address by Logical Target Host
+  - [x] **A**: get Physical_Host_Address by Logical Target Host
   
     ```shell
     cat /etc/hosts
@@ -48,7 +48,7 @@ select instance_name, status from v$instance;
     172.16.192.129
     ```
   
-  - [ ] **B**: get Physical_Host_Address in target server
+  - [x] **B**: get Physical_Host_Address in target server
   
     ```shell
     ifconfig
@@ -70,7 +70,7 @@ select instance_name, status from v$instance;
     172.16.192.129
     ```
   
-  - [ ] comp (**A**, **B**)
+  - [x] comp (**A**, **B**)
   
     **📐 if before != current**
   
@@ -83,7 +83,7 @@ select instance_name, status from v$instance;
 
 ### client
 
-- [ ] tnsnames.ora 확인
+- [x] tnsnames.ora 확인
   ✔**open every tnsnames.ora in window**
   
   ```shell

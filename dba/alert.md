@@ -1,4 +1,4 @@
-alert log
+**alert log**
 
 ```shell
 cd $ORACLE_HOME
