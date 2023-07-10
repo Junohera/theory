@@ -89,18 +89,23 @@ redo log buffer의 내용은 DB가 내려가기 전 안전하게 redo log file�
 
 역방향으로는 이동할  수 없음(오직 shutdown 후 다시 진행)
 
-# Test
+한단계씩 변경 가능(ex: nomount -> open 불가)
+
+# Practice
+
+## startup
 
 **startup nomount**
 
 ```sql
-SQL>startup nomount
-SQL> select status from v$instance;
+SQL>startup nomount;
+SQL>select status from v$instance;
 
 STATUS
 ------------
 STARTED
-SQL> show parameter pfile;
+
+SQL>show parameter pfile;
 
 NAME                                 TYPE        VALUE
 ------------------------------------ ----------- ------------------------------
@@ -111,8 +116,15 @@ spfile                               string      /oracle12/app/oracle/product/1
 **startup mount**
 
 ```sql
+SQL>startup mount;
+SQL>select status from v$instance;
+
+STATUS
+------------
+MOUNTED
+
 SQL>col name format a50;
-SQL> select file#, name, status from v$datafile;
+SQL>select file#, name, status from v$datafile;
 
      FILE# NAME                                               STATUS
 ---------- -------------------------------------------------- -------
@@ -122,9 +134,71 @@ SQL> select file#, name, status from v$datafile;
          4 /oracle12/app/oracle/oradata/db1/users01.dbf       ONLINE
 ```
 
+**startup [open]**
+
+```sql
+SQL>startup open;
+SQL>select status from v$instance;
+
+STATUS
+------------
+OPEN
+```
+
+## alter database [step]
+
+**nomount -> mount**
+
+```sql
+SQL>alter database mount;
+
+Database altered.
 
 
+SQL>select status from v$instance;
 
+STATUS
+------------
+MOUNTED
+
+SQL>select file#, name, status from v$datafile;
+
+     FILE# NAME                                               STATUS
+---------- -------------------------------------------------- -------
+         1 /oracle12/app/oracle/oradata/db1/system01.dbf      SYSTEM
+         2 /oracle12/app/oracle/oradata/db1/sysaux01.dbf      ONLINE
+         3 /oracle12/app/oracle/oradata/db1/undotbs01.dbf     ONLINE
+         4 /oracle12/app/oracle/oradata/db1/users01.dbf       ONLINE
+```
+
+**nomount -> ~~mount~~ -> open**
+
+```sql
+-- failure: nomount -> open
+SQL>alter database open;
+alter database open
+*
+ERROR at line 1:
+ORA-01507: database not mounted
+
+-- success: nomount -> mount -> open
+SQL>alter database mount;
+SQL>select status from v$instance;
+
+STATUS
+------------
+MOUNTED
+
+SQL>alter database open;
+
+Database altered.
+
+SQL>select status from v$instance;
+
+STATUS
+------------
+OPEN
+```
 
 ---
 
