@@ -21,7 +21,7 @@
      sga가 갖는 최대 사이즈이며, 이 안에서 내부 메모리들의 사이즈가 할당되어야 함
   2. ASMM | AMM = `on`
      sga가 갖는 최소 사이즈이며, 이 안에서 내부 메모리들의 사이즈가 자동할당됨
-- **`sga_target <= sga_max_size`**
+- **`sga_target <= sga_max_size <= memory_target`**
 
 
 
