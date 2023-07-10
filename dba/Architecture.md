@@ -49,9 +49,11 @@
 - **oracle parameter file**(spfile or pfile)내 기재되어 있는 각 부분의 사이즈로 할당, 자동으로 관리될 수 있음
 - 동적으로 변경 가능(DB 운영중에 변경 가능 >= `9i`)
 - 구성 요소
-  - **shared pool**
-  - **database buffer cache** 
-  - **redo log buffer**
+  - **Shared pool**: sql 정보 저장 공간
+    - **Library Cache**: sql 정보 중 실행계획 정보 저장 공간
+    - **Data Dictionary Cache**: sql 정보 중 객체 정보 저장 공간
+  - **Database buffer cache**: 모든 sql의 결과 저장 공간
+  - **Redo log buffer**: 모든 변경기록 저장 공간
   - ~~etc~~
     - **Large Pool**
     - **Java Pool**
