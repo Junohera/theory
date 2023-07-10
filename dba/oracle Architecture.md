@@ -326,8 +326,8 @@ ls -d $(find / -name alert_db1.log -type f 2> /dev/null) | sed 's/\/alert_db1.lo
 [^Block]: 데이터를 저장하는 최소 단위의 논리 단위
 [^Logical Read]: Database Buffer Cache hit
 [^Physical Read]: Database Buffer Cache not exist -> disk scan (1. Database Buffer Cache의 Free Buffer를 확보, 2. Disk에서 데이터를 읽어 들여 cache하여 반환)
-[^Pinned Buffer]: 다른 사용자가 이미 사용하고 있는 Buffer Block으로 사용할 수 없음
-[^Dirty Buffer]: 현재 작업은 진행되지 않지만 다른 사용자가 내용을 변경한 후 아직 데이터 파일에 변경된 내용을 저장하지 않은 Buffer
+[^Pinned Buffer]: commit 전, 변경여지가 있는 상태; 다른 사용자가 이미 사용하고 있는 Buffer Block으로 사용할 수 없음
+[^Dirty Buffer]: commit 후, disk로 내려쓰지 않은 상태; 현재 작업은 진행되지 않지만 다른 사용자가 내용을 변경한 후 아직 데이터 파일에 변경된 내용을 저장하지 않은 Buffer
 [^Free Buffer]: 사용되지 않았거나(Unused) 또는 Dirty Buffer 였다가 디스크로 저장이 되고 다시 재사용 가능하게 된 Block
 [^LRU List]: Buffer Block들의 상태를 관리하고 있는 list
 [^Latch]: 걸쇠,자물쇠 등을 의미(=우선순위를 획득하기 위해 대기하는 행위)

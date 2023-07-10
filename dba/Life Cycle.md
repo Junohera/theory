@@ -8,29 +8,74 @@
 
 ### 1. nomount
 
+> parameter file
+
+파라미터 파일 내용대로 인스턴스 구성(`only memory`)
+
+DB의 startup하는 변경 기록은 alertlog에 기록
+
 ### 2. mount
 
+> control file
+
+디스크 구성(`from disk`)
+
+control file을 읽고, 문제가 없다면 mount 돌입
+(control file은 parameter file에 기입)
+
+```shell
+cd ${ORACLE_HOME}/dbs
+vi initdb1.ora
+...
+16 *.control_files='/oracle12/app/oracle/oradata/db1/control01.ctl','/oracle12/app/oracle/oradata/db1/control02.ctl'
+...
+# 만약 mount단계로 진행되지 않을 경우
+# 하나를 버리고 pfile모드로 기동
+# 그 후, 회복 절차진행(복제 및 재등록)
+```
+
 ### 3. open(default)
+
+> data file
+>
+> redo log file
+
+data file, redo log file을 읽고 문제가 없다면 open 진행
 
 ## Shutdown
 
 `shutdown [option]`
 
-### immediate
+### 1. normal
 
-> dirty buffer의 내용을 수행 및 완료 후 종료
+> `default`
+
+모든 세션이 소멸되어야 종료(무한대기)
+
+추가적인 세션은 허용하지 않음
+
+### 2. transactional
+
+모든 트랜잭션(commit|rollback)이 소멸되어야 종료(무한대기)
+
+모든 세션의 소멸을 기다리지 않고 즉시 종료
+
+### 3. immediate
+
+> dirty buffer[^dirty buffer]의 내용을 수행 및 완료 후 종료
 
 사용자의 작업을 강제로 종료
 
 메모리의 데이터를 **디스크에 저장하고 안전하게 종료**
 
-commit 되지않은 세션 데이터는 rollback
+commit 되지않은 세션 데이터는 rollbac
 
 commit된 데이터는 DB에 내려 쓰는 작업을 완료한 후 DB 종료
 
-### abort
+### 4. abort
 
-> dirty buffer의 내용을 수행하지 않고 종료
+> dirty buffer[^dirty buffer]의 내용을 수행하지 않고 종료
+> 단, instance recovery 수행
 
 메모리(db buffer cache)의 데이터를 **디스크에 저장하지 않고 즉시 종료**
 
@@ -38,5 +83,8 @@ DB 기동시 아직 정리되지 않은 메모리 영역을 디스크에 저장�
 
 redo log buffer의 내용은 DB가 내려가기 전 안전하게 redo log file에 내려써짐(LGWR[^LGWR])
 
+---
 
-
+[^Pinned Buffer]: commit 전, 변경여지가 있는 상태; 다른 사용자가 이미 사용하고 있는 Buffer Block으로 사용할 수 없음
+[^Dirty Buffer]: commit 후, disk로 내려쓰지 않은 상태; 현재 작업은 진행되지 않지만 다른 사용자가 내용을 변경한 후 아직 데이터 파일에 변경된 내용을 저장하지 않은 Buffer
+[^Free Buffer]: 사용되지 않았거나(Unused) 또는 Dirty Buffer 였다가 디스크로 저장이 되고 다시 재사용 가능하게 된 Block
