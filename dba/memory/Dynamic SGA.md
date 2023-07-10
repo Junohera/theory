@@ -17,11 +17,11 @@
 | memory_target    |                      | false      |                                                              |
 | sga_max_size     |                      | false      | v$sga_dynamic_free_memory를 통해 SGA의 가용영역을 확인 후, 변경 |
 | sga_target       |                      | false      |                                                              |
+| log_buffer       | redo log buffer size | false      |                                                              |
 | db_cache_size    |                      | true       |                                                              |
 | shared_pool_size |                      | true       |                                                              |
 | java_pool_size   |                      | true       |                                                              |
 | large_pool_size  |                      | true       |                                                              |
-| log_buffer       | redo log buffer size | false      |                                                              |
 
 ## Scope
 
@@ -37,8 +37,8 @@
 
 - DBMS 기동 및 운영에 필요한 필수 파라미터 정보를 기록
 - 유실시 DB 기동 불가
-- spfile과 init이 둘 다 있으면 spfile이 우선순위를 가짐
-- pfile 변경시 spfile 삭제하면 pfile로 DB 기동 가능
+- spfile[^spfile]과 init이 둘 다 있으면 spfile이 우선순위를 가짐
+- pfile[^pfile] 변경시 spfile 삭제하면 pfile로 DB 기동 가능
 - 파라미터 환경을 변경하려면 DB는 재기동 되어야함.
 
 ### **파라미터 파일 위치**
@@ -103,6 +103,26 @@ Session ID: 0 Serial number: 0
 ```
 
 # Test
+
+## startup시 SGA 영역 조회
+
+```shell
+SQL> startup;
+ORACLE instance started.
+
+Total System Global Area 1660944384 bytes
+Fixed Size                  8621376 bytes
+Variable Size            1056965312 bytes
+Database Buffers          587202560 bytes
+Redo Buffers                8155136 bytes
+Database mounted.
+Database opened.
+SQL> select 1660944384 / 1024 / 1024 as "System Global Area(MB)" from dual;
+
+System Global Area(MB)
+----------------------
+                  1584
+```
 
 ## 환경 스위칭: pfile -> spfile
 
