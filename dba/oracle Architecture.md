@@ -31,14 +31,17 @@
 
 <img src="./assets/image-20230706152204850.png" alt="image-20230706152204850" style="zoom: 80%;" />
 
-**oracle server**
-: **instance** + **database**
+**Oracle Server**
 
-**instance**
-: **SGA** + **background process**
-
-**database**
-: **control files** + **redolog files** + **data files** + etc...
+- **Instance**: `in Memory` - AMM;[^AMM]
+  - SGA;[^sga] - ASMM;[^ASMM]
+  - background Processes
+  - ...
+- **Database**: `in Disk`
+  - **control files**: DB 전체의 **관리정보**가 들어있는 영역 
+  - **redo log files**: **장애 복구 시**에 사용되는 영역
+  - **data files**: **데이터가 저장**되는 영역 
+  - ...
 
 # SGA [^SGA]
 
@@ -308,7 +311,7 @@ ls -d $(find / -name alert_db1.log -type f 2> /dev/null) | sed 's/\/alert_db1.lo
 # foot notes
 
 [^SGA]: **S**hared|**S**ystem **G**lobal **A**rea
-[^PGA]: **P**rogram|**P**rivate **G**lobal **A**rea
+[^PGA]: **P**rogram|**P**rivate|**P**ersonal **G**lobal **A**rea
 [^Data Dictionary Cache]: 객체(테이블, 컬럼, 사용자 정보 등)의 정보를 저장
 [^library cache]: SQL 명령문, 구문 분석 트리, 실행계획 정보를 갖는 공간 실행계획 정보를 갖는 공간, LRU알고리즘으로 관리됨 SGA.Shared pool.Librach cache
 [^library cache hit ratio]: 실행계획 재사용 비율(=library cache에 적중한 비율), library cache 메모리의 공간이나 구조가 비효율적이거나 literal sql이 무분별하게 사용되었을 경우 등이 주요 저하 요인
