@@ -233,8 +233,9 @@ select instance_name, status from v$instance;
 ## ***서버 프롬프트 환경 출력 컬럼 사이즈 조절***
 
 ```shell
-SQL> col status format a${N}
+SQL> col ${COLUMN_NAME} format a${N}
 SQL> col status format a7
+SQL> col name format a50
 ```
 
 ## ***서버 프롬프트 환경에서 sqlplus 화살표 사용하기***
