@@ -31,6 +31,16 @@ oracle에서 java 사용시 사용되는 영역의 공간을 설정하는 값 (d
 
 예시: insert 행위를 한번도 하지 않은 테이블에 시퀀스를 하여 insert시도를 할경우, 시작번호가 1000번이었을 경우, 1001로 입력됨.
 
+**db_cache_size**
+
+**log_buffer**
+
+redo log buffer의 사이즈 변경[동적 변경 불가]
+
+
+
+
+
 # foot notes
 
 [^ASMM]: Automatic Shared Memoery Management
