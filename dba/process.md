@@ -4,13 +4,15 @@
 
 - [ ] process의 관계(system, user, server)를 도식화
 
-**system process**
+## **background process**
+
+> Oracle Server가 시작되면 자동으로 시작되어 운영과 유지를 담당
 
 - PMON
 - LGWR
 - ...
 
-**server process**
+## **server process**
 
 - user process에 대응하는 server 쪽의 process
 - 서버에서 **ps로 확인가능**하며 DB에서도 **v$session** 뷰로 확인이 가능
@@ -18,7 +20,7 @@
 - 일반적으로 1개의 user process에 1개의 server process를 할당(dedicated server mode;[^dedicated server mode])
 - 동시 접속이 많은 경우 DB의 자원을 절약하기위해 공유서버 구성을 하기도함(shared server mode;[^shared server mode])
 
-**user process**
+## **user process**
 
 - client, 단말기를 의미(ex: sqlplus, orange, toad, was server, ...)
 - **그저 client를 표현하기 위한 용어**일 뿐, DBA의 **관리 대상이 아님**

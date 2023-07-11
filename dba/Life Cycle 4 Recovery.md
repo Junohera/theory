@@ -2,6 +2,8 @@
 
 # Oracle Instance Life Cycle
 
+<img src="./assets/Oracle Life Cycle.png" alt="Oracle Life Cycle" style="zoom: 50%;" />
+
 ## Startup
 
 `startup [step]`
@@ -90,6 +92,34 @@ redo log buffer의 내용은 DB가 내려가기 전 안전하게 redo log file�
 역방향으로는 이동할  수 없음(오직 shutdown 후 다시 진행)
 
 한단계씩 변경 가능(ex: nomount -> open 불가)
+
+## Instance recovery ✨
+
+- shutdown abort로 중지했거나 기타 여러 이유로 DB가 비정상 종료된 경우 발생
+- 메모리의 정보를 아직 디스크에 완전하게 내려쓰지 못하여 시점정보가 불일치하므로 이를 일치시켜주는 작업
+- SMON[^SMON]이 수행
+- mount 단계에서 수행
+
+**flow**
+
+1. roll forward
+2. open
+3. roll backward
+
+**example**
+
+1. 사용자 A가 홍길동 -> 일지매로 변경
+2. 사용자 A가 commit을 수행하여 변경내용이 redolog buffer에 기록(바로 disk에 I/O하지 않고, 버퍼에 기록)
+3. 사용자 B가 박길동 -> 최길동으로 변경
+4. 사용자 B는 commit X, redolog buffer에 기록
+5. shutdown abort -> redolog buffer의 내용이 redolog file에 기록
+   (아직 db buffer cache 내용은 datafile에 내려쓰지 못한 시점)
+   메모리는 정리
+6. startup
+   mount 단계에서 redolog file과 datafile의 시점 확인하여 불일치할 경우
+   redologfile의 미래시점으로 datafile의 시점을 roll forward(commit된 정보만 빠르게 datafile에 기록)
+   변경된 작업의 모든 적용 -> 시점정보 일치 -> open
+   open 후 rollback이 필요한 데이터에 대해 반영(undo segment에서의 과거 이미지 기록 정보 반환)
 
 # Practice
 
