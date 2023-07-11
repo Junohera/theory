@@ -245,3 +245,21 @@ default tablespace ???
 - datafile: 물리적인 영역
 
 위의 세가지를 고려하여 적절하게 증감
+
+### **high availablity**
+
+> 이중화
+
+**목적**
+
+항상 사용할 수 있는 상태로 만들기 위함
+
+- active active
+
+  - 서버가 모두 활성화 상태
+
+- active standby
+
+  - 활성화 서버와 대기 서버
+
+  

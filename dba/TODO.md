@@ -7,3 +7,4 @@
 - [ ] AMM, ASMM 다이어그램
 - [ ] 이식성을 위해 DHCP를 유지하되, 가상 서버 환경을 주기적으로 on/off해야할 경우, ip 변경에 대한 대응마련(shell)
 - [ ] instance recovery에 대해 도식화 순서도?
+- [ ] process에 대해 생명주기를 sequence diagram으로 표현
