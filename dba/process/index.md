@@ -2,8 +2,6 @@
 
 > similar equal session
 
-- [ ] process의 관계(system, user, server)를 도식화
-
 ## **background process**
 
 > Oracle Server가 시작되면 자동으로 시작되어 운영과 유지를 담당

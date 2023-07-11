@@ -257,9 +257,36 @@ default tablespace ???
 - active active
 
   - 서버가 모두 활성화 상태
+  - 모두 활성화 되어 동작하는 구성
 
 - active standby
-
   - 활성화 서버와 대기 서버
-
+  - 기본적인 이중화 방법
+    - 두 대 중 하나는 활성화되어 동작하고, 나머지 하나는 장애 등의 경우에 대비하여 대비시키는 구성
+    - 장애 발생을 감지하여 Active 장비가 죽게되면, Standby 장비가 Failover가 일어나 Active로 변경
+  - 종류
+    - Hot Standby: Standby 장비 가동 후, 즉시 사용 가능
+    - Warm Standby: Standby 장비 가동 후, 이용이 가능하게 하기 위해서 준비가 필요
   
+    - Cold Standby: 평소 Standby 장비를 정지시켜두며, 필요시 직접 켜서 구성
+  
+
+| a      | Active Active | Active Standby |
+| ------ | ------------- | -------------- |
+| 복잡도 | high          | low            |
+| 처리율 | high          | low            |
+
+### db hang
+
+> 
+
+1. 할당받은 자원(메모리 | disk)이 꽉 찼을 때
+	```shell
+	# disk
+	df
+	```
+	
+	
+	
+	- 추가세션조차 생성 불가
+2. LGWR가 참조하는 online logfile이 물리적으로 없거나 손상되었을 경우
