@@ -124,7 +124,7 @@ System Global Area(MB)
                   1584
 ```
 
-## 환경 스위칭: pfile -> spfile
+## 환경 스위칭: spfile -> pfile
 
 **0. 파라미터 파일 디렉토리 확인**
 

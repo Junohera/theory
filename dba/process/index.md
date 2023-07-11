@@ -6,8 +6,11 @@
 
 > Oracle Server가 시작되면 자동으로 시작되어 운영과 유지를 담당
 
-- PMON
-- LGWR
+- DBWR: database buffer cache -> data file
+- LGWR: redo log buffer -> redo log file
+- PMON: server process manager
+- SMON: instance recovery
+- CKPT: checkpoint
 - ...
 
 ## **server process**
