@@ -278,15 +278,11 @@ default tablespace ???
 
 ### db hang
 
-> 
+1. disk 공간이 꽉 찼을 때(추가세션조차 생성 불가)
 
-1. 할당받은 자원(메모리 | disk)이 꽉 찼을 때
-	```shell
-	# disk
-	df
-	```
-	
-	
-	
-	- 추가세션조차 생성 불가
+```shell
+# disk
+df
+```
+
 2. LGWR가 참조하는 online logfile이 물리적으로 없거나 손상되었을 경우
