@@ -4,8 +4,8 @@
 
 > 장애를 대비해 변경되기 전의 내용과 변경된 후의 내용을 기록하는 파일
 >
-> - 메모리는 Redo Log Buffer
-> - 파일은 Redo Log File
+> - 메모리는 **Redo Log Buffer**
+> - 파일은 **Redo Log File**
 
 <img src="./assets/image-20230712111151093.png" alt="image-20230712111151093" style="zoom:50%;" />
 
@@ -44,7 +44,7 @@
 
 ### inactive[^inactive]
 
-- 동기화가 끝나면 inactive 상태가 됨
+- 동기화가 끝나면 inactive 상태가 됨(**삭제 가능**)
 - 더 이상 사용하지 않고, 동기화가 이미 완료된 상태이므로 online drop  가능
 
 ## Log Switch
