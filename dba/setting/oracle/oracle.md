@@ -428,6 +428,7 @@ netca
     cd
     vi .bash_profile
     
+    alias sqlplus='rlwrap sqlplus'
     alias 'c=clear'
     alias "cds=cd $ORACLE_HOME"
     alias 'his=history | cut -c 8- | uniq | sort -u'
@@ -440,20 +441,6 @@ netca
     alias 'cddbs=cd ${ORACLE_HOME}/dbs;'
     alias 'cddata=cd /oracle12/app/oracle/oradata/db1' # by select * from v$logfile;
     alias 'cdtrace=cd /oracle12/app/oracle/diag/rdbms/db1/db1/trace'
-    
-    echo "||| aliases |||"
-    echo "c"
-    echo "cds"
-    echo "his"
-    echo "pslsnr"
-    echo "pspmon"
-    echo "myip"
-    echo "sss"
-    echo "alert"
-    echo "params"
-    echo "cddbs"
-    echo "cddata"
-    echo "cdtrace"
     
     . .bash_profile
     ```
