@@ -11,7 +11,7 @@
 
 ## Flow
 
-- [x] **1. control file 위치 확인**
+- [ ] **1. control file 위치 확인**
 
 ```sql
 SQL> col name format a30;
@@ -26,7 +26,7 @@ STATUS  NAME                           IS_ BLOCK_SIZE FILE_SIZE_BLKS     CON_ID
         b1/control02.ctl
 ```
 
-- [x] **2. shutdown**
+- [ ] **2. shutdown**
 
 ```sql
 SQL> shutdown immediate;
