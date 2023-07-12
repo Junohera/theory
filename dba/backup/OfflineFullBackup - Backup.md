@@ -11,7 +11,7 @@
 
 ## Flow
 
-- [ ] **1. control file 위치 확인**
+- [x] **1. control file 위치 확인**
 
 ```sql
 SQL> col name format a30;
@@ -26,10 +26,11 @@ STATUS  NAME                           IS_ BLOCK_SIZE FILE_SIZE_BLKS     CON_ID
         b1/control02.ctl
 ```
 
-- [ ] **2. shutdown**
+- [x] **2. shutdown**
 
-```shell
-SQL>shutdown immediate;
+```sql
+SQL> shutdown immediate;
+SQL> select instance_name, status from v$instance;
 ```
 
 - [ ] **3. 백업 폴더 확인 및 생성**
