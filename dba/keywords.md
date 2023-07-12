@@ -286,3 +286,43 @@ df
 ```
 
 2. LGWR가 참조하는 online logfile이 물리적으로 없거나 손상되었을 경우
+
+### CHECKPOINT NOT COMPLETE
+
+- log switch 도중, current로 돌입할 수 없는 상태일 경우 발생하는 현상.
+- critical한 상황은 아니고 그저 대기하면 됨.
+
+만약, 빈번하게 발생할 경우
+
+- **현상**: 빈번한 log switch가 발생하면서 active상태인(동기화 진행중) logfile에 다시 순번이 돌아올 경우 동기화를 끝마칠때까지 기다리면서 더 이상의 logfile의 기록을 하지 못하는 현상
+
+- **원인**: 잦은 log switching 및 current로 변경할 file이 없을 때(주로 대용량 DML -> 대용량 배치)
+
+- **해결**: 
+
+  1. group 추가
+
+  2. redo log file 사이즈 증가
+     redo log file의 할당량이 트랜잭션 대비 적으므로 **redo log file의 총 할당량을 증가**(갯수 증가 또는 각 유닛의 사이즈 증설)
+
+  3. 트랜잭션 범위 개선
+
+     ```sql
+     -- ASIS
+     begin;
+     insert into A() values();
+     commit;
+     begin;
+     insert into B() values();
+     commit;
+     begin;
+     insert into C() values();
+     commit;
+     -- TOBE
+     begin;
+     insert into A() values();
+     insert into B() values();
+     insert into C() values();
+     commit;
+     ```
+
