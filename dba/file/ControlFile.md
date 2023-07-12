@@ -37,19 +37,24 @@ STATUS  NAME                                           IS_ BLOCK_SIZE FILE_SIZE_
         /oracle12/app/oracle/oradata/db1/control02.ctl NO       16384            646          0
 ```
 
-- [ ] **2. parameter file 확인**
+- [ ] **2. spfile 백업 및 확인, pfile 백업** 
 
 ```sql
 SQL>show parameter pfile;
-vi /oracle12/app/oracle/product/12.2.0.1/db_1/dbs/spfiledb1.ora
+cd /oracle12/app/oracle/product/12.2.0.1/db_1/dbs
+cp initdb1.ora initdb1.ora.back_$(date +"%Y-%m-%d_%H:%M:%S")
+cp spfiledb1.ora spfiledb1.ora.back_$(date +"%Y-%m-%d_%H:%M:%S")
+vi spfiledb1.ora
 
 *.control_files='/oracle12/app/oracle/oradata/db1/control01.ctl','/oracle12/app/oracle/oradata/db1/control02.ctl'
 ```
 
-- [ ] **3. parameter file 기록 수정**
+- [ ] **3. parameter file 기록 수정 및 수정된 spfile로부터 pfile 생성**
 
 ```sql
 alter system set control_files = '/oracle12/app/oracle/oradata/db1/control01.ctl','/oracle12/app/oracle/oradata/db1/control02.ctl','/oracle12/app/oracle/oradata/db1/control03.ctl' scope=spfile;
+
+create pfile from spfile;
 ```
 
 - [ ] **4. parameter file 확인**
@@ -94,11 +99,14 @@ STATUS  NAME                                           IS_ BLOCK_SIZE FILE_SIZE_
 
 ### 컨트롤 파일 추가(**spfile환경에서 pfile환경으로 스위칭 후**)
 
-- [ ] **0. 기존 pfile 백업**
+> spfile -> pfile -> spfile
+
+- [ ] **0. 기존 pfile, spfile 백업**
 
 ```shell
 cd ${ORACLE_HOME}/dbs
 cp initdb1.ora initdb1.ora.back_$(date +"%Y-%m-%d_%H:%M:%S")
+cp spfiledb1.ora spfiledb1.ora.back_$(date +"%Y-%m-%d_%H:%M:%S")
 ```
 
 - [ ] **1. 현재 spfile을 pfile로 생성**
@@ -113,21 +121,14 @@ SQL>create pfile from spfile;
 SQL>shutdown immediate;
 ```
 
-- [ ] **3. spfile backup**
-
-```shell
-cd ${ORACLE_HOME}/dbs
-cp spfiledb1.ora spfiledb1.ora.back_$(date +"%Y-%m-%d_%H:%M:%S")
-```
-
-- [ ] **4. spfile 삭제**
+- [ ] **3. spfile 삭제**
 
 ```shell
 cd ${ORACLE_HOME}/dbs
 rm spfiledb1.ora
 ```
 
-- [ ] **5. parameter file 수정**
+- [ ] **4. parameter file 수정**
 
 ```shell
 cd ${ORACLE_HOME}/dbs
@@ -140,7 +141,7 @@ vi initdb1.ora
 *.control_files='/oracle12/app/oracle/oradata/db1/control01.ctl','/oracle12/app/oracle/oradata/db1/control02.ctl','/oracle12/app/oracle/oradata/db1/control03.ctl', '/oracle12/app/oracle/oradata/db1/control04.ctl'
 ```
 
-- [ ] **6. startup**
+- [ ] **5. startup**
 
 ```sql
 SQL> startup;
@@ -164,7 +165,7 @@ ORA-00205: error in identifying control file, check alert log for more info
 > Linux-x86_64 Error: 2: No such file or directory
 > ```
 
-- [ ] **7. controlfile 위치 이동 및 확인**
+- [ ] **6. controlfile 위치 이동 및 확인**
 
 ```shell
 cd /oracle12/app/oracle/oradata/db1/
@@ -184,7 +185,7 @@ total 2275004
 cp control03.ctl control04.ctl
 ```
 
-- [ ] **8. alter || shutdown & startup**
+- [ ] **7. alter || shutdown & startup**
 
 ```sql
 SQL>alter database mount;
@@ -196,7 +197,7 @@ STATUS
 OPEN
 ```
 
-- [ ] **9. 환경스위칭 pfile -> spfile**
+- [ ] **8. 환경스위칭 pfile -> spfile**
 
 ```sql
 SQL> show parameter pfile;
