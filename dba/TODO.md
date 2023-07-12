@@ -9,3 +9,5 @@
 - [ ] instance recovery에 대해 도식화 순서도?
 - [ ] process에 대해 생명주기를 sequence diagram으로 표현
 - [ ] process의 관계(system, user, server)를 도식화
+- [ ] 그룹에 멤버가 여러 개일 경우 병렬로 동시에 같은 내용을 기록하는데 멤버가 같은 디스크에 존재한다면 직렬로 기록하게 된다 Sequence Diagram
+

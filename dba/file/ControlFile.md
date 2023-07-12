@@ -9,17 +9,13 @@ controlfile의 위치는 parameter file에 있음
 변경시 parameter file을 변경해야함.
 
 - pfile) 직접 수정 후, DB Open
-- spfile) 명령어로 수정 가능(parameter file에 기록만 하고 실제로 물리적인 변경은 일어나지 않음
+- spfile) 명령어로 수정 가능(parameter file에 기록만 하고 실제로 물리적인 변경은 일어나지 않음)
 
-데이터베이스 구성정보가 기록
+binary file이므로 열거나 수정할 경우 conflict 발생여지 있으므로 건들지말 것
 
-binary file이므로 열거나 수정불가
+잃어버리면 모든게 끝남. -> 🔥**다중화 필요** -> DB 생성시 기본적으로 controlfile생성(최초 2개 생성) -> DB 기동에는 단 하나의 controlfile만 존재해도 open 가능 -> 모든 controlfile은 동일
 
-DB 생성시 controlfile생성(최초 2개 생성)
-
-DB 기동에는 단 하나의 controlfile만 존재해도 open 가능 -> 모든 controlfile은 동일
-
-잃어버리면 모든게 끝남. -> 🔥**다중화 필요**
+global checkpoint[^global checkpoint] 발생시 controlfile, logfile, datafile의 시점을 일치시킴
 
 ## Practice
 
@@ -234,5 +230,8 @@ spfile                               string      /oracle12/app/oracle/product/1
                                                  2.2.0.1/db_1/dbs/spfiledb1.ora
 ```
 
+---
 
+# foot note
 
+[^global checkpoint]: shutdown immediate시 발생, checkpoint는 가장 강력한 동기 신호
