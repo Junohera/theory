@@ -113,7 +113,8 @@ alter database rename file '/oracle12/app/oracle/oradata/db1/class1_02.dbf'
 
 ### **Data Dictionary** 정보
 
-DBMS내 관리되는 모든 객체, 세션, 자원 정보이고, base table이 존재하며 사용자에게는 view 형태로 조회가능하도로 설계 -> data dictionary view
+- DBMS에서 관리되는 모든 객체, 세션, 자원의 정보를 보관하는 곳
+- base table이 별도로 존재하고, 사용자에게는 view 형태로 조회가능하도로 제공 => **data dictionary view**
 
 **data dictionary view 종류**
 
