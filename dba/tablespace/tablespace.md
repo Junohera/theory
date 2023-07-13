@@ -2,11 +2,8 @@
 
 # tablespace
 
-> logical boundary
+> logical boundary(=📦)
 >
-> > if file == {table, index, ...}:
-> >
-> >   tablespace is directory.
 
 <img src="./assets/image-20230713110848037.png" alt="image-20230713110848037" style="zoom:50%;" />
 
@@ -98,7 +95,6 @@ select FILE_NAME,
 			 AUTOEXTENSIBLE,										-- 자동 증가여부
 			 MAXBYTES/1024/1024 AS "BYTES(MB)"	-- 최대허용사용량
   from dba_temp_files; -- temp tablespaces의 모든 datafile
-  
 
 ------------------------------------------------------------------------------------------------
 FILE_NAME																					 TABLESPACE_NAME  BYTES(MB)   AUT  BYTES(MB)
@@ -106,7 +102,12 @@ FILE_NAME																					 TABLESPACE_NAME  BYTES(MB)   AUT  BYTES(MB)
 /oracle12/app/oracle/oradata/db1/temp01.dbf        TEMP             20          YES  32767.9844
 ```
 
+## controlfile 정보 변경
 
+```sql
+alter database rename file '/oracle12/app/oracle/oradata/db1/class1_02.dbf'
+               to '/home/oracle/oradata/db1/class1_02.dbf';
+```
 
 ---
 
@@ -141,4 +142,4 @@ DBMS내 관리되는 모든 객체, 세션, 자원 정보이고, base table이 �
 # foot note
 
 [^Data Dictionary]: 메모리로 구성된 Shared Pool.Data Dictionary Cache의 실제 물리적인 공간
-[^AWR ]: TODO
+[^AWR ]: **A**utomatic **W**orkload **R**epository
