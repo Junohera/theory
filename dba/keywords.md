@@ -366,10 +366,6 @@ df
 
 - instance recovery
 
-### UNDO SEGMENT
-
-과거 이미지 기록 정보 
-
 ---
 
 # foot note
