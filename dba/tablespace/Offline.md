@@ -16,7 +16,6 @@
 ### 1. normal Mode
 
 - datafile 이동
-- tablespace가 정상일 경우만 가능
 
 ```sql
 alter tablespace users offline;

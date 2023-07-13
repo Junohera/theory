@@ -50,9 +50,9 @@
 - 읽기 일관성을 위해 **과거 이미지 보관** 임시 영역
 - **rollback**을 위해 만들어진 공간
 
-## 조회
+## 관리
 
-## 1. tablespace 조회
+### 1. tablespace 조회
 
 ```sql
 select *
@@ -67,7 +67,7 @@ TEMP
 USERS
 ```
 
-## 2. tablespace를 구성하는 datafiles 조회
+### 2. tablespace를 구성하는 datafiles 조회
 
 ```sql
 select FILE_NAME,
@@ -86,7 +86,7 @@ FILE_NAME																					 TABLESPACE_NAME  BYTES(MB)   AUT  BYTES(MB)
 /oracle12/app/oracle/oradata/db1/users01.dbf				USERS             5 			  YES  32767.9844
 ```
 
-## 3. temp tablespace를 구성하는 datafiles 조회
+### 3. temp tablespace를 구성하는 datafiles 조회
 
 ```sql
 select FILE_NAME,
@@ -102,7 +102,26 @@ FILE_NAME																					 TABLESPACE_NAME  BYTES(MB)   AUT  BYTES(MB)
 /oracle12/app/oracle/oradata/db1/temp01.dbf        TEMP             20          YES  32767.9844
 ```
 
-## controlfile 정보 변경
+### 4. add✨
+
+```sql
+alter tablespace class1 
+      add datafile '/oracle12/app/oracle/oradata/db1/class1_02.dbf' size 1m;
+```
+
+### 5. resize
+
+```sql
+alter database datafile '/oracle12/app/oracle/oradata/db1/class1_01.dbf' resize 2m;
+```
+
+### 6. autoextend
+
+```sql
+alter database datafile '/oracle12/app/oracle/oradata/db1/class1_02.dbf' autoextend on;
+```
+
+### 7. rename
 
 ```sql
 alter database rename file '/oracle12/app/oracle/oradata/db1/class1_02.dbf'
@@ -111,7 +130,7 @@ alter database rename file '/oracle12/app/oracle/oradata/db1/class1_02.dbf'
 
 ---
 
-### **Data Dictionary** 정보
+## Data Dictionary 정보
 
 - DBMS에서 관리되는 모든 객체, 세션, 자원의 정보를 보관하는 곳
 - base table이 별도로 존재하고, 사용자에게는 view 형태로 조회가능하도로 제공 => **data dictionary view**
