@@ -29,7 +29,7 @@
 
 # 아키텍처
 
-<img src="./assets/image-20230706152204850.png" alt="image-20230706152204850" style="zoom: 80%;" />
+<img src="./assets/image-20230706152204850.png" alt="image-20230706152204850" style="zoom: 50%;" />
 
 **Oracle Server**
 

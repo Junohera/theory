@@ -76,4 +76,3 @@ total 2265680
 -rw-r-----. 1 oracle oinstall 351281152 Jul 11 10:03 undotbs01.dbf
 -rw-r-----. 1 oracle oinstall   5251072 Jul 11 10:03 users01.dbf
 ```
-

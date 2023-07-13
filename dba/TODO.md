@@ -1,4 +1,9 @@
 - [ ] DBA 관점 storage관리하기 위한 단위 등에 대해 정리 block, extent, segment, initial, next(to Storage.md)
+  - [ ] segment
+
+    - [ ] extent(8 block, =64K)
+      - [ ] block(8K)
+
 - [ ] process의 관계 도식화(to process.md)
 - [ ] architecture 도식화(to oracle Architecture.md)
   - [ ] 구성도
