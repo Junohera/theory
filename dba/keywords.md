@@ -326,3 +326,46 @@ df
      commit;
      ```
 
+### SCN - System Commit Number
+
+**특징**
+
+- 데이터베이스 내부에서 관리하는 **시점 정보**
+- commit이 된 데이터는 disk(datafile)에 내려써질 필요가 있는데, 시점정보를 기록하여 데이터의 수정에 문제가 없도록 관리
+- SCN이 일치하지 않으면 데이터베이스는 정상 OPEN 되지 않는다
+- SCN은 **controlfile**, **datafile**, **redologfile** 등 모두 기록됨
+
+### checkpoint
+
+> `DBWR = checkpoint`
+
+- SCN 정보를 일치시키는 과정(동기화 과정)
+- DBWR가 동작하는 시점이기도함
+
+#### **종류**
+
+**1. global checkpoint**
+
+- 가장 강력한 checkpoint
+- 데이터베이스 내 모든 시점 일치
+- shutdown immediate
+
+**2. thread / logical checkpoint**
+
+- log switch
+
+**3. datafile checkpoint**
+
+- tablespace read only, offline, begin backup
+
+**4. mini checkpoint**
+
+- drop table / truncate table
+
+**5. recovery checkpoint**
+
+- instance recovery
+
+---
+
+# foot note

@@ -66,7 +66,20 @@
 - 사용자로부터 Commit요청이 들어오면 관련된 모든 Redo Recode들을 redo Log file에 저장한 후 Commit 을 완료
 - 대량의 데이터 변경 후 Commit이 한꺼번에 수행시 성능이슈
 
-## Practice
+## 명령어
+
+```sql
+# 그룹 추가
+alter database add logfile group 4 ‘/home/oracle/oradata/testdb/redo04_a.log’ size 5M ;
+# 멤버 추가
+alter database add logfile member ‘/home/oracle/oradata/testdb/redo04_b.log’ to group 4;
+#3 멤버 삭제
+alter database drop logfile member ‘/home/oracle/oradata/testdb/redo04_b.log’ ;
+# 그룹 삭제
+alter database drop logfile group 4;
+```
+
+
 
 # foot note
 
