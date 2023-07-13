@@ -348,19 +348,19 @@ df
 
 - 가장 강력한 checkpoint
 - 데이터베이스 내 모든 시점 일치
-- shutdown immediate
+- ✅shutdown immediate
 
 **2. thread / logical checkpoint**
 
-- log switch
+- ✅log switch
 
 **3. datafile checkpoint**
 
-- tablespace read only, offline, begin backup
+- ✅tablespace read only, offline, begin backup
 
 **4. mini checkpoint**
 
-- drop table / truncate table
+- ✅drop table / truncate table
 
 **5. recovery checkpoint**
 
