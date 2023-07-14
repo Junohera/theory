@@ -2,6 +2,10 @@
 
 <img src="./assets/segment_extent_block.png" alt="제목 없는 다이어그램" style="zoom: 50%;" />
 
+## datafile
+
+segment들의 실제 물리적인 파일
+
 ## segment
 
 - segment는 extent를 묶는 논리적 단위

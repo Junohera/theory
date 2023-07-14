@@ -285,6 +285,16 @@ INSTANCE_NAME    STATUS
 db1              OPEN
 ```
 
+## sqlplus상에서 서버 커맨드 실행하기
+
+> alias는 되지않음
+
+```shell
+SQL> !ls
+SQL> !pwd
+SQL> !c
+```
+
 ## ***자동 메모리 관리에 대하여...***
 
 > AMM[^AMM], ASMM[^ASMM]
