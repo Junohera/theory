@@ -14,16 +14,14 @@
 - [ ] **1. control file 위치 확인**
 
 ```sql
-SQL> col name format a30;
-SQL> select * from v$controlfile;
+SQL> col name format a50;
+SQL> select name from v$controlfile;
 
-STATUS  NAME                           IS_ BLOCK_SIZE FILE_SIZE_BLKS     CON_ID
-------- ------------------------------ --- ---------- -------------- ----------
-        /oracle12/app/oracle/oradata/d NO       16384            646          0
-        b1/control01.ctl
-
-        /oracle12/app/oracle/oradata/d NO       16384            646          0
-        b1/control02.ctl
+NAME
+--------------------------------------------------
+/oracle12/app/oracle/oradata/db1/control01.ctl
+/oracle12/app/oracle/oradata/db1/control02.ctl
+/home/oracle/oradata/db1/control03.ctl
 ```
 
 - [ ] **2. shutdown**
