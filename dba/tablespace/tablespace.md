@@ -41,14 +41,18 @@
   - 다수의 temporary tablespace 생성 가능
   - user별로 서로 다른 temporary tablespace 지정 가능
 
-- 해당 tablespace에 할당받은 datafile(disk)의 가용영역이 없을 경우, 조회되지 않음
+- 해당 tablespace에 할당받은 datafile(disk)의 가용영역이 없을 경우, 조회되지 않거나 정렬이 수행되지 않음
   - user별로 temporary tablespace를 지정하지 않으면 연관되지 않은 업무에서의 조회로 인해 다른 업무의 조회도 조회되지 않음.
+  - 주로 대용량 정렬을 시도할 경우 발생
 
 
 #### 4. undo tablespace
 
 - 읽기 일관성을 위해 **과거 이미지 보관** 임시 영역
 - **rollback**을 위해 만들어진 공간
+- 해당 tablespace에 할당받은 datafile(disk)의 가용영역이 없을 경우, DML 불가능
+  - 주로 대용량 DML을 시도할 경우 발생
+
 
 ## 관리
 
