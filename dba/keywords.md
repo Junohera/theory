@@ -221,8 +221,9 @@ tablespace를 구성하는 **물리적 파일인 *datafile*들의 사이즈의 �
 🔥 DBA라면 유저 생성시 반드시 default tablespace를 명시해야한다.
 
 ```sql
-create user ?
-default tablespace ???
+create user ${USER_NAME} identified by ${PASSWORD}
+default tablespace ${TABLESPACE_NAME}
+temporary tablespace ${TEMPORARY_TABLESPACE_NAME};
 ```
 
 #### **temporary tablespace**
