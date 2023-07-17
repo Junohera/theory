@@ -4,7 +4,8 @@
 
 ## datafile
 
-segment들의 실제 물리적인 파일
+- segment들의 실제 물리적인 파일
+  논리적으로는 tablespace
 
 ## segment
 
@@ -18,6 +19,7 @@ segment들의 실제 물리적인 파일
 ## block
 
 - 데이터를 관리하기 위한 논리적인 최소단위
+- 짝수 권장
 - default `8K`
 
 ## usage
