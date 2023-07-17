@@ -40,6 +40,19 @@ select USERNAME,
   from dba_users;
 ```
 
+### 4. check free space in temporary tablespace
+
+```sql
+select tablespace_name,
+       round(allocated_space/1024/1042,2) as alloc_mb,
+       round(decode(sign(allocated_space-free_space), -1, 0, 
+       allocated_space-free_space)/1024/1024,2) as used_mb,
+       round(free_space/1024/1024,2) as free_mb,
+       round(decode(sign(allocated_space-free_space), -1, 0, 
+       allocated_space-free_space)/allocated_space*100,2) as "used(%)" 
+from dba_temp_free_space;
+```
+
 ## 관리
 
 ### 1. size 조회
