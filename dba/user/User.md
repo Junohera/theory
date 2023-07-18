@@ -54,4 +54,68 @@ select username,
  where 1=1
    and username = 'TUSER'
 ;
+
+select *
+  from dba_ts_quotas
+ where 1=1
+   and username = 'TUSER';
+```
+
+### alter user
+
+#### profile
+
+```sql
+alter user tuser profile profile1;
+```
+
+#### lock/unlock
+
+```sql
+alter user tuser account unlock;
+alter user tuser account lock;
+```
+
+#### password
+
+```sql
+alter user tuser identified by test;
+```
+
+### SESSION
+
+#### select
+
+```sql
+SELECT DISTINCT
+       A.INST_ID
+      ,A.USERNAME
+      ,X.SESSION_ID
+      ,A.SERIAL#
+      ,A.STATUS
+      ,D.OBJECT_NAME
+      ,A.MACHINE
+      ,A.OSUSER
+      ,A.TERMINAL
+      ,A.CLIENT_INFO
+      ,A.PROGRAM
+      ,A.LOGON_TIME
+      ,A.PREV_EXEC_START
+      ,S.SQL_TEXT
+      ,'ALTER SYSTEM KILL SESSION ''' || A.SID || ', ' || A.SERIAL# || ''';'
+  FROM GV$LOCKED_OBJECT X
+      ,GV$SESSION A
+      ,DBA_OBJECTS D
+      ,GV$SQLAREA S
+ WHERE X.SESSION_ID=A.SID
+   AND X.OBJECT_ID=D.OBJECT_ID
+   AND A.SQL_ID = S.SQL_ID(+)
+--   AND D.OBJECT_NAME = ''
+ ORDER BY LOGON_TIME;
+```
+
+#### kill
+
+```sql
+ALTER SYSTEM KILL SESSION '52, 51034';
 ```

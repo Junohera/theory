@@ -203,6 +203,16 @@ select * from table(dbms_xplan.display_cursor(null, null, 'allstats last'));
 - 특정 tablespace 내 허가된 사용량
 - 다른 유저의 DML을 통해 나의 quota를 초과하는 경우, 나의 quota를 늘려주어야한다.
 
+```sql
+# 할당된 quota 조회
+select *
+  from dba_ts_quotas
+ where 1=1
+   and username = 'SCOTT';
+```
+
+
+
 ### tablespace
 
 - table의 집합, 영역(물리적 사이즈를 갖지 않음)
