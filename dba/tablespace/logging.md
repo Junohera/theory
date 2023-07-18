@@ -12,5 +12,6 @@ select table_name,
 
 ```sql
 alter table nologging_test3 logging;
+alter table nologging_test3 nologging;
 ```
 
