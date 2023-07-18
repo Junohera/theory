@@ -1,61 +1,8 @@
 [toc]
 
-# Manage Storage
+# Management Storage
 
-## PCTFREE, PCTUSED
-
-<img src="./assets/image-20230717165749657.png" alt="image-20230717165749657" style="zoom:33%;" />
-
-**Header**
-block의 **메타** 정보
-
-**Table Directory**
-클러스터에 존재하는 **테이블에 관한 정보**
-
-**Row Directory**
-Block내에 **Row와 관련된 정보**
-
-**Free Space**
-New Row Insert나 Update시 사용되어지는 공간(이 공간은 PCTFREE와 PCTUSED에 의해 결정)
-
-**Row Data**
-실제 테이블 데이터와 인덱스 데이터가 저장되는 공간
-
----
-
-> available range
->
-> (PCTFREE+PCTUSED <= 100) 
-
-## PCTFREE
-
-> The `PCTFREE` parameter is used to set the percentage of a block to be reserved for possible updates to rows that already are contained in that block.
-
-- `default 10%`
-- 데이터의 변경에 대비해 확보해두는 BLOCK의 여유 공간
-- 여유공간의 비율을 의미하는 PCTFREE에 도달할 경우, 남은 여유공간은 오직 update만을 위해 사용되어져 더이상 새로운 데이터(row)를 취급할 수 없게된다.(=`dirty block`상태 돌입)
-- 작으면 많은 ROW를 insert할 수 있지만, update시 잦은 ✨**row migration**[^row migration] 발생
-- 크면 적은 ROW를 insert하는 대신, 잦은 update에 적합
-
-| update period | PCTFREE |
-| ------------- | ------- |
-| somtimes      | low     |
-| `frequently`  | `high`  |
-
-## PCTUSED
-
-> **PCTUSED** is a [block](https://www.orafaq.com/wiki/Data_block) storage parameter used to specify when Oracle should consider a database [block](https://www.orafaq.com/wiki/Block) to be empty enough to be added to the [freelist](https://www.orafaq.com/wiki/Freelist).
-> This parameter is ignored for objects created in locally managed [tablespaces](https://www.orafaq.com/wiki/Tablespace) with Segment Space Management ([ASSM](https://www.orafaq.com/wiki/ASSM)) specified as AUTO.
-
-- when disable ASSM`default 40%`
-- 비어 있는 것으로 간주해야 하는 시점(=`free block`)
-- delete 수행시 즉각 free공간으로 할당하지 않음.
-
----
-
-## 관리
-
-### 조회
+## 조회
 
 **tablespaces**
 
@@ -119,14 +66,35 @@ TABLESPACE ${TABLESPACE_NAME};
 alter user scott quota unlimited on users2;
 ```
 
-### 생성
+### 테이블스페이스 생성
 
 ```sql
-create table scott.stg_test1
-(no		number,
- name	varchar2(20),
- addr  varchar2(20))
-tablespace users2;
+create tablespace users3
+       datafile '/oracle12/app/oracle/oradata/db1/users04_01.dbf' size 50m
+       extent management local				-- 생략시 기본값
+       uniform size 1m;								-- extent 할당 크기(initial_extent, next_extent)
+       
+select * from dba_tablespaces;
+```
+
+### 테이블 생성
+
+```sql
+create table extent_test1 (
+  col1 number
+)
+tablespace users3
+storage (
+  initial     128K
+  next        128K
+  minextents  1					-- 생성할 extent 최소 갯수
+  maxextents  50				-- 생성할 extent 최대 갯수
+  pctincrease 0					-- next값에 대한 증가율
+);
+
+select *
+  from dba_tables
+ where table_name = 'EXTENT_TEST1';
 ```
 
 ### 테이블 정보 조회
@@ -232,18 +200,22 @@ alter table scott.STG_TEST1 move tablespace USERS2;
 - 실제 사용하는 건수에 맞게 물리적인 공간을 재배치하여 성능 향상 --> 재구성 필요
 - reorg 대상: 해당 테이블의 전체 블럭수와 실사용 블록수의 차이를 확인하면 알 수 있음.
 
-```sql
-# 이미 속했던 tablespace로 똑같이 move할 경우, 재구성되어 block을 재구분
-alter table scott.STG_TEST1 move tablespace USERS2;
+**재구성**
+이미 속해있던 동일한 tablespace로 move시키면 실제사용하는 데이터에 맞게 블럭들이 재배치됨
 
-select count(distinct dbms_rowid.rowid_block_number(rowid) || dbms_rowid.rowid_relative_fno(rowid)) "실사용 블록수" 
-  from scott.stg_test1;
+```sql
+alter table scott.STG_TEST1 move tablespace USERS2;
 ```
 
+**실사용 블록수 조회**
+재구성 전/후로 조회해야할 쿼리
 
+```sql
+select count(
+         distinct dbms_rowid.rowid_block_number(rowid) || 
+         dbms_rowid.rowid_relative_fno(rowid)
+       ) as "실사용 블록수" 
+  from NOLOGGING_TEST;
+```
 
----
-
-# foot note
-
-[^row migration]: TODO
+### 
