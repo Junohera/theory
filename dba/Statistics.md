@@ -1,3 +1,5 @@
+[toc]
+
 # Statistics
 
 ## **통계정보 수집**
@@ -37,6 +39,50 @@
 
 > 통계수집 대상
 
-1. `all`: 전체
-2. `global`: 파티션 제외한 테이블 통계 정보만 수집
-3. `partition`: 파티션 수준 통계 정보만 수집
+### 1. all
+
+전체
+
+### 2. global
+
+파티션을 제외한 테이블 통계 정보만 수집
+
+### 3. partition
+
+파티션 수준의 통계 정보만 수집
+
+## 통계정보 수집 쿼리
+
+```sql
+select /*+ RULE */
+       'exec dbms_stats.gather_table_stats(ownname=>'||chr(39)||OWNER||chr(39)||',tabname=>'||chr(39)||table_name||chr(39)
+    || ',estimate_percent=>'
+    || case when MBYTES < 10    then '100'
+            when MBYTES < 100   then '20'
+            when MBYTES < 1000  then '5'
+            when MBYTES < 5000  then '5'
+            when MBYTES < 10000 then '1'
+            else '1'
+       end
+    ||',CASCADE=>TRUE,granularity=>'||chr(39)||'ALL'||chr(39)||' ,method_opt=>'||chr(39)||'FOR ALL COLUMNS SIZE AUTO'||chr(39)
+    ||' ,degree=>'||
+       case when MBYTES <  1000  then '8'
+            when MBYTES <  5000  then '8'
+            when MBYTES <  10000 then '16'
+            when MBYTES >= 10000 then '32'
+       end
+    || ',no_invalidate=>FALSE);' as STMT
+  from (select OWNER, TABLE_NAME, sum(MBYTES) MBYTES
+          from (select OWNER, SEGMENT_NAME TABLE_NAME, PARTITION_NAME, round(sum(BYTES)/1024/1024,0) MBYTES
+                  from DBA_SEGMENTS seg
+                 where 1=1
+                   and OWNER        like 'SCOTT'
+--                   and SEGMENT_TYPE like '%'
+--                   and SEGMENT_NAME like '%'
+--                   and length(SEGMENT_NAME) = 14
+                 group by OWNER, SEGMENT_NAME, PARTITION_NAME)
+         group by OWNER, TABLE_NAME)
+ order by MBYTES desc
+;
+```
+

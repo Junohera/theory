@@ -63,20 +63,20 @@ select *
 
 ### alter user
 
-#### profile
+#### 1. profile
 
 ```sql
 alter user tuser profile profile1;
 ```
 
-#### lock/unlock
+#### 2. lock/unlock
 
 ```sql
 alter user tuser account unlock;
 alter user tuser account lock;
 ```
 
-#### password
+#### 3. password
 
 ```sql
 alter user tuser identified by test;
@@ -84,7 +84,7 @@ alter user tuser identified by test;
 
 ### SESSION
 
-#### select
+#### 1. select
 
 ```sql
 SELECT DISTINCT
@@ -114,7 +114,7 @@ SELECT DISTINCT
  ORDER BY LOGON_TIME;
 ```
 
-#### kill
+#### 2. kill
 
 ```sql
 ALTER SYSTEM KILL SESSION '52, 51034';
