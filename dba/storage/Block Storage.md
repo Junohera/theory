@@ -55,4 +55,5 @@ New Row Insert나 Update시 사용되어지는 공간(이 공간은 PCTFREE와 P
 
 # foot note
 
-[^row migration]: TODO
+[^row migration]: 기존 블럭의 공간 안에서 수정하기에는 여유공간이 부족해 아예 새로운 블럭에 재구성하는 현상(성능저하 요인)
+

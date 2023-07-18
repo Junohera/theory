@@ -160,6 +160,12 @@ drop tablespace class1 including contents; 	-- 테이블이 존재함에도 제�
 rm class1_01.dbf class1_02.dbf ...
 ```
 
+### 9. create
+
+```sql
+create tablespace users2 datafile '/oracle12/app/oracle/oradata/db1/users02_01.dbf' size 50m;
+```
+
 ## Data Dictionary 정보
 
 - DBMS에서 관리되는 모든 객체, 세션, 자원의 정보를 보관하는 곳

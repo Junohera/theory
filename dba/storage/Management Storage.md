@@ -51,15 +51,6 @@ select segment_name,
   from dba_extents;
 ```
 
-### 테이블 생성시
-
-```sql
-CREATE TABLE ${TABLE_NAME}(NO NUMBER, COL1 VARCHAR(2))
-PCTFREE 20
-PCTUSED 40
-TABLESPACE ${TABLESPACE_NAME};
-```
-
 ### 할당량 수정
 
 ```sql
@@ -83,6 +74,8 @@ select * from dba_tablespaces;
 create table extent_test1 (
   col1 number
 )
+pctfree 10
+pctused 40							-- ASSM이 비활성화될 경우 사용되어짐.
 tablespace users3
 storage (
   initial     128K
@@ -207,6 +200,14 @@ alter table scott.STG_TEST1 move tablespace USERS2;
 alter table scott.STG_TEST1 move tablespace USERS2;
 ```
 
+**할당된 블록수 조회**
+
+```sql
+select sum(BLOCKS) as "할당된 블록수"
+  from dba_extents
+ where segment_name = 'NOLOGGING_TEST';
+```
+
 **실사용 블록수 조회**
 재구성 전/후로 조회해야할 쿼리
 
@@ -218,4 +219,22 @@ select count(
   from NOLOGGING_TEST;
 ```
 
-### 
+**할당된 블록수:실사용블록수 조회**
+
+```sql
+select a.blocks, 
+			 b.blocks,
+       a.blocks - b.blocks as gap
+  from (select sum(BLOCKS) as blocks
+          from dba_extents
+         where segment_name = 'NOLOGGING_TEST'
+       ) a,
+       (select count(distinct dbms_rowid.rowid_block_number(rowid) || dbms_rowid.rowid_relative_fno(rowid)) as blocks
+          from NOLOGGING_TEST
+      ) b;
+      
+|BLOCKS|BLOCKS|GAP|
+|------|------|---|
+|11,264|10,876|388|
+```
+
