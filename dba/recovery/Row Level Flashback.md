@@ -6,6 +6,14 @@ undo image를 사용한 복구진행 => 오래되거나 대용량 dml발생으�
 
 
 
+## 추가 전제조건
+
+- undo에서 statement fetch 가능하도록 설정
+
+```sql
+alter database add supplemental log data;
+```
+
 ## 이력조회 테이블
 
 ### 1. flashback version query
@@ -98,3 +106,4 @@ select undo_sql u1
  order by start_timestamp desc;
 ```
 
+#### TODO: 5. 복구

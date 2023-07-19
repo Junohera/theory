@@ -40,9 +40,11 @@ NO
    >
    > - rowmovement enable
 
-## 명령어
+## 관리
 
-### 현재 시점 확인
+### flashback - query
+
+#### 현재 시점 확인
 
 ```sql
 select sysdate, systimestamp from dual;
@@ -56,7 +58,7 @@ select to_timestamp('2023-07-19 11:24:35', 'YYYY-mm-dd HH24:MI:SS') from dual;
 |2023-07-19 11:24:35.000                                  |
 ```
 
-### 특정시점의 데이터 조회
+#### 특정시점의 데이터 조회
 
 ```sql
 select *
@@ -69,3 +71,6 @@ select *
 |3  |orange|1,000|
 ```
 
+### flashback - table
+
+#### 

@@ -16,7 +16,7 @@
 
 **system 계정 소유의 테이블은 recyclebin 공간에 보관되지 않음**💊
 
-
+## 관리
 
 ### 1. recyclebin 조회
 
