@@ -184,8 +184,8 @@ cp control03.ctl control04.ctl
 - [ ] **7. alter || shutdown & startup**
 
 ```sql
-SQL>alter database mount;
-SQL>alter database open;
+SQL> alter database mount;
+SQL> alter database open;
 SQL> select status from v$instance;
 
 STATUS
