@@ -48,7 +48,22 @@ commit 수행후에도 다른 서버 프로세스가 덮어쓰지 못하도록 �
 
 아무리 장애가 발생하여도, undo retention을 보장해주는 파라미터 (default: `NOGUARANTEE`)
 
+#### db_recovery_file_dest_size
 
+> bytes(ex: `2g`)
+
+```sql
+alter system set db_recovery_file_dest_size=${N}g scope=spfile|pfile;
+```
+
+#### db_recovery_file_dest
+
+> physical path(ex: `'/oracle12/archive'`)
+
+```sql
+alter system set db_recovery_file_dest='${TARGET_DIRECTORY}' scope=spfile|pfile;
+SQL> !mkdir '${TARGET_DIRECTORY}'
+```
 
 
 

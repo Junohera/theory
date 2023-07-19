@@ -4,6 +4,8 @@
 
 ## **통계정보 수집**
 
+✅통계정보 백업 필수
+
 > optimizer가 실행계획을 세울 때, 사용하는 테이블의 기초 자료
 > 테이블 구성 block 정보, row수, 각 컬럼마다의 histogram(density, distinct value, ...)
 
