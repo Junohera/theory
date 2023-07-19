@@ -118,7 +118,7 @@ alter user tuser profile profile1;
 ```sql
 alter profile ${PROFILE_NAME} limit ${POLICY_NAME} ${POLICY_VALUE};
 
-alter profile default limit FAILED_LOGIN_ATTEMPS 5;
+alter profile default limit FAILED_LOGIN_ATTEMPTS 5;
 alter profile default limit PASSWORD_VERIFY_FUNCTION VERIFY_FUNCTION;
 alter profile default limit PASSWORD_VERIFY_FUNCTION null;
 ```

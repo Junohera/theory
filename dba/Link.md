@@ -7,8 +7,9 @@
 ### select
 
 ```sql
-select *
-  from dba_db_links;
+select * from dba_db_links; 		-- every
+select * from all_db_links;			-- usable
+select * from user_db_links;		-- as a author
 ```
 
 ### create
@@ -58,6 +59,27 @@ select *
 ```sql
 drop public database link LINK_TEST;
 drop public database link LINK_TEST2;
+```
+
+### create(public, private)
+
+> ```SQL
+> create [public] database link ${USER_NAME}.${DATABASE_LINK}
+> connect to ${USER_NAME} identified by ${PASSWORD} using '${CONNECTION_NAMEa}';
+> ```
+
+#### 1. public
+
+```sql
+create public database link scott.LINK_PUBLIC
+connect to system identified by oracle using 'testdb';
+```
+
+#### 2. private
+
+```sql
+create database link scott.LINK_PRIVATE
+connect to system identified by oracle using 'testdb';
 ```
 
 ## With Synonym
