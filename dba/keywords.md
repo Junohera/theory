@@ -377,6 +377,14 @@ df
 
 - instance recovery
 
+### use hint parallel
+
+```sql
+alter session enable parallel dml;
+```
+
+
+
 ---
 
 # foot note

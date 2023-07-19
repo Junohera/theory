@@ -6,14 +6,6 @@ undo image를 사용한 복구진행 => 오래되거나 대용량 dml발생으�
 
 
 
-## 추가 전제조건
-
-- undo에서 statement fetch 가능하도록 설정
-
-```sql
-alter database add supplemental log data;
-```
-
 ## 이력조회 테이블
 
 ### 1. flashback version query
@@ -22,7 +14,15 @@ alter database add supplemental log data;
 
 ### 2. flashback transaction query
 
-해당 시점 이전 row로 되돌리는 sql 제공
+해당 시점 이전 row로 되돌리는 sql 제공추가 전제조건
+
+- undo에서 statement fetch 가능하도록 설정
+
+```sql
+alter database add supplemental log data;
+```
+
+## 
 
 > 예) emp 에서 ename이 smith의 sal의 변경이력
 >
@@ -106,4 +106,9 @@ select undo_sql u1
  order by start_timestamp desc;
 ```
 
-#### TODO: 5. 복구
+### 5. 복구
+
+```sql
+update "SYSTEM"."FLASHBACK_TEST" set "SAL" = '1600' where ROWID = 'AAAFlRAABAAAMNpAAA';
+```
+
