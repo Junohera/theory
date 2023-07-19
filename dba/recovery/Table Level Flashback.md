@@ -42,4 +42,30 @@ NO
 
 ## 명령어
 
-TODO:
+### 현재 시점 확인
+
+```sql
+select sysdate, systimestamp from dual;
+|SYSDATE                |SYSTIMESTAMP                 |
+|-----------------------|-----------------------------|
+|2023-07-19 11:22:51.000|2023-07-19 11:22:51.614 +0900|
+
+select to_timestamp('2023-07-19 11:24:35', 'YYYY-mm-dd HH24:MI:SS') from dual;
+|TO_TIMESTAMP('2023-07-1911:24:35','YYYY-MM-DDHH24:MI:SS')|
+|---------------------------------------------------------|
+|2023-07-19 11:24:35.000                                  |
+```
+
+### 특정시점의 데이터 조회
+
+```sql
+select *
+  from fruits
+    as of timestamp to_timestamp('2023-07-19 11:22:51', 'YYYY-mm-dd HH24:MI:SS');
+|NO |NAME  |PRICE|
+|---|------|-----|
+|1  |apple |2,500|
+|2  |grape |3,000|
+|3  |orange|1,000|
+```
+
