@@ -126,7 +126,8 @@ oel7
 
     > yum 프로세스 충돌 주의(동시 진행 불가)
     > `ps -ef | grep yum | grep -v grep`
-
+    > ps 존재할 경우, 완료될 때까지 대기
+    
     - user setting
     - system control file
     - ...
@@ -303,7 +304,8 @@ ipconfig | cat -n | head -9 | tail -1 | awk -F: '{print $NF}' | awk -F" " '{prin
 # DISPLAY=192.168.17.17:0.0; export DISPLAY; LANG=C; export LANG;
 
 export DISPLAY=${YOUR_ID}:0.0
-export LANG=C
+export LANG=C\
+find /oracle12/app/oracle -name netca
 netca
 ```
 
