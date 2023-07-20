@@ -383,7 +383,13 @@ df
 alter session enable parallel dml;
 ```
 
+### high water mark(HWM)
 
+할당된 블록과 실사용 블록의 차이를 인지
+
+delete vs truncate
+
+> + reorg
 
 ---
 

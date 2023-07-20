@@ -1,5 +1,7 @@
 # Segment Storage
 
+> 테이블 사이즈를 알고 싶을 경우, segments view를 통해 확인
+
 ## FLM
 
 - 9i 이전의 세그먼트 관리 방식

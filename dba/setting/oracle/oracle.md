@@ -315,6 +315,10 @@ netca
 
 ### DBCA
 
+> ```shell
+> dbca
+> ```
+
 - Creation Mode
 
   - Advanced configuration
