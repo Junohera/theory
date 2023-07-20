@@ -79,12 +79,11 @@ startup;
 
 ```sql
 SQL> archive log list
+
 Database log mode              Archive Mode
 Automatic archival             Enabled
 Archive destination            /home/oracle/arch
-Oldest online log sequence     7
-Next log sequence to archive   9
-Current log sequence           9
+...
 ```
 
 ### datafile 구성 확인
@@ -97,5 +96,61 @@ select * from dba_data_files;
 select * from dba_tablespaces;
 ```
 
+### ~~trace reset~~
 
+> 현업에서는 수행하지 말것.
+>
+> 제한된 용량만 할당받은 환경속에서 꾸역꾸역 테스트를 진행하기 위한 행위임.(일반적으로 로컬)
 
+#### 1. trace 위치로 이동
+
+```shell
+cd /oracle12/app/oracle/diag/rdbms/db1/db1/trace
+```
+
+#### 2. trace위치 안에서 정리
+
+```shell
+# 1. cdmp 폴더 삭제
+find . -mindepth 1 -maxdepth 1 -type d -name "cdmp*"
+rm -r cdmp*
+
+# 2. trace 파일 삭제
+find . -mindepth 1 -maxdepth 1 -type f -name "*tr*"
+rm *tr*
+
+# 3. 로그 초기화
+> alert_db1.log
+```
+
+> 정리전
+>
+> ```shell
+> Filesystem              1K-blocks     Used Available Use% Mounted on
+> devtmpfs                  1988764        0   1988764   0% /dev
+> tmpfs                     2008144   983040   1025104  49% /dev/shm
+> tmpfs                     2008144     9684   1998460   1% /run
+> tmpfs                     2008144        0   2008144   0% /sys/fs/cgroup
+> /dev/mapper/ol-root      58216680 18471348  39745332  32% /
+> /dev/mapper/ol-home      19523584   194456  19329128   1% /home
+> /dev/mapper/ol-oracle12  39044480  9958448  29086032  26% /oracle12
+> /dev/sda1                  972460   308256    664204  32% /boot
+> tmpfs                      401632       12    401620   1% /run/user/42
+> tmpfs                      401632        0    401632   0% /run/user/54321
+> ```
+>
+> 정리후
+>
+> ```shell
+> Filesystem              1K-blocks     Used Available Use% Mounted on
+> devtmpfs                  1988764        0   1988764   0% /dev
+> tmpfs                     2008144   983040   1025104  49% /dev/shm
+> tmpfs                     2008144     9684   1998460   1% /run
+> tmpfs                     2008144        0   2008144   0% /sys/fs/cgroup
+> /dev/mapper/ol-root      58216680 18471084  39745596  32% /
+> /dev/mapper/ol-home      19523584   194456  19329128   1% /home
+> /dev/mapper/ol-oracle12  39044480  9940148  29104332  26% /oracle12
+> /dev/sda1                  972460   308256    664204  32% /boot
+> tmpfs                      401632       12    401620   1% /run/user/42
+> tmpfs                      401632        0    401632   0% /run/user/54321
+> ```
