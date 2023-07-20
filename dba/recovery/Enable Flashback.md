@@ -111,7 +111,7 @@ NO
 #### 2. enable
 
 ```sql
-alter system set db_recovery_file_dest_size=2g scope=spfile;
+alter system set db_recovery_file_dest_size=5g scope=spfile;
 alter system set db_recovery_file_dest='/oracle12/archive' scope=spfile;
 SQL> !mkdir '/oracle12/archive'
 ```

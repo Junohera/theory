@@ -9,13 +9,13 @@
 ```shell
 SQL> shutdown immediate;
 
-backupdir=/oracle12/backup_$(date +"%Y%m%d%H%M")
+backupdir=/opt/backup4oracle12/backup_$(date +"%Y%m%d%H%M")
 echo $backupdir
 mkdir -p $backupdir
 cp /oracle12/app/oracle/oradata/db1/* $backupdir
 cp /oracle12/app/oracle/product/12.2.0.1/db_1/dbs/*.ora $backupdir
 
-ll
+cd $backupdir;ll;
 total 2751240
 -rw-r-----. 1 oracle oinstall  10600448 Jul 20 11:46 control01.ctl
 -rw-r-----. 1 oracle oinstall  10600448 Jul 20 11:46 control02.ctl
@@ -30,6 +30,8 @@ total 2751240
 -rw-r-----. 1 oracle oinstall  20979712 Jul 20 11:46 temp01.dbf
 -rw-r-----. 1 oracle oinstall 351281152 Jul 20 11:46 undotbs01.dbf
 -rw-r-----. 1 oracle oinstall   5251072 Jul 20 11:46 users01.dbf
+
+df
 ```
 
 ### restore
@@ -37,13 +39,13 @@ total 2751240
 ```shell
 SQL> shutdown immediate;
 
-cd /oracle12
-find . -mindepth 1 -maxdepth 1 -type d | grep backup*
+cd /;find /opt/backup4oracle12/ -mindepth 1 -maxdepth 1 -type d | grep "backup*";
 
 rm /oracle12/app/oracle/oradata/db1/*
 rm /oracle12/app/oracle/product/12.2.0.1/db_1/dbs/*
 
-backupdir=/oracle12/backup_202307201109
+backupdir=/opt/backup4oracle12/backup_202307201109
+echo $backupdir
 
 cp $backupdir/* /oracle12/app/oracle/oradata/db1
 rm /oracle12/app/oracle/oradata/db1/*.ora

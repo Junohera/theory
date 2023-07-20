@@ -441,8 +441,8 @@ netca
     alias 'pslsnr=ps -ef | grep lsnr | grep -v grep'
     alias 'pspmon=ps -ef | grep pmon | grep -v grep'
     alias 'myip=ifconfig | head -2 | tail -1 | awk -Fnetmask '"'"'{print $1}\'"'"' | awk -F" " '"'"'{print $NF}'"'"''
-    alias 'sss=sqlplus / as sysdba'
-    alias 'alert=tail -f /oracle12/app/oracle/diag/rdbms/db1/db1/trace/alert_db1.log'
+    alias 'sss=c;sqlplus / as sysdba'
+    alias 'alert=c;tail -f /oracle12/app/oracle/diag/rdbms/db1/db1/trace/alert_db1.log'
     alias 'params=cd ${ORACLE_HOME}/dbs;ls | tr ":" "\n";'
     alias 'cddbs=cd ${ORACLE_HOME}/dbs;'
     alias 'cddata=cd /oracle12/app/oracle/oradata/db1' # by select * from v$logfile;

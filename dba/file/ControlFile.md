@@ -1,3 +1,5 @@
+[toc]
+
 # Control File
 
 > 데이터베이스 구성 정보
