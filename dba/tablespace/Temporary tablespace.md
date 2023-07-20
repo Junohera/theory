@@ -76,6 +76,12 @@ select TABLESPACE_NAME,
   from dba_temp_files;
 ```
 
+```sql
+select property_value
+  from database_properties
+ where property_name = 'DEFAULT_TEMP_TABLESPACE';
+```
+
 ### 2. 생성
 
 ```sql
