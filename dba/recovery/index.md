@@ -20,6 +20,9 @@
 
     - for almost 완전 복구
 
-      - ????
-
+      - 시점복구
+      - archivelog 적용
+      - redo file에 기록된 내용 recovery
+      - ...?
+  
   

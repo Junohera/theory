@@ -447,6 +447,9 @@ netca
     alias 'cddbs=cd ${ORACLE_HOME}/dbs;'
     alias 'cddata=cd /oracle12/app/oracle/oradata/db1' # by select * from v$logfile;
     alias 'cdtrace=cd /oracle12/app/oracle/diag/rdbms/db1/db1/trace'
+    alias 'hello=clear;cat -n ~/.bash_profile;'
+    
+    hello
     
     . .bash_profile
     ```

@@ -28,6 +28,6 @@ grant select on scott.emp to my_role1;
 grant insert, update, delete on scott.emp to my_role1;
 grant my_role1 to itwill;
 
--- 권한을 통한 권한부여이므로 반드시 재접속 안내 필수✅
+-- 역할을 통한 권한부여이므로 반드시 재접속 안내 필수✅
 ```
 
