@@ -1,6 +1,6 @@
 [toc]
 
-# Oracle Instance Life Cycle
+# Instance Life Cycle
 
 <img src="./assets/Oracle Life Cycle.png" alt="Oracle Life Cycle" style="zoom: 50%;" />
 
