@@ -4,6 +4,8 @@
 
 <img src="./assets/Oracle Life Cycle.png" alt="Oracle Life Cycle" style="zoom: 50%;" />
 
+<img src="./assets/Oracle Instance Lifecycle.png" style="zoom: 67%;" />
+
 ## Startup
 
 `startup [step]`
