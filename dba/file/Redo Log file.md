@@ -70,11 +70,11 @@
 
 ```sql
 # 그룹 추가
-alter database add logfile group 4 ‘/home/oracle/oradata/testdb/redo04_a.log’ size 5M ;
+alter database add logfile group 4 '/home/oracle/oradata/testdb/redo04_a.log' size 5M;
 # 멤버 추가
-alter database add logfile member ‘/home/oracle/oradata/testdb/redo04_b.log’ to group 4;
+alter database add logfile member '/home/oracle/oradata/testdb/redo04_b.log' to group 4;
 #3 멤버 삭제
-alter database drop logfile member ‘/home/oracle/oradata/testdb/redo04_b.log’ ;
+alter database drop logfile member '/home/oracle/oradata/testdb/redo04_b.log';
 # 그룹 삭제
 alter database drop logfile group 4;
 ```

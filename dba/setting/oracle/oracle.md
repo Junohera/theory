@@ -4,7 +4,7 @@
 
 > Oracle Enterprise Linux & ORACLE 12c
 >
-> 💊 checkpoint
+> 💊 check
 >
 > 1. 서버기준 유저당 하나의 데이터베이스를 설정
 >    이유: 환경변수의 충돌 발생
