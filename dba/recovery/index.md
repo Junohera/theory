@@ -1,3 +1,7 @@
+
+
+![Oracle Instance Lifecycle](../assets/Oracle Instance Lifecycle.png)
+
 - 모든 복구는 불완전 복구
 - 사고 발생시 해당 시점을 정확히 파악
 - 개발 단계일 경우, 일반적으로 복구를 안하는 정책유지
@@ -24,5 +28,5 @@
       - archivelog 적용
       - redo file에 기록된 내용 recovery
       - ...?
-  
+
   
