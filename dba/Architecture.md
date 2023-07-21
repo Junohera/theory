@@ -124,7 +124,7 @@
 - **Direct Load**
   - SQL Loader
   - insert /*+ append */
-  - 기타 이관툴의 direct mode
+  - 기타 이관툴의 Direct load option
 - **enable nologging** 
   - table(CTAS)
   - index

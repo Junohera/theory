@@ -23,6 +23,12 @@
   - ✅다른 디스크일 경우,  병렬로 동시에 기록
   - ❌같은 디스크일 경우, 직렬로 순차적 기록
 
+**병렬로 기록하기 위한 조건**
+
+1. support AIO[^aio]
+   1. linux kernel 2.6 <=
+
+
 ## 동작 시점
 
 - COMMIT
@@ -93,3 +99,4 @@ alter database drop logfile group 4;
 [^Dirty Buffer]: commit 후, disk로 내려쓰지 않은 상태; 현재 작업은 진행되지 않지만 다른 사용자가 내용을 변경한 후 아직 데이터 파일에 변경된 내용을 저장하지 않은 Buffer
 [^Free Buffer]: 사용되지 않았거나(Unused) 또는 Dirty Buffer 였다가 디스크로 저장이 되고 다시 재사용 가능하게 된 Block
 
+[^aio]: Asynchronous blocking I/O
