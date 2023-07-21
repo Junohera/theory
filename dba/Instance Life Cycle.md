@@ -230,6 +230,46 @@ STATUS
 OPEN
 ```
 
+```sql
+closed			->			nomount			->			mount			->			open
+
+			✅ parameter file
+			
+			1) 메모리 정보 --->|
+			2) controlfile 위치 ---------------->|
+			
+													✅ controlfile read
+													
+													1) datafile 정보 |----------------->|
+													2) redo 정보 		 |----------------->|
+			
+** controlfile 정보 수정 -> parameterfile 수정
+	1) pfile : 직접 수정
+	2) spfile : 명령어로 수정
+		alter system set ... scope=pfile|spfile;
+		
+** datafile, redolog 정보 수정 -> controlfile 수정(only command)
+	alter database add datafile ...;
+	alter database add logfile ...;
+	
+case1) old parameter file로 DB 기동시
+result)	instance 구성은 과거버전으로 기동될 수 있지만
+		 		controlfile 정보가 동일하다면
+		 		database 구성은 최신정보로 기동됨
+		 		
+		 		pfile(2023/1/20)			spfile(2023/7/21)
+		 		memory_target=1G			memory_target=5G
+								 		controlfile		
+				datafile 			5				datafile				8
+				redo					3				redo						6
+		 
+controlfile(7/19)							datafile, redo(7/21)
+		원인) controlfile <-> datafile, redo 시점 불일치
+		해결) controlfile 파일 시점을
+				 datafile, redo 시점에 맞게 세팅(재생성)
+				 ** noresetlogs
+```
+
 ---
 
 [^Pinned Buffer]: commit 전, 변경여지가 있는 상태; 다른 사용자가 이미 사용하고 있는 Buffer Block으로 사용할 수 없음
