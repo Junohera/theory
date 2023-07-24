@@ -2,7 +2,7 @@
 
 ## 특징
 
-- offline은 **tablespace**와 **datafil** 단위로 가능
+- offline은 **tablespace**와 **datafile** 단위로 가능
 - 읽기와 쓰기 작업 금지
 - 주로 작업, 장애복구 등을 위해 설정
 
