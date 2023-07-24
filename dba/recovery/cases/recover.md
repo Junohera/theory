@@ -1,5 +1,7 @@
 # recover
 
+<img src="./assets/Recovery.png" alt="Recovery" style="zoom:50%;" />
+
 ## until cancel
 
 - 물리적인 파일의 손상발생했을 경우
