@@ -6,13 +6,23 @@
 
 ### backup
 
+#### target
+
+- DB files(controlfile, redo, datafile)
+- parameter file(pfile, spfile)
+- Controlfile Generate script
+
 ```shell
+SQL> !mkdir /oracle12/backup
+SQL> alter database backup controlfile to trace as '/oracle12/backup/control.sql';
+vi /oracle12/backup/control.sql
 SQL> shutdown immediate;
 
 backupdir=/opt/backup4oracle12/backup_$(date +"%Y%m%d%H%M")
 echo $backupdir
 
 mkdir -p $backupdir
+cp /oracle12/backup/control.sql $backupdir
 cp /oracle12/app/oracle/oradata/db1/* $backupdir
 cp /oracle12/app/oracle/product/12.2.0.1/db_1/dbs/*.ora $backupdir
 
