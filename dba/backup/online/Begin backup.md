@@ -41,7 +41,7 @@ select a.file#,
        to_char(b.time, 'YYYY-MM-DD:HH24:MI:SS') as time
   from v$datafile a,
        v$backup b
- where a.file#=b.file# ;
+ where a.file#=b.file#;
 ```
 
 ### 5. backup controlfile
@@ -94,12 +94,12 @@ with
            c.copy_command,
            e.end_query
       from BODY_BEGIN_BACKUP b,
-           BODY_PHYSICAL_COPY c(+),
-           BODY_END_BACKUP e(+)
-     where b.tablespace_name = c.tablespace_name
-       and c.tablespace_name = e.tablespace_name
+           BODY_PHYSICAL_COPY c,
+           BODY_END_BACKUP e
+     where b.tablespace_name = c.tablespace_name(+)
+       and b.tablespace_name = e.tablespace_name
      union all
-    select 'alter database backup controlfile to '''||(select PATH from CONSTANTS)||'control.sql;''', null, null, null, null
+		select 'alter database backup controlfile to '''||(select PATH from CONSTANTS)||'control.sql'';', null, null, null, null
       from dual
      union all
     select (select chown_command from OPEN_CLOSE), null, null, null, null
