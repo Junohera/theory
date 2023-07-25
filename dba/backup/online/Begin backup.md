@@ -62,7 +62,7 @@ select a.file#,
 ### 5. backup controlfile
 
 ```sql
-alter database backup controlfile to '/opt/backup4oracle12/backup/control.sql';
+alter database backup controlfile to trace as '/opt/backup4oracle12/backup/control.sql';
 ```
 
 ## all in one
@@ -114,7 +114,7 @@ with
      where b.tablespace_name = c.tablespace_name(+)
        and b.tablespace_name = e.tablespace_name
      union all
-		select 'alter database backup controlfile to '''||(select PATH from CONSTANTS)||'control.sql'';', null, null, null, null
+		select 'alter database backup controlfile to trace as '''||(select PATH from CONSTANTS)||'control.sql'';', null, null, null, null
       from dual
      union all
     select (select chown_command from OPEN_CLOSE), null, null, null, null
