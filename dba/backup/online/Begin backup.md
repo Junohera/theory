@@ -8,15 +8,9 @@
 >
 > 예를들어 3개의 테이블스페이스를 백업한다고 가정하면
 >
-> 1. tablespace A begin
-> 2. tablespace A copy
-> 3. tablespace A end
-> 4. tablespace B begin
-> 5. tablespace B copy
-> 6. tablespace B end
-> 7. tablespace C begin
-> 8. tablespace C copy
-> 9. tablespace C end
+> 1. tablespace A begin -> copy -> end
+> 4. tablespace B begin -> copy -> end
+> 7. tablespace C begin -> copy -> end
 > 10. ...
 
 1. begin backup

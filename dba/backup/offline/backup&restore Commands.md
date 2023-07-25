@@ -67,7 +67,7 @@ cp $backupdir/*.ora /oracle12/app/oracle/product/12.2.0.1/db_1/dbs
 
 ### archive mode
 
-#### archive log mode 전환
+#### to archive log mode
 
 ```sql
 startup mount;
@@ -75,7 +75,7 @@ alter database archivelog;
 alter database open;
 ```
 
-#### archive 위치 변경 후 DB 재기동
+##### archive 위치 변경 후 DB 재기동
 
 ```sql
 !mkdir -p /home/oracle/arch
@@ -85,7 +85,7 @@ shutdown immediate;
 startup;
 ```
 
-#### archive 상태 확인
+##### archive 상태 확인
 
 ```sql
 SQL> archive log list
@@ -96,7 +96,7 @@ Archive destination            /home/oracle/arch
 ...
 ```
 
-### datafile 구성 확인
+##### datafile 구성 확인
 
 ```sql
 select * from v$controlfile;
@@ -105,6 +105,18 @@ select * from v$datafile;
 select * from dba_data_files;
 select * from dba_tablespaces;
 ```
+
+#### to noarchive log mode
+
+```sql
+startup mount;
+alter database noarchivelog;
+alter database open;
+archive log list;
+alter database open;
+```
+
+
 
 ### ~~trace reset~~
 
