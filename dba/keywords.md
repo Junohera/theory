@@ -367,7 +367,7 @@ df
 
 **3. datafile checkpoint**
 
-- ✅tablespace read only, offline, begin backup
+- ✅tablespace read only, offline, begin backup, end backup
 
 **4. mini checkpoint**
 

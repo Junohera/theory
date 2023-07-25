@@ -4,6 +4,21 @@
 
 ## flow
 
+> 테이블스페이스별로 begin -> copy -> end
+>
+> 예를들어 3개의 테이블스페이스를 백업한다고 가정하면
+>
+> 1. tablespace A begin
+> 2. tablespace A copy
+> 3. tablespace A end
+> 4. tablespace B begin
+> 5. tablespace B copy
+> 6. tablespace B end
+> 7. tablespace C begin
+> 8. tablespace C copy
+> 9. tablespace C end
+> 10. ...
+
 1. begin backup
 2. physical backup
 3. end backup
@@ -121,5 +136,5 @@ select *
 |chown -R oracle ...|        |                   |                   |                   |
 ```
 
-
+# TODO: users테이블에 datafile추가하고, 위으 ㅣ쿼리 검증
 
