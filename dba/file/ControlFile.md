@@ -21,6 +21,12 @@ global checkpoint[^global checkpoint] 발생시 controlfile, logfile, datafile�
 
 ## Practice
 
+### 컨트롤 파일 백업
+
+```sql
+alter database backup controlfile to trace as '/oracle12/backup/control.sql'
+```
+
 ### 컨트롤 파일 추가(**spfile 환경**)
 
 - [ ] **1. controlfile 확인**
