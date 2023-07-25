@@ -121,20 +121,19 @@ with
       from dual
   )
 select *
-  from result;
+  from result; -- FOR SAMPLE QUERY: select case when open_close is not null then substr(open_close, 1, 10) || ' ...' end as open_close, name, case when begin_query is not null then substr(begin_query, 1, 16) || ' ...' end as begin_query, case when copy is not null then substr(copy, 1, 60) || ' ...' end as copy, case when end_query is not null then substr(end_query, 1, 16) || ' ...' end as end_query from result;
 ```
 
 ```sql
-|OPEN_CLOSE         |NAME    |BEGIN_QUERY        |COPY               |END_QUERY          |
-|-------------------|--------|-------------------|-------------------|-------------------|
-|mkdir -p /opt/b ...|        |                   |                   |                   |
-|                   |SYSTEM  |alter tablespac ...|cp /oracle12/ap ...|alter tablespac ...|
-|                   |SYSAUX  |alter tablespac ...|cp /oracle12/ap ...|alter tablespac ...|
-|                   |UNDOTBS1|alter tablespac ...|cp /oracle12/ap ...|alter tablespac ...|
-|                   |USERS   |alter tablespac ...|cp /oracle12/ap ...|alter tablespac ...|
-|alter database  ...|        |                   |                   |                   |
-|chown -R oracle ...|        |                   |                   |                   |
+|OPEN_CLOSE    |NAME    |BEGIN_QUERY         |COPY                                                            |END_QUERY           |
+|--------------|--------|--------------------|----------------------------------------------------------------|--------------------|
+|mkdir -p / ...|        |                    |                                                                |                    |
+|              |SYSTEM  |alter tablespace ...|cp /oracle12/app/oracle/oradata/db1/system01.dbf /opt/backup ...|alter tablespace ...|
+|              |SYSAUX  |alter tablespace ...|cp /oracle12/app/oracle/oradata/db1/sysaux01.dbf /opt/backup ...|alter tablespace ...|
+|              |UNDOTBS1|alter tablespace ...|cp /oracle12/app/oracle/oradata/db1/undotbs01.dbf /opt/backu ...|alter tablespace ...|
+|              |USERS   |alter tablespace ...|cp /oracle12/app/oracle/oradata/db1/users01.dbf /opt/backup4 ...|alter tablespace ...|
+|              |USERS   |alter tablespace ...|cp /oracle12/app/oracle/oradata/db1/users02.dbf /opt/backup4 ...|alter tablespace ...|
+|alter data ...|        |                    |                                                                |                    |
+|chown -R o ...|        |                    |                                                                |                    |
 ```
-
-# TODO: users테이블에 datafile추가하고, 위으 ㅣ쿼리 검증
 
