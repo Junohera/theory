@@ -37,3 +37,26 @@ offline 백업본 중, controlfile을 restore하면 복구시점을 controlfile�
 
 - 논리적인 손상일 경우(ex: truncate, delete ...)
 - 복구시점을 정확히 알고 있을 경우
+
+## 리커버리 관점 파일별 대응
+
+### controlfile
+
+- 없다면 재생성
+  ```sql
+  startup nomount;
+  @control
+  ```
+
+  
+
+### datafile
+
+- 없다면 archive file로 대체
+
+### redologfile
+
+- 없거나 문제발생시
+  - drop
+  - clear
+  - resetlogs
