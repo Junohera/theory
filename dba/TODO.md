@@ -16,4 +16,4 @@
 - [ ] process의 관계(system, user, server)를 도식화
 - [ ] 그룹에 멤버가 여러 개일 경우 병렬로 동시에 같은 내용을 기록하는데 멤버가 같은 디스크에 존재한다면 직렬로 기록하게 된다 Sequence Diagram
 - [ ] tablespace류들 이해하도록 재정리
-
+- [ ] offlinebackup, onlinebackup 스크립트 작성
