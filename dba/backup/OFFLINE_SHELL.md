@@ -18,6 +18,15 @@
 
 clear;
 
+###################################### define constant ######################################
+# constant
+prefix=/opt/backup4oracle12/
+suffix=$(date +"%Y%m%d%H%M")
+ORACLE_DATA=/oracle12/app/oracle/oradata/db1/*
+ORACLE_ORA=/oracle12/app/oracle/product/12.2.0.1/db_1/dbs/*.ora
+###################################### define constant ######################################
+
+###################################### define function ######################################
 # func: make directory
 func_make_directory() {
   if ! [ -z $1 ]
@@ -60,15 +69,14 @@ func_backup() {
   cp $ORACLE_ORA $BACKUPDIR
   cd $BACKUPDIR;ls -al;
 }
+###################################### define function ######################################
 
-prefix=/opt/backup4oracle12/
-suffix=$(date +"%Y%m%d%H%M")
-ORACLE_DATA=/oracle12/app/oracle/oradata/db1/*
-ORACLE_ORA=/oracle12/app/oracle/product/12.2.0.1/db_1/dbs/*.ora
-
+###################################### playground ######################################
 # START
 func_make_directory $1
 func_generate_backup_controlfile
 func_backup
+###################################### playground ######################################
+exit
 ```
 
