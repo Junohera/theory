@@ -65,7 +65,7 @@ select name,
  where 1=1
 --   and to_char(completion_time, 'MM/DD/YYYY HH24:MI:SS') between '04/11/2015 00:00:00' and '04/11/2015 23:59:59'
    and name not like '%worm%'
- order by completion_time;
+ order by completion_time desc;
 ```
 
 ### 2. archive total size
