@@ -64,7 +64,7 @@ alter database backup controlfile to trace as '/opt/backup4oracle12/backup/contr
 ```sql
 with
   CONSTANTS as (
-    select (select '/opt/backup4oracle12/online/backup_'||to_char(sysdate, 'YYYYMMDD')||'/' as value from dual) as PATH,
+    select (select '/opt/backup4oracle12/online/backup_'||to_char(sysdate, 'YYYYMMDDHH24MI')||'/' as value from dual) as PATH,
            (select 'oracle:oinstall' from dual) as WHO
       from dual
   ),

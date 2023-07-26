@@ -18,6 +18,72 @@
 - [ ] tablespace류들 이해하도록 재정리
 - [x] offlinebackup 작성
 - [ ] 논리적으로 존재하는 datafile경로를 기준으로 존재하지 않는 파일들과 불필요하게 존재하는 파일 목록 조회(정리대상과 누락대상 확인하기 위한 스크립트)(+color)
+
+```shell
+ cd;ls -l /oracle12/app/oracle/oradata/db1/*.dbf | awk -F" " '{print $NF}'
+ 
+ /oracle12/app/oracle/oradata/db1/sysaux01.dbf
+/oracle12/app/oracle/oradata/db1/system01.dbf
+/oracle12/app/oracle/oradata/db1/temp01.dbf
+/oracle12/app/oracle/oradata/db1/test2_01.dbf
+/oracle12/app/oracle/oradata/db1/undotbs01.dbf
+/oracle12/app/oracle/oradata/db1/users01.dbf
+/oracle12/app/oracle/oradata/db1/users02.dbf
+
+```
+
+
+
+```sql
+with
+LOGICAL as (
+  select file_id,
+         file_name,
+         tablespace_name
+    from dba_data_files
+   order by file_id
+),
+PHYSICAL as (
+  select row_number() over(order by file_name desc) as file_id,
+         file_name,
+         null
+    from (select null as file_name from dual
+           union all select '/oracle12/app/oracle/oradata/db1/sysaux01.dbf' from dual
+           union all select '/oracle12/app/oracle/oradata/db1/system01.dbf' from dual
+           union all select '/oracle12/app/oracle/oradata/db1/temp01.dbf' from dual
+           union all select '/oracle12/app/oracle/oradata/db1/test2_01.dbf' from dual
+           union all select '/oracle12/app/oracle/oradata/db1/undotbs01.dbf' from dual
+           union all select '/oracle12/app/oracle/oradata/db1/users01.dbf' from dual
+           union all select '/oracle12/app/oracle/oradata/db1/users02.dbf' from dual
+           union all select '/oracle12/app/oracle/oradata/db1/users03.dbf' from dual)
+   where file_name is not null
+),
+MISSING as (
+  select 'MISSING' as type,
+         file_name
+    from (select file_name from LOGICAL
+           minus
+          select file_name from PHYSICAL)
+),
+CLEANING as (
+  select 'CLEANING' as type,
+         file_name
+    from (select file_name from PHYSICAL
+           minus
+          select file_name from LOGICAL)
+),
+result as (
+  select type, file_name from MISSING
+   union all
+  select type, file_name from CLEANING
+)
+select *
+  from result
+ order by type desc;
+```
+
+
+
 - [ ] prompt query 추가
 - [ ] TODO: make clear shell
 
