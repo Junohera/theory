@@ -33,6 +33,7 @@ alter tablespace users offline temporary;
 - tablespace의 datafile에 장애가 났을 경우
 - 반드시 archive log mode 일 경우에만 사용
 - 나중에 online시 복구하라고 메세지 나옴
+- 장애복구를 위해 존재하는 모드(단, system은 불가능🤢)
 
 ```sql
 alter tablespace users offline immediate;

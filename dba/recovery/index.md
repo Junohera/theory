@@ -2,6 +2,10 @@
 
 ![Oracle Instance Lifecycle](../assets/Oracle Instance Lifecycle.png)
 
+## 목적
+
+- 데이터 손실을 최소화하면서 DBMS 기동
+
 ## 복구 방식
 
 |           | 방식                        | 방향                     |           | 보관장소      |

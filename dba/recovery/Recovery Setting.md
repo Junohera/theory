@@ -1,8 +1,8 @@
+[toc]
+
 # Recovery Setting
 
-리커버리 작업시 prompt상에서 조회해야하는 상황(특히, mount단계)에서 수행해야할 쿼리들을 사전에 준비하기 위함
-
-# TODO
+> 리커버리 작업시 prompt상에서 조회해야하는 상황(특히, mount단계)에서 수행해야할 쿼리들을 사전에 준비하기 위함
 
 ### bash
 
@@ -83,5 +83,24 @@ select name,
 :wq
 
 SQL> @arch_check
+```
+
+### default undo info
+
+```sql
+TODO:
+select tablespace_name,
+       file_name,
+       status,
+       autoextensible,
+       online_status  
+  from dba_data_files
+ where tablespace_name = (select value
+                            from v$parameter
+                           where name = 'undo_tablespace');
+ 
+|TABLESPACE_NAME|FILE_NAME                                     |STATUS   |AUTOEXTENSIBLE|ONLINE_STATUS|
+|---------------|----------------------------------------------|---------|--------------|-------------|
+|UNDOTBS1       |/oracle12/app/oracle/oradata/db1/undotbs01.dbf|AVAILABLE|YES           |ONLINE       |
 ```
 

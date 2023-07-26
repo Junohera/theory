@@ -48,6 +48,22 @@
 
 ## trouble shooting
 
+### 0. default undo tablespace
+
+```sql
+select name,
+       value
+  from v$parameter
+ where name like '%undo%';
+ 
+|NAME             |VALUE   |
+|-----------------|--------|
+|temp_undo_enabled|FALSE   |
+|undo_management  |AUTO    |
+|undo_tablespace  |UNDOTBS1|
+|undo_retention   |900     |
+```
+
 ### 1. unable to extend
 
 #### 원인 및 현상
@@ -58,7 +74,7 @@
 
 - undo tablespace size 증가
 
-### 2. snapshot too old✨
+### 2. snapshot too old(ORA-01555)✨
 
 #### 원인 및 현상
 
@@ -69,7 +85,7 @@
 3. A session의 업무중 2번이 처리한 동일한 데이터에 대해 select시도
 4. 1번시 select한 데이터가 어느 undo segment에도 존재하지 않아 `snap shot too old`발생
 
-<img src="./assets/image-20230714120510120.png" alt="image-20230714120510120" style="zoom:33%;" />
+<img src="./assets/image-20230714120510120.png" alt="image-20230714120510120" style="zoom: 67%;" />
 
 ```shell
 <A session begin>
