@@ -9,6 +9,6 @@
 
 ```sql
 recover database until cancel using backup controlfile;
-recover database until time '2023/07/24 00:00:0' using backup controlfile;
+recover database until time '2023/07/24 00:00:00' using backup controlfile;
 ```
 
