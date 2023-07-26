@@ -64,7 +64,7 @@ alter database backup controlfile to trace as '/opt/backup4oracle12/backup/contr
 ```sql
 with
   CONSTANTS as (
-    select (select '/opt/backup4oracle12/backup_'||to_char(sysdate, 'YYYYMMDD')||'/' as value from dual) as PATH,
+    select (select '/opt/backup4oracle12/online/backup_'||to_char(sysdate, 'YYYYMMDD')||'/' as value from dual) as PATH,
            (select 'oracle:oinstall' from dual) as WHO
       from dual
   ),
@@ -81,7 +81,9 @@ with
   BODY_BEGIN_BACKUP as (
     select tablespace_name,
            'alter tablespace '||tablespace_name||' begin backup;' as begin_query
-      from TARGET_TABLESPACES
+      from (select tablespace_name
+      from dba_tablespaces
+     where tablespace_name not like 'TEMP%')
   ),
   BODY_END_BACKUP as (
     select tablespace_name,
@@ -100,22 +102,23 @@ with
     select null,
            b.tablespace_name,
            b.begin_query,
-           c.copy_command,
+           null,
            e.end_query
       from BODY_BEGIN_BACKUP b,
-           BODY_PHYSICAL_COPY c,
            BODY_END_BACKUP e
-     where b.tablespace_name = c.tablespace_name(+)
-       and b.tablespace_name = e.tablespace_name
+     where b.tablespace_name = e.tablespace_name
      union all
-		select 'alter database backup controlfile to trace as '''||(select PATH from CONSTANTS)||'control.sql'';', null, null, null, null
+    select null, tablespace_name, null, copy_command, null
+      from BODY_PHYSICAL_COPY
+     union all
+    select 'alter database backup controlfile to trace as '''||(select PATH from CONSTANTS)||'control.sql'';', null, null, null, null
       from dual
      union all
     select (select chown_command from OPEN_CLOSE), null, null, null, null
       from dual
   )
 select *
-  from result; -- FOR SAMPLE QUERY: select case when open_close is not null then substr(open_close, 1, 10) || ' ...' end as open_close, name, case when begin_query is not null then substr(begin_query, 1, 16) || ' ...' end as begin_query, case when copy is not null then substr(copy, 1, 60) || ' ...' end as copy, case when end_query is not null then substr(end_query, 1, 16) || ' ...' end as end_query from result;
+  from result;
 ```
 
 ```sql

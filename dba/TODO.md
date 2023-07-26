@@ -19,3 +19,19 @@
 - [x] offlinebackup 작성
 - [ ] 논리적으로 존재하는 datafile경로를 기준으로 존재하지 않는 파일들과 불필요하게 존재하는 파일 목록 조회(정리대상과 누락대상 확인하기 위한 스크립트)(+color)
 - [ ] prompt query 추가
+- [ ] TODO: make clear shell
+
+  ```shell
+  # remove trace (ex: < 1M)
+  cd /oracle12/app/oracle/diag/rdbms/db1/db1/trace
+  
+  # alert log
+  cd /oracle12/app/oracle/diag/rdbms/db1/db1/trace
+  ll alert*
+  -rw-r-----. 1 oracle oinstall 1132094 Jul 26 10:27 alert_db1.log
+  
+  cp alert_db1.log alert_db1.log.20230726; > alert_db1.log
+  ll alert*
+  -rw-r-----. 1 oracle oinstall       0 Jul 26 10:28 alert_db1.log
+  -rw-r-----. 1 oracle oinstall 1132094 Jul 26 10:28 alert_db1.log.20230726
+  ```
