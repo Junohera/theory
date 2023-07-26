@@ -2,7 +2,7 @@
 
 리커버리 작업시 prompt상에서 조회해야하는 상황(특히, mount단계)에서 수행해야할 쿼리들을 사전에 준비하기 위함
 
-
+# TODO
 
 ### bash
 
@@ -62,5 +62,26 @@ select instance_name,
 :wq
 
 SQL> @status.sql
+```
+
+### archive log file
+
+```sql
+vi arch_check.sql
+
+set pagesize 200
+set lines 200
+col name format a50
+
+select name,
+			 SEQUENCE#,
+			 FIRST_CHANGE#,
+			 NEXT_CHANGE#
+  from v$archived_log
+ order by first_change#;
+
+:wq
+
+SQL> @arch_check
 ```
 

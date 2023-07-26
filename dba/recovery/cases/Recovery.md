@@ -60,3 +60,15 @@ offline 백업본 중, controlfile을 restore하면 복구시점을 controlfile�
   - drop
   - clear
   - resetlogs
+
+## recover
+
+```sql
+-- complete recovery
+recover database
+-- incomplete recovery(불완전 복구시, 가급적 resetlogs로 open 시도권장)
+recover database until ${cancel|time}
+
+
+```
+
