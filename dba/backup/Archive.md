@@ -71,11 +71,15 @@ select name,
 ### 2. archive total size
 
 ```sql
-select sum(round((blocks*block_size)/1024/1024, 2)) "TOTAL SIZE(MB)"
+select name,
+       round((blocks*block_size)/1024/1024, 2) "SIZE(MB)",
+	   completion_time
   from v$archived_log
  where 1=1
---   and to_char(completion_time, 'MM/DD/YYYY HH24:MI:SS') between '04/03/2015 00:00:00' and '04/03/2015 23:59:59'
-   and name not like '%worm%';   
+--   and completion_time between to_date('마지막 백업시점', 'YYYY/MM/DD HH24:MI:SS') 
+--   and to_date('복구시점', 'YYYY/MM/DD HH24:MI:SS')
+   and name not like '%worm%'
+ order by completion_time desc;   
 ```
 
 ### 3. archive size by day

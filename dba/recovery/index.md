@@ -1,4 +1,6 @@
+[toc]
 
+# Recovery
 
 ![Oracle Instance Lifecycle](../assets/Oracle Instance Lifecycle.png)
 
@@ -6,14 +8,19 @@
 
 - 데이터 손실을 최소화하면서 DBMS 기동
 
+## 장애 유형별 방향
+
+|       | physical | logical              |
+| ----- | -------- | -------------------- |
+| blue  | 즉시처리 | X                    |
+| green | X        | 처리 후, blue로 이관 |
+
 ## 복구 방식
 
 |           | 방식                        | 방향                     |           | 보관장소      |
 | --------- | :-------------------------- | ------------------------ | --------- | ------------- |
 | flashback | 과거를 불러옴               | 미래에서 과거(back)      | flashback | only local    |
 | recovery  | archive파일들을 하나씩 끼움 | 과거에서 미래로(forward) | archive   | local, remote |
-
-
 
 - 모든 복구는 불완전 복구
 - 사고 발생시 해당 시점을 정확히 파악
@@ -46,3 +53,6 @@
   - flashback: from future to past
   - archive: from past to future
 
+---
+
+💊 파일 수정 후, save하는 행위를 database에서는 **log switch**✨
