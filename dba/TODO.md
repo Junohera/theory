@@ -101,3 +101,8 @@ select *
   -rw-r-----. 1 oracle oinstall       0 Jul 26 10:28 alert_db1.log
   -rw-r-----. 1 oracle oinstall 1132094 Jul 26 10:28 alert_db1.log.20230726
   ```
+
+
+
+- [ ] dynamic performance view 중, 특히 v$archived_log와 v$session을 조회하여 특정 테이블로 주기적으로  insert하도록 shell 작성
+- [ ] 

@@ -30,8 +30,8 @@ LINK_01 =
 
 :wq
 
-create public database link LINK_TEST
-connect to system identified by oracle using 'LINK_01';
+create public database link CLONE 
+connect to system identified by oracle using 'clonedb1';
 
 select *
   from scott.emp@LINK_TEST;
