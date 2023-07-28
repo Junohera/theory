@@ -28,6 +28,17 @@ offline 백업본 중, controlfile을 restore하면 복구시점을 controlfile�
 
 ## incomplete recovery
 
+### 적용파일
+
+> 복구시 필요한 시퀀스정보에 매치되는 archive log file이나 redo log file을 대신 적용할 수 있음
+
+1. archive log file: 일반적으로 switch logfile을 통해 떨어진 archive log file
+
+   ![image-20230728162230264](C:\Users\ITWILL\AppData\Roaming\Typora\typora-user-images\image-20230728162230264.png)
+
+2. redo log file: current상태에서 DB의 장애가 발생할 경우, archive log file 대신 적용 가능(instance recovery를 통한 데이터 유실 억제)
+   ![image-20230728162149165](C:\Users\ITWILL\AppData\Roaming\Typora\typora-user-images\image-20230728162149165.png)
+
 ### until cancel
 
 - 물리적인 파일의 손상발생했을 경우
@@ -68,7 +79,5 @@ offline 백업본 중, controlfile을 restore하면 복구시점을 controlfile�
 recover database
 -- incomplete recovery(불완전 복구시, 가급적 resetlogs로 open 시도권장)
 recover database until ${cancel|time}
-
-
 ```
 
