@@ -143,7 +143,6 @@ alter database flashback on;
 alter system set db_recovery_file_dest_size=5g scope=spfile;
 alter system set db_recovery_file_dest='/home/oracle/archive' scope=spfile;
 alter system set log_archive_dest_1='location=/home/oracle/archive' scope=spfile;
-
 ```
 
 

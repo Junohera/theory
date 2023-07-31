@@ -254,6 +254,7 @@ yum install rlwrap
 su - oracle
 vi ~/.bash_profile
 alias sqlplus='rlwrap sqlplus'
+export NLS_LANG=KOREAN_KOREA.AL32UTF8
 . ~/.bash_profile
 ```
 
