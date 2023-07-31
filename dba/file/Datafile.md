@@ -51,7 +51,7 @@ select FILE_NAME,
   from dba_temp_files; -- temp tablespaces의 모든 datafile
 
 ------------------------------------------------------------------------------------------------
-FILE_NAME																					 TABLESPACE_NAME  BYTES(MB)   AUT  BYTES(MB)
+FILE_NAME										   TABLESPACE_NAME  BYTES(MB)   AUT  BYTES(MB)
 -------------------------------------------------- --------------- 	----------- ---  -----------
 /oracle12/app/oracle/oradata/db1/temp01.dbf        TEMP             20          YES  32767.9844
 ```

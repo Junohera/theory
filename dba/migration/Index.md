@@ -327,3 +327,35 @@ SQL> select studno, name, id, grade from scott.student;
       9715 허우                 wooya2702                               1
 ```
 
+```sql
+alter session enable parallel ddl;
+alter session enable parallel dml;
+
+
+-- 1. CTAS로 이동
+create table scott.student_backup
+parallel 8
+as
+select /*+ parallel(s 8) */ *
+  from scott.student s;
+
+-- 2. null로 변경 4 데이터타입 변경
+update /*+ parallel(s 8) */ scott.student s
+   set birthday = null;
+commit;
+
+-- 3. 데이터타입 변경
+alter table scott.student modify birthday date;
+
+-- 4. 변경된 타입으로 복원
+update /*+ parallel(s1 8) */ scott.student s1
+   set birthday = (select /*+ parallel(s2 8) */ to_date(birthday, 'YYYY/MM/DD HH24:MI:SS') 
+                     from scott.student_backup s2
+                    where s1.studno = s2.studno);
+commit;
+
+-- 5. 확인 및 불필요 테이블 삭제
+select * from scott.student;
+drop table scott.student_backup purge;
+```
+

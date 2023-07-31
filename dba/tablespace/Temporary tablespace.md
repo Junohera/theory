@@ -1,3 +1,5 @@
+[toc]
+
 # Temporary tablespace
 
 ## 특징
@@ -126,9 +128,23 @@ alter user scott temporary tablespace temp2;
 drop tablespace temp;
 ```
 
+### 9. tempfile 추가
 
+```sql
+-- tablespace에 temporary tablespace 조회
+select *
+  from dba_tablespaces;
+  
+-- temp_files 조회
+select file_name, bytes/1024/1024 MB, AUTOEXTENSIBLE
+  from dba_temp_files;
 
-
+-- ✅ temporary tablespace가 없을 경우,
+create temporary tablespace temp tempfile '/oracle12/app/oracle/oradata/db1/temp01.dbf' size 200M;
+  
+-- ✅ temporary tablespace가 있지만, tempfile이 조회되지 않을 경우
+alter tablespace temp add tempfile '/oracle12/app/oracle/oradata/db1/temp02.dbf' size 200M;
+```
 
 ## default 변경
 
