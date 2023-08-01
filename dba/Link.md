@@ -117,3 +117,13 @@ select *
 |PUBLIC|EMP_LINK2   |SCOTT      |EMP       |LINK_TEST2|
 ```
 
+---
+
+## Connection
+
+sqlplus 뿐만 아니라 oracle에서 제공하는 데이터 적재 툴들이
+DBMS 접속을 통해 데이터 적재를 하는 방식이므로 원격 접속을 통한 데이터 적재 가능
+
+scott/oracle@clonedb
+
+clonedb 이름은 접속을 시도하는 쪽(클라이언트)에 tnsnames.ora 파일에 반드시 정의되어야 함 
