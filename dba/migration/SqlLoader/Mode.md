@@ -1,6 +1,6 @@
 [toc]
 
-# Transmission Mode
+# Mode
 
 ## Conventional Mode
 
@@ -74,8 +74,6 @@ Table TNS_MODE_TEST:
   0 Rows not loaded because all fields were null.
 ```
 
-
-
 #### when direct mode
 
 ```shell
@@ -95,16 +93,82 @@ Table TNS_MODE_TEST:
 
 #### direct mode 이후의 결과
 
+index 및 constraint 상태
+
 ```sql
-select constraint_name, status, validated from dba_constraints where TABLE_NAME = 'TNS_MODE_TEST';
-|CONSTRAINT_NAME    |STATUS    |VALIDATED    |
-|-------------------|----------|-------------|
-|PK_TNS_MODE_TEST_NO|DISABLED💥|NOT VALIDATED|
-
-select index_name, status from dba_indexes where table_name ='TNS_MODE_TEST';
-|INDEX_NAME         |STATUS    |
-|-------------------|----------|
-|PK_TNS_MODE_TEST_NO|UNUSABLE💥|
-
+with 
+target as (select 'TNS_MODE_TEST' from dual)
+select 'INDEX' as type, index_name, status, visibility from dba_indexes where table_name = (select * from target)
+union all
+select 'CONSTRAINT' as type, constraint_name, status, null from dba_constraints where TABLE_NAME = (select * from target);
+|TYPE      |INDEX_NAME         |STATUS  |VISIBILITY|
+|----------|-------------------|--------|----------|
+|INDEX     |PK_TNS_MODE_TEST_NO|UNUSABLE|VISIBLE   |
+|CONSTRAINT|PK_TNS_MODE_TEST_NO|DISABLED|          |
 ```
 
+조회 쿼리시 플랜
+
+```sql
+select no
+  from scott.TNS_MODE_TEST s
+ where no = 3;
+=> full scan
+ 
+select /*+ index(s PK_TNS_MODE_TEST_NO) */ no
+  from scott.TNS_MODE_TEST s
+ where no = 3;
+=> index scan
+```
+
+복구
+
+```sql
+alter index scott.PK_TNS_MODE_TEST_NO rebuild;
+ORA-01452: cannot CREATE UNIQUE INDEX; duplicate keys found
+
+delete from scott.TNS_MODE_TEST where name = 'e';
+
+alter index scott.PK_TNS_MODE_TEST_NO rebuild;
+```
+
+### 2. 속도차이 
+
+1.  데이터 서버 전달
+2. 테이블 생성
+3. 적재
+   1. conventional
+      time sqlldr scott/oracle control=control direct=n
+   2. direct
+
+```shell
+create table scott.tns_mode_act(
+user_id number,
+rdate date,
+act_1_cnt number,
+act_2_cnt number,
+act_3_cnt number,
+act_4_cnt number,
+act_5_cnt number);
+
+cd /oracle12/admin/sqlldr/act
+
+vi act_data.ctl
+options(skip=1)
+load data
+characterset utf8
+infile 'act_data.csv'
+into table tns_mode_act
+(user_id,
+rdate "to_date(:rdate, 'YYYY-MM-DD')",
+act_1_cnt,
+act_2_cnt,
+act_3_cnt,
+act_4_cnt,
+act_5_cnt terminated by whitespace)
+:wq
+
+time sqlldr scott/oracle control=act_data direct=n
+
+time sqlldr scott/oracle control=act_data direct=n
+```
