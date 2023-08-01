@@ -107,7 +107,7 @@ alter tablespace temp2
 ### 5. autoextend on
 
 ```sql
-alter tempfile '/oracle12/app/oracle/oradata/db1/temp03.dbf' autoextend on;
+alter database tempfile '/oracle12/app/oracle/oradata/db1/temp03.dbf' autoextend on;
 ```
 
 ### 6. default temporary tablespace 생성
