@@ -54,8 +54,13 @@ no,name
 4,d
 4,e
 
-3. 적재
-3-1) conventional mode
+3. 적재 시도
+sqlldr scott/oracle control=${CONTROL_FILE} direct=y|n
+```
+
+#### when conventional mode
+
+```shell
 sqlldr scott/oracle control=tns_mode_test
 
 Record 5: Rejected - Error on table TNS_MODE_TEST.
@@ -67,20 +72,39 @@ Table TNS_MODE_TEST:
   1 Row not loaded due to data errors.
   0 Rows not loaded because all WHEN clauses were failed.
   0 Rows not loaded because all fields were null.
+```
 
 
-3-2) direct mode
-sqlldr scott/oracle control=? direct=y
-	
+
+#### when direct mode
+
+```shell
+sqlldr scott/oracle control=tns_mode_test direct=y
+
 The following index(es) on table TNS_MODE_TEST were processed:
 ORA-39828: Constraint PK_TNS_MODE_TEST_NO was disabled because of index SCOTT.PK_TNS_MODE_TEST_NO error.
-index SCOTT.PK_TNS_MODE_TEST_NO was made unusable due to:
+index SCOTT.PK_TNS_MODE_TEST_NO was made unusable due to:💥
 ORA-01452: cannot CREATE UNIQUE INDEX; duplicate keys found
 
 Table TNS_MODE_TEST:
-  5 Rows successfully loaded.
+  5 Rows successfully loaded.✅
   0 Rows not loaded due to data errors.
   0 Rows not loaded because all WHEN clauses were failed.
   0 Rows not loaded because all fields were null.
+```
+
+#### direct mode 이후의 결과
+
+```sql
+select constraint_name, status, validated from dba_constraints where TABLE_NAME = 'TNS_MODE_TEST';
+|CONSTRAINT_NAME    |STATUS    |VALIDATED    |
+|-------------------|----------|-------------|
+|PK_TNS_MODE_TEST_NO|DISABLED💥|NOT VALIDATED|
+
+select index_name, status from dba_indexes where table_name ='TNS_MODE_TEST';
+|INDEX_NAME         |STATUS    |
+|-------------------|----------|
+|PK_TNS_MODE_TEST_NO|UNUSABLE💥|
+
 ```
 
