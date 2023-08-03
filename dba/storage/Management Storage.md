@@ -63,7 +63,7 @@ alter user scott quota unlimited on users2;
 create tablespace users3
        datafile '/oracle12/app/oracle/oradata/db1/users04_01.dbf' size 50m
        extent management local				-- 생략시 기본값
-       uniform size 1m;								-- extent 할당 크기(initial_extent, next_extent)
+       uniform size 1m;						-- extent 할당 크기(initial_extent, next_extent)
        
 select * from dba_tablespaces;
 ```
@@ -75,7 +75,7 @@ create table extent_test1 (
   col1 number
 )
 pctfree 10
-pctused 40							-- ASSM이 비활성화될 경우 사용되어짐.
+pctused 40						-- ASSM이 비활성화될 경우 사용되어짐.
 tablespace users3
 storage (
   initial     128K
