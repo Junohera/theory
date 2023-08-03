@@ -138,7 +138,7 @@ select u.username, sum(s.bytes)/1024/1024 as "size(mb)"
  where 1=1
  group by u.username;
 
--- 4. 유저별, 인덱스별 할당 사이즈
+-- 4. 유저별, 인덱스 할당 사이즈
 select i.owner,
        i.index_name,
        s.bytes/1024/1024 as "size(mb)"
@@ -148,12 +148,5 @@ select i.owner,
  where 1=1
    and i.tablespace_name not in ('SYSTEM', 'SYSAUX')
  order by i.owner, "size(mb)" desc;
-   
--- 빈 INDEX가 생기는 경우(빈테이블에 생성시 데이터가 아직 없으므로 index에 segment를 할당하지 않음)
-create table scott.deferred_segment_creation(no number, name varchar2(10));
-create index scott.idx_deferred_segment_creation on scott.deferred_segment_creation(no);
-
-select * from dba_indexes where index_name = 'IDX_DEFERRED_SEGMENT_CREATION';
-select * from dba_segments where segment_name = 'IDX_DEFERRED_SEGMENT_CREATION';
 ```
 
