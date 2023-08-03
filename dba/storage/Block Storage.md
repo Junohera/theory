@@ -40,7 +40,7 @@ New Row Insert나 Update시 사용되어지는 공간(이 공간은 PCTFREE와 P
 | update period | PCTFREE |
 | ------------- | ------- |
 | somtimes      | low     |
-| `frequently`  | `high`  |
+| frequently    | high    |
 
 ## PCTUSED
 

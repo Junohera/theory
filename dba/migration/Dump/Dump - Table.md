@@ -97,7 +97,7 @@ select *
 이관 현황 확인
 
 ```sql
--- 1. table별 사이즈 조회(dba_segments, dba_tables)
+-- 1. table별 할당 사이즈 조회(dba_segments, dba_tables)
 select t.owner,
        t.table_name,
        s.segment_type,
@@ -123,13 +123,13 @@ select owner, segment_name
 |SCOTT|DEFERRED_SEGMENT_CREATION|
 
 
--- 3. 유저별 사이즈
+-- 3. 유저별 할당 사이즈
 select u.username, sum(s.bytes)/1024/1024 as "size(mb)"
   from (select username
           from dba_users
          where default_tablespace not in ('SYSTEM', 'SYSAUX')
            and common = 'NO') u
-  left outer join (select *
+  left outer join (select owner, bytes
                      from dba_segments
                     where 1=1
                       and segment_type = 'INDEX'
@@ -138,16 +138,16 @@ select u.username, sum(s.bytes)/1024/1024 as "size(mb)"
  where 1=1
  group by u.username;
 
--- 4. 인덱스별 사이즈
+-- 4. 유저별, 인덱스별 할당 사이즈
 select i.owner,
        i.index_name,
        s.bytes/1024/1024 as "size(mb)"
-  from dba_indexes i, dba_segments s
+  from dba_indexes i
+  left outer join dba_segments s
+    on i.owner = s.owner and i.index_name = s.segment_name
  where 1=1
-   and i.owner = s.owner(+)
-   and i.index_name = s.segment_name(+)
-   and i.owner in ('SCOTT', 'HR')
- order by "size(mb)" desc;
+   and i.tablespace_name not in ('SYSTEM', 'SYSAUX')
+ order by i.owner, "size(mb)" desc;
    
 -- 빈 INDEX가 생기는 경우(빈테이블에 생성시 데이터가 아직 없으므로 index에 segment를 할당하지 않음)
 create table scott.deferred_segment_creation(no number, name varchar2(10));
