@@ -153,8 +153,9 @@ alter database rename file '/oracle12/app/oracle/oradata/db1/class1_02.dbf' to '
 
 ```sql
 # logical delete
-drop tablespace class1;											-- 테이블이 존재하므로 제거 불가능
-drop tablespace class1 including contents; 	-- 테이블이 존재함에도 제거 가능
+drop tablespace class1;									 -- 테이블이 존재하므로 제거 불가능
+drop tablespace class1 including contents; 				 -- 테이블이 존재함에도 제거 가능
+drop tablespace class1 including contents and datafiles; -- 물리적인 데이터파일도 제거가능
 
 # physical delete
 rm class1_01.dbf class1_02.dbf ...
