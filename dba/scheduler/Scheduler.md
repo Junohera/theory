@@ -67,6 +67,8 @@ end;
 **job 실행**
 
 ```sql
+SQL> conn system/oracle
+
 -- 변수 선언
 SQL> variable jno number;
 
@@ -76,8 +78,39 @@ SQL> @job.sql
 SQL> print jno;	
 
 -- job 등록
-SQL> commit;		
+SQL> commit;
 ```
+
+```sql
+SQL> conn system/oracle
+Connected.
+SQL> variable jno number;
+SQL> @job.sql
+PL/SQL procedure successfully completed.
+SQL> print jno;
+       JNO
+----------
+         4
+
+SQL> commit;
+Commit complete.
+SQL> select job,
+       log_user,
+       priv_user,
+       interval,
+       failures,
+       what
+  from dba_jobs;
+|JOB|LOG_USER|PRIV_USER|INTERVAL         |FAILURES|WHAT             |
+|---|--------|---------|-----------------|--------|-----------------|
+|1  |SYSTEM  |SYSTEM   |sysdate + 1/24/60|0       |insert_job_test1;|
+|2  |SYSTEM  |SYSTEM   |sysdate + 1/24/60|0       |insert_job_test1;|
+|3  |SYSTEM  |SYSTEM   |sysdate + 1/24/60|0       |insert_job_test1;|
+|4  |SYSTEM  |SYSTEM   |sysdate + 1/24/60|0       |insert_job_test1;|
+
+```
+
+
 
 **job 실행 확인**
 
@@ -94,6 +127,9 @@ select *
 ```sql
 select *
   from tab_job_test1;
+|NO |NAME |CREATED                |
+|---|-----|-----------------------|
+|69 |eDfnr|2023-08-04 15:14:10.000|
 ```
 
 **job 삭제**
@@ -136,9 +172,8 @@ is
 		commit;
 	end;
 /
+grant execute on insert_job_test3 to system;
 
-
-vi job.sql
 ** repeat_interval: monthly, secondly, ...
 
 begin
@@ -159,9 +194,23 @@ select *
  where job_name like '%TEST%';
  
 begin
-	dbms_scheduler.drop_job('job_insert_job_test3');
+  dbms_scheduler.drop_job('job_insert_job_test3');
 end;
 /
+
+select *
+  from tab_job_test3
+ order by no;
+|NO |NAME |TODATE                 |
+|---|-----|-----------------------|
+|1  |qtaod|2023-08-04 15:30:42.000|
+|2  |dnxWU|2023-08-04 15:30:46.000|
+|3  |WNALZ|2023-08-04 15:30:51.000|
+|4  |KAxUY|2023-08-04 15:30:56.000|
+|5  |eOyHa|2023-08-04 15:31:01.000|
+|6  |IjjbE|2023-08-04 15:31:06.000|
+|7  |EAagQ|2023-08-04 15:31:11.000|
+
 ```
 
 

@@ -6,8 +6,6 @@
 - 성능결과를 파일 형태로 받아볼 수 있음
 - DBMS 설치시 자동 동작(default: 8일동안의 snapshot 보관)
 
-
-
 ## management
 
 ### 1. check snapshot
@@ -17,7 +15,7 @@ select *
   from dba_hist_snapshot;
 ```
 
-### 2. snapshot interval
+### 2. snapshot interval 조회
 
 ```sql
 select dbid,
@@ -30,7 +28,33 @@ select dbid,
 |1,736,492,581|0 1:0:0.0    |8 0:0:0.0|
 ```
 
-### 3. awr report 생성
+### 3. snapshot 정보 변경
+
+```sql
+/*---------------------------------------------
+*  awr 스냅샷 설정변경
+*---------------------------------------------*/
+-- 아래 예제는 스냅샷 주기를 30분 단위로 하고, 보관기간을 60일(60분 * 24시간 * 60일),
+-- 수집되는 상위 sql의 수를 100개로 변경한 예제임.
+-- interval : 스냅샷 수행 주기를 분 단위로 표시
+-- retention : 스냅샷 보관 기간을 분단위로 지정 (1일에서 최대 100년까지 지정가능)
+-- topnsql : 수집되는 sql문의 수
+-- dbid : 데이터베이스 id
+
+-- awr 스냅샷 정보 확인 
+exec dbms_workload_repository.modify_snapshot_settings(
+  interval => 30,
+  retention => 60*24*60,
+  topnsql => '100'
+)
+-- awr 스냅샷 설정정보 확인
+select * from dba_hist_wr_control
+|DBID         |SNAP_INTERVAL|RETENTION |TOPNSQL   |CON_ID|
+|-------------|-------------|----------|----------|------|
+|1,736,492,581|0 0:30:0.0   |60 0:0:0.0|       100|0     |
+```
+
+### 4. awr report 생성
 
 헬스체크하기 위한 기간의 시작지점과 끝지점 사이에는
 DB shutdown된 적이 없어야한다.
@@ -63,6 +87,11 @@ ls -rtl | tail -1
 -rw-r--r--. 1 oracle oinstall 803176 Aug  4 14:51 awrrpt_1_61_68.html
 ```
 
+## Top Query (ordered by CPU Time)
+
+> physical read 기준으로 
+
 ![image-20230804145637695](C:\Users\ITWILL\AppData\Roaming\Typora\typora-user-images\image-20230804145637695.png)
 
 <img src="C:\Users\ITWILL\AppData\Roaming\Typora\typora-user-images\image-20230804145557798.png" alt="image-20230804145557798" style="zoom:33%;" />
+
