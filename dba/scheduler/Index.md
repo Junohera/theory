@@ -41,6 +41,11 @@ select *
 
 ```sql
 DBMS_JOB.submit(
+    JOB,
+    WHAT,
+    START_DATE,
+    NEXT_DATE,
+    INTERVAL
 )
 ```
 

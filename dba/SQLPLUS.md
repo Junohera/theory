@@ -35,3 +35,10 @@ ${QUERY}
 spool off
 ```
 
+## conn
+
+커넥션 전환
+
+```sql
+SQL> conn system/oracle
+```

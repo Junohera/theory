@@ -258,6 +258,7 @@ select c.column_name as "Column",
  CASE1) GAP ANALYSIS - TABLENAME
 */ 
 
+;
 with 
 CONSTANT as (
   select 'SCOTT' as target_owner 
@@ -439,7 +440,14 @@ GREEN_INDEX as (
 ),
 GAP_INDEX as (
   -- TODO: GAP_INDEX
-  select * from GREEN_INDEX
+  select b.owner as "owner(A)", g.owner as "owner(B)",
+         b.table_name as "table_name(A)", g.table_name as "table_name(B)",
+         b.index_name as "index_name(A)", g.index_name as "index_name(B)"
+    from blue_index b
+    full outer join green_index g
+      on b.owner = g.owner
+     and b.table_name = g.table_name
+     and b.column_name = g.column_name
 ),
 GAP_SUMMARY as (
 --  select * from gap_table
