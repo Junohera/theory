@@ -56,3 +56,11 @@ PL/SQL procedure successfully completed.
 <img src="C:\Users\ITWILL\AppData\Roaming\Typora\typora-user-images\image-20230804154952820.png" alt="image-20230804154952820" style="zoom: 67%;" />
 
 ## 2. scott.emp 테이블에서 사원번호가 7369인 사원의 급여를 allen 급여의 10% 증가값으로 업데이트하라
+
+```sql
+declare
+begin
+end;
+/
+```
+
