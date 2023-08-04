@@ -43,3 +43,12 @@ PL/SQL procedure successfully completed.
 1. table
 2. schema
 3. tablespace
+
+### flow
+
+1. tobe DB 테이블생성 DDL(pk, fk)
+2. 권한, 시노님, 시퀀스, 뷰
+3. 이관
+4. 인덱스 생성
+5. 제약조건 생성
+6. 테이블에 대한 권한 생성

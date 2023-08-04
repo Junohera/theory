@@ -10,11 +10,19 @@ ASIS DB와 TOBE DB의 오브젝트 비교하기 위한 개념
 
 ### target_view
 
+> ```sql
+> select view_name
+>   from dba_views
+>  where view_name like 'DBA%COLUMNS%';
+> ```
+
 - dba_users
 - dba_tables
 - dba_tab_columns
 - dba_indexes
 - dba_ind_columns
+- dba_constraints
+- dba_cons_columns
 
 ### logical_target
 
@@ -122,9 +130,128 @@ alter table scott.t8 add addr varchar2(50);
 alter table scott.t8 add name varchar2(10);
 ```
 
+## script
+
+1. 추출범위 지정 준비
+
+```sql
+exec dbms_metadata.set_transform_param(dbms_metadata.session_transform,'SQLTERMINATOR'     ,false);
+exec dbms_metadata.set_transform_param(dbms_metadata.session_transform,'SEGMENT_ATTRIBUTES',false);
+exec dbms_metadata.set_transform_param(dbms_metadata.session_transform,'STORAGE'           ,true);
+exec dbms_metadata.set_transform_param(dbms_metadata.session_transform,'TABLESPACE'        ,true);
+```
+
+2. 단건 조회 
+
+```sql
+select dbms_metadata.get_ddl('TABLE', 'EMP', 'SCOTT') from dual;
+```
+
+3. 다건 조회
+
+### TABLE
+
+```sql
+select /*+ parallel(t 8) */ owner,
+       table_name,
+       tablespace_name,
+       dbms_metadata.get_ddl('TABLE', table_name, owner)||';' as ddl,
+       systimestamp as create_ts
+  from dba_tables t
+ where 1=1
+   and owner = 'SCOTT'
+   and table_name in ('EMP', 'T3', 'T4');
+```
+
+### INDEX
+
+```sql
+select /*+ parallel(i 8) */ owner,
+       table_name,
+       index_name,
+       dbms_metadata.get_ddl('INDEX', index_name, owner)||' parallel 16;' as ddl,
+       'alter index '||owner||'.'||index_name||' noparallel;' as noparallel_ddl,
+       systimestamp as create_ts
+  from dba_indexes i
+ where 1=1
+   and owner = 'SCOTT'
+   and (table_name in ('EMP', 'DEPT')
+    or table_name like 'T%');
+```
+
+### CONSTRAINT
+
+#### PK,FK
+
+```sql
+select 'alter table '||c1.owner||'.'||c1.table_name||' add constraint '||c1.constraint_name||' primary key('||c2.column_name||');' as command
+  from dba_constraints c1
+  left outer join dba_cons_columns c2
+    on c1.owner = c2.owner
+   and c1.table_name = c2.table_name
+   and c1.constraint_name = c2.constraint_name
+ where c1.owner = 'SCOTT';
+```
+
+#### UK
+
+```sql
+todo
+```
+
+#### CHECK
+
+```sql
+todo
+```
+
+### desc
+
+```sql
+desc scott.emp;
+
+select c.column_name as "Column",
+       decode(nullable, 'N', 'NOT NULL') as "Nullable",
+       case data_type
+         when 'NUMBER' 
+         then data_type||'('||data_precision||decode(data_scale, 0, '', ','||data_scale)||')'
+         when 'VARCHAR2' 
+         then data_type||'('||data_length||')'
+         when 'RAW'
+         then data_type||'('||data_length||')'
+         else data_type end as "Type",
+       m.comments as "Comment"
+  from dba_tab_columns c
+  join dba_col_comments m
+    on c.owner = m.owner
+   and c.table_name = m.table_name
+   and c.column_name = m.column_name
+ where c.table_name = 'EMP'
+ order by column_id;
+ 
+|Column  |Nullable|Type        |Comment|
+|--------|--------|------------|-------|
+|EMPNO   |NOT NULL|NUMBER(4)   |       |
+|ENAME   |        |VARCHAR2(10)|       |
+|JOB     |        |VARCHAR2(9) |       |
+|MGR     |        |NUMBER(4)   |       |
+|HIREDATE|        |DATE        |       |
+|SAL     |        |NUMBER(7,2) |       |
+|COMM    |        |NUMBER(7,2) |       |
+|DEPTNO  |        |NUMBER(2)   |       |
+```
+
 ---
 
-## Query
+## TODO: Query
+
+### goal
+
+| owner | tablespace_name | diff table | diff column type | diff column order | diff index | diff constraint | create ddl | alter ddl |
+| ----- | --------------- | ---------- | ---------------- | ----------------- | ---------- | --------------- | ---------- | --------- |
+|       |                 |            |                  |                   |            |                 |            |           |
+
+
 
 ```sql
 /*
