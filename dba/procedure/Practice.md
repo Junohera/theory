@@ -175,7 +175,7 @@ PL/SQL 처리가 정상적으로 완료되었습니다.
 
 ```
 
-## 6. 사원번호를 입력받고 해당 직원의 부서이름을 출력(if 활용)
+## 6. 사번을 입력받고 해당 직원의 부서이름을 출력(if 활용)
 
 > 단, 10번이면 인사부
 >
@@ -204,6 +204,180 @@ begin
  	
  	dbms_output.put_line('10번이면 인사부'||CHR(10)||'20번이면 총무부'||CHR(10)||'30번이면 재무부');
  	dbms_output.put_line('소속부서: '||vdname||'('||vdeptno||')');
+end;
+/
+```
+
+## 7. 사번을 입력받고 해당 직원의 급여를 아래와 같이 출력
+
+`사번: 7369, 급여등급: B`
+
+> 단, 급여등급은 
+> [~, 2000)            C
+> [2000, 3000)   B
+> [3000, ~)            A
+
+```sql
+set serveroutput on
+set verify off
+set feedback off
+accept iempno prompt '사번을 입력하세요: '
+
+declare
+  vempno    scott.emp.empno%type := &iempno;
+  vsal 			scott.emp.sal%type;
+  salgrade	char(1) := 'C';
+begin
+  select sal into vsal
+    from scott.emp
+   where 1=1
+     and empno = vempno;
+  
+  if (3000 <= vsal) then
+    salgrade := 'A';
+  elsif (2000 <= vsal) then
+    salgrade := 'B';  
+  end if;
+  
+  dbms_output.put_line('사번: '||vempno||', 급여등급: '||salgrade);
+end;
+/
+```
+
+```sql
+iempno의 값을 입력하십시오: 7369
+7369
+800
+사번: 7369, 급여등급: C
+
+PL/SQL 처리가 정상적으로 완료되었습니다.
+```
+
+## 8. 학번을 입력받고, 해당 학생의 비만여부 출력
+
+학번: 9411, 비만여부: 표준
+
+> 단, 비만여부는 아래와 같이 계산
+>
+> 표준체중 = (키 - 100) * 0.9
+>
+> 체중 > 표준체중 = 과체중
+> 체중 < 표준체중 = 저체중
+>
+> 체중 = 표준체중 = 표준
+
+```sql
+set serveroutput on
+set verify off
+set feedback off
+
+accept istudno prompt '학번을 입력하세요: '
+
+declare
+  vstudno scott.student.studno%type := &istudno;
+  weight_grade varchar2(3);
+
+  vheight           scott.student.height%type;
+  vweight           scott.student.weight%type;
+  std_weight        scott.student.weight%type;
+  std_weight_grade  varchar2(6);
+begin
+  select height, weight into vheight, vweight
+    from scott.student
+   where studno = vstudno;
+
+  std_weight := (vheight - 100) * 0.9;
+  std_weight_grade := case when std_weight < vweight then '과체중'
+                  	  		 when std_weight > vweight then '저체중'
+                                           				   else '표준' end;
+
+  dbms_output.put_line('학번: '||vstudno||', 비만여부: '||std_weight_grade);
+end;
+/
+```
+
+```sql
+SQL> edit s8
+SQL> @s8
+학번을 입력하세요: 9411
+학번: 9411, 비만여부: 표준
+```
+
+## 9. 1~5 출력
+
+```sql
+declare
+  no number := 1;
+begin
+ loop
+ 	dbms_output.put_line(no);
+ 	no := no + 1;
+ 	exit when no >= 6;
+ end loop;
+end;
+/
+```
+
+## 10. 구구단 basic loop
+
+```sql
+set serveroutput on
+set verify off
+set feedback off
+accept idan prompt '단을 입력하세요: '
+
+declare
+  no    number := 1;
+  dan   number := &idan;
+begin
+  loop
+    dbms_output.put_line(to_char(dan)||' x '||to_char(no)||' = '||to_char(no * dan, 99999999));
+    no := no + 1;
+    exit when no >= 10;
+  end loop;
+end;
+/
+```
+
+```shell
+SQL> edit 10
+SQL> @10
+```
+
+## 11. 구구단 for
+
+```sql
+set serveroutput on
+set verify off
+set feedback off
+accept idan prompt '단을 입력하세요: '
+
+declare
+  dan   number := &idan;
+begin
+  for i in 1..9 loop
+    dbms_output.put_line(to_char(dan)||' x '||to_char(i)||' = '||to_char(i * dan, 99999999));
+  end loop;
+end;
+/
+```
+
+## 12. 구구단 while
+
+```sql
+set serveroutput on
+set verify off
+set feedback off
+accept idan prompt '단을 입력하세요: '
+
+declare
+  no    number := 1;
+  dan   number := &idan;
+begin
+  while no < 10 loop
+    dbms_output.put_line(to_char(dan)||' x '||to_char(no)||' = '||to_char(no * dan, 99999999));
+    no := no + 1;
+  end loop;
 end;
 /
 ```
