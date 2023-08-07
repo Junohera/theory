@@ -8,14 +8,19 @@
 
 ~~~sql
 select * from sys.props$;
+|NAME            |VALUE$  |COMMENT$     |
+|----------------|--------|-------------|
+|NLS_CHARACTERSET|AL32UTF8|Character set|
+|NLS_TERRITORY   |AMERICA |Territory    |
+|NLS_LANGUAGE    |AMERICAN|Language     |
 ~~~
 
 ### 수정
 
 ```sql
-update sys.props$ set value$ = 'KOREAN' where name = 'NLS_LANGUAGE';
-update sys.props$ set value$ = 'KOREA' where name = 'NLS_TERRITORY';
 update sys.props$ set value$ = 'AL32UTF8' where name = 'NLS_CHARACTERSET';
+update sys.props$ set value$ = 'KOREA' where name = 'NLS_TERRITORY';
+update sys.props$ set value$ = 'KOREAN' where name = 'NLS_LANGUAGE';
 commit; 
 ```
 
@@ -56,4 +61,3 @@ SQL> ALTER DATABASE OPEN;
    ```sql
    alter database datafile 'undodatafile' autoextend on;
    ```
-

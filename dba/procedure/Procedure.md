@@ -2,6 +2,8 @@
 
 # Procedure
 
+> not support broadcast operation
+
 절차적 프로그래밍을 지원하는 언어
 블럭 구조를 가지며 블럭은 선언부(declare)/실행부(begin)/예외처리부(exception) 구성
 블럭은 익명블럭(이름X)과 저장블럭(이름O)으로 구분
@@ -42,6 +44,4 @@ is
 		commit;
 	end;
 ```
-
-## syntax
 
