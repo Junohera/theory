@@ -382,3 +382,161 @@ end;
 /
 ```
 
+## 13. 입력받은 학번의 시험성적을 참조하여 다음처럼 출력
+
+> 이름:     등급:
+> 단, 
+> [90, ~)     A
+> [70, 90)  B
+> [~, 70)     C
+>
+>
+> 70 > score ? C
+> 90 > score ? B
+> A
+
+```sql
+set serveroutput on
+set verify off
+set feedback off
+accept istudno prompt '학번을 입력하세요: '
+
+declare
+  vstudno       scott.student.studno%type := &istudno;
+
+  vname         scott.student.name%type;
+  vscore        scott.exam_01.total%type;
+  score_grade   char(1);
+begin
+  select s.name, (select total
+                  from exam_01
+                 where studno = s.studno) into vname, vscore
+    from scott.student s
+   where 1=1
+     and s.studno = vstudno;
+
+  if (70 > vscore) then score_grade := 'C';
+  elsif (90 > vscore) then score_grade := 'B';
+  else score_grade := 'A';
+  end if;
+
+  dbms_output.put_line('이름: '||vname||', 등급: '||score_grade);
+end;
+/
+```
+
+## 14. 입력받은 사번을 갖는 pay의 새로운 pay로 업데이트하는 plsql구문 작성
+
+> 전부장의 PAY가 ?에서 ?로 변경되었습니다.
+>
+> emp2
+> (본인 pay + 상위 관리자 pay)/2 * 인상률
+> 인상률 = emp_type = '정규직' ? 1.08 emp_type = '계약직'
+
+| 고용형태 | 인상률 |
+| -------- | ------ |
+| 정규직   | 1.08   |
+| 계약직   | 1.05   |
+| 수습직   | 1.03   |
+| 인턴직   | 1.01   |
+
+```sql
+set serveroutput on
+set verify off
+set feedback off
+accept iempno prompt '사번을 입력하세요: '
+
+declare
+--  vempno        scott.emp2.empno%type := 19900101;
+  vempno        scott.emp2.empno%type := &iempno;
+  vname         scott.emp2.name%type;
+  vpay          scott.emp2.pay%type;
+  vemp_type     scott.emp2.emp_type%type;
+
+  vpempno       scott.emp2.empno%type;
+  vpemp_pay     scott.emp2.pay%type;
+  ratio         number(3,2);
+  maybe_pay			scott.emp2.pay%type;
+  new_pay       scott.emp2.pay%type;
+begin
+  select e.name,
+         e.pay,
+         e.emp_type,
+         nvl(pe.pay, e.pay)
+         into vname, vpay, vemp_type, vpemp_pay
+    from emp2 e
+    left outer join emp2 pe
+      on e.pempno = pe.empno
+   where e.empno = vempno;
+
+  ratio := case when vemp_type = '정규직' then 1.08
+                when vemp_type = '계약직' then 1.05
+                when vemp_type = '수습직' then 1.03
+                else 1.01 end;
+
+  new_pay := (vpay + vpemp_pay)/2 * ratio;
+  update emp2
+     set pay = new_pay
+   where empno = vempno;
+   
+  select pay into maybe_pay
+    from emp2 
+   where empno = vempno;
+   
+  -- commit;
+  dbms_output.put_line('전부장의 PAY가 '||vpay||'에서 '||maybe_pay||'로 변경되었습니다.');
+end;
+/
+```
+
+## 15. 입력받은 시간대에 가장 인기있는 음식업종 출력
+
+```sql
+set serveroutput on
+set verify off
+set feedback off
+accept itime prompt '시간대를 입력하세요(00 ~ 23): '
+
+declare
+  vtime scott.delivery.시간대%type := &itime;
+  vcate scott.delivery.업종%type;
+begin
+  select 업종 into vcate
+    from (select t1.시간대,
+               t1.업종
+          from (select 시간대, 업종, sum(통화건수) as 통화건수합계
+                  from delivery
+                 group by 시간대, 업종) t1,
+               (select 시간대, max(통화건수합계) as 최대통화건수
+                  from (select 시간대, 업종, sum(통화건수) as 통화건수합계
+                          from delivery
+                         group by 시간대, 업종)
+                 group by 시간대) t2
+         where 1=1
+           and t1.시간대 = t2.시간대
+           and t1.통화건수합계 = t2.최대통화건수)
+   where 1=1
+     and 시간대 = lpad(to_char(vtime), 2, '0');
+
+   dbms_output.put_line(vtime);
+   dbms_output.put_line(vcate);
+end;
+/
+```
+
+```sql
+set serveroutput on
+set verify off
+set feedback off
+accept itime prompt '시간대를 입력하세요(00 ~ 23): '
+
+declare
+  vtime scott.delivery.시간대%type := &itime;
+  vcate scott.delivery.업종%type := '치킨';
+begin
+  dbms_output.put_line(vtime);
+  dbms_output.put_line(vcate);
+end;
+/
+```
+
