@@ -496,14 +496,14 @@ end;
 set serveroutput on
 set verify off
 set feedback off
-accept itime prompt '시간대를 입력하세요(00 ~ 23): '
+accept itime prompt '시간대를 입력하세요(0 ~ 23): '
 
 declare
   vtime scott.delivery.시간대%type := &itime;
   vcate scott.delivery.업종%type;
 begin
 	select 업종 into vcate
-    from (select 업종, row_number() over(order by sum(통화건수) desc) as r
+    from (select 업종, rank() over(order by sum(통화건수) desc, 업종 asc) as r
             from scott.delivery
            where 시간대 = lpad(to_char(vtime), 2, '0')
            group by 업종) t
