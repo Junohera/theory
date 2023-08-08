@@ -1,0 +1,88 @@
+[toc]
+
+# Cursor
+
+> `OPEN => FETCH => CLOSE`
+> 오라클은 sql 문장이 실행되면 파싱을 거쳐 데이터를 버퍼캐시에 올려두는데
+> 이 때, 사용자가 원하는 데이터를 추출하기 위해 버퍼캐시 내용을 PGA에 복사한 뒤
+> 개별적인 메모리 공간을 할당하여 여기서 데이터를 정리하여 fetch
+> 이 때의 메모리 공간을 커서라 함.
+
+## Type
+
+### Implicit cursor
+
+> 묵시적 커서: oracle이 자동으로 선언하고 사용하는 커서
+
+### Explicit cursor
+
+> 명시적 커서: 사용자 정의 커서
+> `define -> open -> fetch -> close`
+
+## Example
+
+> emp에서 각 직원의 정보를 아래와 같이 출력하라.
+> SMITH의 10% 인상된 급여는 880입니다.
+
+### error💥
+
+```sql
+declare
+  vname   scott.emp.ename%type;
+  vsal    scott.emp.sal%type;
+begin
+  select ename, sal into vname, vsal
+    from scott.emp;
+    
+  dbms_output.put_line(vname||'의 10% 인상된 급여는 '||(vsal * 1.1)||'입니다.');
+end;
+/
+
+ORA-01422: 실제 인출은 요구된 것보다 많은 수의 행을 추출합니다 ORA-06512:  5행
+```
+
+### loop😂
+
+```sql
+declare
+  vname   scott.emp.ename%type;
+  vsal    scott.emp.sal%type;
+  
+	cursor c1 is
+    select ename, sal
+      from scott.emp
+     order by empno;
+begin
+  open c1;
+  
+  loop
+    fetch c1 into vname, vsal;  
+    exit when c1%notfound;
+    dbms_output.put_line(vname||'의 10% 인상된 급여는 '||(vsal * 1.1)||'입니다.');
+  end loop;  
+end;
+/
+```
+
+### for😃
+
+>loop과 달리 불필요한 문법들을 작성하지 않아도 정상 작동한다.
+>이는 for문에 open fetch close가 포함되어있기 때문이고,
+>어떤 언어에도 이 개념이 동일하게 적용되어 있다.
+
+```sql
+declare 
+	cursor c1 is
+    select ename, sal
+      from scott.emp
+     order by empno;
+begin
+  for vresult in c1 loop
+    dbms_output.put_line(vresult.ename||'의 10% 인상된 급여는 '||(vresult.sal * 1.1)||'입니다.');
+  end loop;  
+end;
+/
+```
+
+
+
