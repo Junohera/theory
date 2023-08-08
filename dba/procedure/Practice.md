@@ -475,6 +475,7 @@ begin
                 else 1.01 end;
 
   new_pay := (vpay + vpemp_pay)/2 * ratio;
+  
   update emp2
      set pay = new_pay
    where empno = vempno;
@@ -520,22 +521,6 @@ begin
 
    dbms_output.put_line(vtime);
    dbms_output.put_line(vcate);
-end;
-/
-```
-
-```sql
-set serveroutput on
-set verify off
-set feedback off
-accept itime prompt '시간대를 입력하세요(00 ~ 23): '
-
-declare
-  vtime scott.delivery.시간대%type := &itime;
-  vcate scott.delivery.업종%type := '치킨';
-begin
-  dbms_output.put_line(vtime);
-  dbms_output.put_line(vcate);
 end;
 /
 ```
