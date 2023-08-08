@@ -71,15 +71,15 @@ end;
 >어떤 언어에도 이 개념이 동일하게 적용되어 있다.
 
 ```sql
-declare 
-	cursor c1 is
-    select ename, sal
-      from scott.emp
-     order by empno;
+declare
+  cursor sp is
+    select s.name, nvl(p.name, '지도교수없음') as pname
+      from student s, professor p
+     where s.profno = p.profno(+);
 begin
-  for vresult in c1 loop
-    dbms_output.put_line(vresult.ename||'의 10% 인상된 급여는 '||(vresult.sal * 1.1)||'입니다.');
-  end loop;  
+  for i in sp loop
+    dbms_output.put_line('학생명: '||i.name||', 지도교수명: '||i.pname);
+  end loop;
 end;
 /
 ```

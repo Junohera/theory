@@ -513,3 +513,27 @@ end;
 /
 ```
 
+## 16. 모든 학생의 지도교수를 아래와 같이 출력 (cursor 활용)
+
+> student, professor 테이블을 사용하여
+> 각 학생의 이름, 지도교수 이름을 아래와 같이 출력
+> 단, 지도교수가 없는 경우는 지도교수없음 출력
+>
+> 학생명: ..., 지도교수명: ...
+
+```sql
+declare
+  i  number := 0;
+  cursor sp is
+    select s.name, nvl(p.name, '지도교수없음') as pname
+      from student s, professor p
+     where s.profno = p.profno(+);
+begin
+  for v in sp loop
+    i := i + 1;
+    dbms_output.put_line(i||': '||'학생명: '||v.name||', 지도교수명: '||v.pname);
+  end loop;
+end;
+/
+```
+
