@@ -485,7 +485,7 @@ begin
    where empno = vempno;
    
   -- commit;
-  dbms_output.put_line('전부장의 PAY가 '||vpay||'에서 '||maybe_pay||'로 변경되었습니다.');
+  dbms_output.put_line(vname||'의 PAY가 '||vpay||'에서 '||maybe_pay||'로 변경되었습니다.');
 end;
 /
 ```
@@ -502,24 +502,12 @@ declare
   vtime scott.delivery.시간대%type := &itime;
   vcate scott.delivery.업종%type;
 begin
-  select 업종 into vcate
-    from (select t1.시간대,
-               t1.업종
-          from (select 시간대, 업종, sum(통화건수) as 통화건수합계
-                  from delivery
-                 group by 시간대, 업종) t1,
-               (select 시간대, max(통화건수합계) as 최대통화건수
-                  from (select 시간대, 업종, sum(통화건수) as 통화건수합계
-                          from delivery
-                         group by 시간대, 업종)
-                 group by 시간대) t2
-         where 1=1
-           and t1.시간대 = t2.시간대
-           and t1.통화건수합계 = t2.최대통화건수)
-   where 1=1
-     and 시간대 = lpad(to_char(vtime), 2, '0');
-
-   dbms_output.put_line(vtime);
+	select 업종 into vcate
+    from (select 업종, row_number() over(order by sum(통화건수) desc) as r
+            from scott.delivery
+           where 시간대 = lpad(to_char(vtime), 2, '0')
+           group by 업종) t
+   where t.r = 1;
    dbms_output.put_line(vcate);
 end;
 /
