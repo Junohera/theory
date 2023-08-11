@@ -20,9 +20,9 @@
 - [ ] 논리적으로 존재하는 datafile경로를 기준으로 존재하지 않는 파일들과 불필요하게 존재하는 파일 목록 조회(정리대상과 누락대상 확인하기 위한 스크립트)(+color)
 
 ```shell
- cd;ls -l /oracle12/app/oracle/oradata/db1/*.dbf | awk -F" " '{print $NF}'
+cd;ls -l /oracle12/app/oracle/oradata/db1/*.dbf | awk -F" " '{print $NF}'
  
- /oracle12/app/oracle/oradata/db1/sysaux01.dbf
+/oracle12/app/oracle/oradata/db1/sysaux01.dbf
 /oracle12/app/oracle/oradata/db1/system01.dbf
 /oracle12/app/oracle/oradata/db1/temp01.dbf
 /oracle12/app/oracle/oradata/db1/test2_01.dbf
@@ -102,9 +102,6 @@ select *
   -rw-r-----. 1 oracle oinstall 1132094 Jul 26 10:28 alert_db1.log.20230726
   ```
 
-
-
 - [ ] dynamic performance view 중, 특히 v$archived_log와 v$session을 조회하여 특정 테이블로 주기적으로  insert하도록 shell 작성
 - [ ] 갭차이 조회 완성(long 타입 대응 함수 얻게되면)
 - [ ] 통계 export/import
-- [ ] PLSQL_230810 실습

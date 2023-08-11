@@ -12,9 +12,10 @@ set feedback off
 set echo off
 set term off
 
-spool ${PATH}/abc.sh
+spool ./abc.sh
 
-${QUERY}
+select sysdate
+  from dual;
 /
 
 spool off
