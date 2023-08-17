@@ -8,4 +8,9 @@ rm *.lck
 
 ## licence key info
 
-> git hash: `487eae864cbb17f43102b9dd49da1ac62acfefa1`
+```shell
+git checkout 487eae864cbb17f43102b9dd49da1ac62acfefa1
+cat dba/setting/vmware.md | sed '1,8d'
+git checkout -
+```
+
