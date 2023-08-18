@@ -54,7 +54,7 @@ getDeleteTargets() {
   while IFS= read -r line;
   do
 		with_single_quotation="'$line'"
-		echo "          union all select ${with_single_quotation} from dual" >> "$0.physical_query"
+		echo " union all select ${with_single_quotation} from dual" >> "$0.physical_query"
   done < "$physicals"
   echo ") where path is not null;"  >> "$0.physical_query"
 
@@ -65,7 +65,7 @@ getDeleteTargets() {
   while IFS= read -r line;
   do
 		with_single_quotation="'$line'"
-    echo "          union all select ${with_single_quotation} from dual" >> "$0.logical_query"
+    echo " union all select ${with_single_quotation} from dual" >> "$0.logical_query"
   done < "$logicals"
   echo ") where path is not null;"  >> "$0.logical_query"
   logical_result=$(sh ./execute_sql.sh "$(cat "$0.logical_query")" "logical_query")
