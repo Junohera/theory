@@ -1,44 +1,10 @@
-# Get Query Result In Shell
-
-## 쿼리 결과 저장하기
-
-```shell
 #!/bin/sh
 
-query="
-  select to_char(sysdate + level, 'YYYYMMDD HH24:MI:SS') as yyyymmdd
-    from dual
-  connect by level <= 10;
-"
-result=$(sqlplus -S scott/oracle <<EOF
-set head off
-set feedback off
-set pagesize 0
-set linesize 1000
-$query
-EOF
-)
-
-filename=".temp.$(echo $0 | awk -F. '{print $1}')"
-echo "$result" > $filename
-```
-
-## 특정 파일 라인별로 출력
-
-```shell
-while IFS= read -r line;
-do
-	echo $line
-done < .temp.test1
-```
-
-## shell file as a function
-
-```shell
-#!/bin/sh
+# sample
+# sh execute_sql.sh 'select 1 from dual;' 'test'
 
 logging="$0.log"
-
+queryname="$2"
 #################### DEFINITION ####################
 LOG() {
   if ! [ -f $logging ]; then
@@ -53,6 +19,7 @@ LOG_START() {
 
   LOG ""
   LOG "======= TRY CONNECTION AT: $(date +%FT) ========"
+  LOG "$queryname"
   LOG "-------------------- INFO ---------------------"
   LOG "    TAG= $tag"
   LOG "    username= $username"
@@ -94,30 +61,3 @@ EOF
 LOG_END
 
 echo "$result"
-```
-
-```shell
-tail -f execute_sql.sh.log
-```
-
-```shell
-sh execute_sql.sh '
-
-select 1 as col
-  from dual
- union all
-select 2
-  from dual
- union all
-select 3
-  from dual
- union all
-select 4
-  from dual;
-'
-         1
-         2
-         3
-         4
-```
-
