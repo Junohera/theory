@@ -47,34 +47,62 @@ loadLogicalDatafiles() {
   echo "$result" > $logicals
 }
 # get delete target: physical minus logical
-# get missing target: logical minus physical
 getDeleteTargets() {
-  > "$0.physical_query"
-  echo "select path from (select null as path from dual" >> "$0.physical_query"
+  > "$0.get_delete_target"
+
+  echo "select path from (select null as path from dual" >> "$0.get_delete_target"
   while IFS= read -r line;
   do
 		with_single_quotation="'$line'"
-		echo " union all select ${with_single_quotation} from dual" >> "$0.physical_query"
-  done < "$physicals"
-  echo ") where path is not null;"  >> "$0.physical_query"
-
-  physical_result=$(sh ./execute_sql.sh "$(cat "$0.physical_query")" "physical_query")
-
-  > "$0.logical_query"
-  echo "select path from (select null as path from dual" >> "$0.logical_query"
-  while IFS= read -r line;
-  do
-		with_single_quotation="'$line'"
-    echo " union all select ${with_single_quotation} from dual" >> "$0.logical_query"
+    echo " union all select ${with_single_quotation} from dual" >> "$0.get_delete_target"
   done < "$logicals"
-  echo ") where path is not null;"  >> "$0.logical_query"
-  logical_result=$(sh ./execute_sql.sh "$(cat "$0.logical_query")" "logical_query")
+  echo ") where path is not null"  >> "$0.get_delete_target"
+
+  echo " minus" >> "$0.get_delete_target"
+
+  echo "select path from (select null as path from dual" >> "$0.get_delete_target"
+  while IFS= read -r line;
+  do
+		with_single_quotation="'$line'"
+		echo " union all select ${with_single_quotation} from dual" >> "$0.get_delete_target"
+  done < "$physicals"
+  echo ") where path is not null"  >> "$0.get_delete_target"
+
+  echo ";" >> "$0.get_delete_target"
+
+  result=$(sh ./execute_sql.sh "$(cat "$0.get_delete_target")" "GET_DELETE_TARGETS(LOGICAL-PHYSICAL)")
+  echo "$result"
 }
+# get missing target: logical minus physical
 getMissingTargets() {
-	echo "missingtargets"
+  > "$0.get_missing_target"
+
+  echo "select path from (select null as path from dual" >> "$0.get_missing_target"
+  while IFS= read -r line;
+  do
+		with_single_quotation="'$line'"
+		echo " union all select ${with_single_quotation} from dual" >> "$0.get_missing_target"
+  done < "$physicals"
+  echo ") where path is not null"  >> "$0.get_missing_target"
+
+  echo " minus" >> "$0.get_missing_target"
+
+  echo "select path from (select null as path from dual" >> "$0.get_missing_target"
+  while IFS= read -r line;
+  do
+		with_single_quotation="'$line'"
+    echo " union all select ${with_single_quotation} from dual" >> "$0.get_missing_target"
+  done < "$logicals"
+  echo ") where path is not null"  >> "$0.get_missing_target"
+
+  echo ";" >> "$0.get_missing_target"
+
+  result=$(sh ./execute_sql.sh "$(cat "$0.get_missing_target")" "GET_MISSING_TARGETS(PHYSICAL-LOGICAL)")
+  echo "$result"
 }
 
 loadDirectoriesByQuery
 loadPhysicalDatafiles
 loadLogicalDatafiles
 getDeleteTargets
+getMissingTargets
