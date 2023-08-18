@@ -105,3 +105,5 @@ select *
 - [ ] dynamic performance view 중, 특히 v$archived_log와 v$session을 조회하여 특정 테이블로 주기적으로  insert하도록 shell 작성
 - [ ] 갭차이 조회 완성(long 타입 대응 함수 얻게되면)
 - [ ] 통계 export/import
+- [ ] snapshot too old 원인과 해결방법들을 이해하고 정리
+

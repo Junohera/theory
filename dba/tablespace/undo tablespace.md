@@ -109,6 +109,8 @@ select name,
   - [x] TOBE
     - [ ] 자정+${0}H 선행 A작업
     - [ ] 자정+${N}H 후행 B작업
+- [ ] 😀 LOCK 명시
+  select ~ for update wait 0
 
 ---
 
