@@ -2,8 +2,8 @@
 
 #  example
 #  case1. just call
-#  sh backup.sh 
-#  case2. call with parameter another path 
+#  sh backup.sh
+#  case2. call with parameter another path
 #  sh backup.sh /home/backup
 #
 #  flow
@@ -23,36 +23,36 @@ ORACLE_DBS=/oracle12/app/oracle/product/12.2.0.1/db_1/dbs/
 ###################################### define function ######################################
 # func: check constant
 func_check_constant() {
-	ls $ORACLE_DATA | grep ".dbf" > /dev/null
-	IS_EXIST_DBF=$(echo $?)
-	ls $ORACLE_DATA | grep ".ctl" > /dev/null
-	IS_EXIST_CTL=$(echo $?)
-	ls $ORACLE_DATA | grep ".log" > /dev/null
-	IS_EXIST_LOG=$(echo $?)
-	ls $ORACLE_DBS | grep ".ora" > /dev/null
-	IS_EXIST_ORA=$(echo $?)
-	
-	if [ $IS_EXIST_DBF -ne 0 ]; then echo "NOT EXISTS ($ORACLE_DATA*.dbf)"; exit 127; fi
-	if [ $IS_EXIST_CTL -ne 0 ]; then echo "NOT EXISTS ($ORACLE_DATA*.ctl)"; exit 127; fi
-	if [ $IS_EXIST_LOG -ne 0 ]; then echo "NOT EXISTS ($ORACLE_DATA*.log)"; exit 127; fi
-	if [ $IS_EXIST_ORA -ne 0 ]; then echo "NOT EXISTS ($ORACLE_DBS*.ora)"; exit 127; fi
+  ls $ORACLE_DATA | grep ".dbf" > /dev/null
+  IS_EXIST_DBF=$(echo $?)
+  ls $ORACLE_DATA | grep ".ctl" > /dev/null
+  IS_EXIST_CTL=$(echo $?)
+  ls $ORACLE_DATA | grep ".log" > /dev/null
+  IS_EXIST_LOG=$(echo $?)
+  ls $ORACLE_DBS | grep ".ora" > /dev/null
+  IS_EXIST_ORA=$(echo $?)
+  
+  if [ $IS_EXIST_DBF -ne 0 ]; then echo "NOT EXISTS ($ORACLE_DATA*.dbf)"; exit 127; fi
+  if [ $IS_EXIST_CTL -ne 0 ]; then echo "NOT EXISTS ($ORACLE_DATA*.ctl)"; exit 127; fi
+  if [ $IS_EXIST_LOG -ne 0 ]; then echo "NOT EXISTS ($ORACLE_DATA*.log)"; exit 127; fi
+  if [ $IS_EXIST_ORA -ne 0 ]; then echo "NOT EXISTS ($ORACLE_DBS*.ora)"; exit 127; fi
 }
 
 # func: make directory
 func_make_directory() {
   if ! [ -z $1 ]
-        then
-                prefix="$1/"
+  then
+    prefix="$1/"
   fi
-
+  
   if ! [ -d $prefix ]
-        then
-                echo "\$prefix is not directory"
-                exit 127
+  then
+    echo "\$prefix is not directory"
+    exit 127
   fi
-
+  
   BACKUPDIR="${prefix}backup_${suffix}"
-
+  
   mkdir -p $BACKUPDIR
   export BACKUPDIR
 }
@@ -66,12 +66,12 @@ func_echo_directory() {
 
 # func: generate backup controlfile
 func_generate_backup_controlfile() {
-BACKUP_CONTROLFILE="$BACKUPDIR/control.sql"
-BACKUP_CONTROLFILE_FOR_QUERY="'"$BACKUPDIR/control.sql"'"
-if [ -f $BACKUP_CONTROLFILE ]
-        then
-                rm $BACKUP_CONTROLFILE
-fi
+  BACKUP_CONTROLFILE="$BACKUPDIR/control.sql"
+  BACKUP_CONTROLFILE_FOR_QUERY="'"$BACKUPDIR/control.sql"'"
+  if [ -f $BACKUP_CONTROLFILE ]
+  then
+    rm $BACKUP_CONTROLFILE
+  fi
 sqlplus -S / as sysdba << _eof_
 select instance_name, status from v\$instance;
 /
