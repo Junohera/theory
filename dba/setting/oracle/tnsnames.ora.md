@@ -19,7 +19,7 @@ clear;num=0;for tnsoranames_path in $(echo $PATH| sed 's/:/\n/g'| grep app| grep
 ✔**open tnsnames.ora directory at top priority in oracle environment path**
 
 ```shell
-#!/bin/bash
+#!/bin/sh
 
 # 목적
 # CLIENT의 TNSNMES.ORA파일을 확인하기 위한 SHELL
