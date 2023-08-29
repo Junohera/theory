@@ -1,3 +1,25 @@
+# Parameters
+
+```sql
+select * from v$parameter;             -- 전체 파라미터 목록 확인
+select * from v$nls_parameters;        -- nls 파라미터 목록 확인(default값)
+select * from nls_session_parameters;  -- nls 파라미터 현재 세션 설정값 확인
+
+-- 전체 파라미터
+select num,
+       name,
+       value,
+       display_value,
+       isdeprecated,
+       isbasic,
+       description,
+       update_comment       
+  from v$parameter
+ order by num;
+```
+
+---
+
 #### **shared_pool_size**
 
 공유 메모리 사이즈
