@@ -38,3 +38,15 @@
 
 `KOREAN_KOREA.AL32UTF8`
 
+---
+
+## check client
+
+**regedit**
+
+HKEY_LOCAL_MACHINE
+SOFTWARE
+ORACLE
+
+**services.msc**
+
