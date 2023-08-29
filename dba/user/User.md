@@ -46,10 +46,10 @@ grant create session to tuser;
 select username,
 			 account_status,						-- 계정 상태
 			 lock_date,
-			 expiry_date,
-			 default_tablespace,
-			 temporary_tablespace,
-			 profile
+       expiry_date,
+       default_tablespace,
+       temporary_tablespace,
+       profile
   from dba_users
  where 1=1
    and username = 'TUSER'
@@ -80,6 +80,12 @@ alter user tuser account lock;
 
 ```sql
 alter user tuser identified by test;
+```
+
+#### 4. Unlock while changing password
+
+```sql
+alter user tuser identified by new_password account unlock;
 ```
 
 ### SESSION
@@ -119,3 +125,10 @@ SELECT DISTINCT
 ```sql
 ALTER SYSTEM KILL SESSION '52, 51034';
 ```
+
+## 💥 Lock Reason
+
+- 최초
+- 비밀번호 특정횟수 초과일 때
+- 만료되었을 때
+- ...
