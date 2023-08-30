@@ -65,7 +65,9 @@ rm -f /usr/local/bin/oraenv
 ```shell
 mkdir -p /opt/reinstall/backup
 cp /home/oracle/.bash_profile /opt/reinstall/backup/.bash_profile_oracle
-cat /opt/reinstall/backup/.bash_profile_oracle > /dev/null
+cp /home/oracle/.vimrc /opt/reinstall/backup/.vimrc_oracle
+cat /opt/reinstall/backup/.bash_profile_oracle
+cat /opt/reinstall/backup/.vimrc_oracle
 
 userdel oracle
 groupdel dba
@@ -94,5 +96,28 @@ rm -f /etc/oraInst.loc
 rm -f /etc/oratab
 rm -f	/usr/bin/oracle-database-*-preinstall*
 rm -f /usr/local/bin/oraenv
+```
+
+**4. preinstall 삭제**
+
+```shell
+yum list installed | grep oracle
+yum remove oracle-database-server-12cR2-preinstall.x86_64
+```
+
+## 4. reinstall
+
+> **${PROJECT_ROOT}/setting/oracle/2. oracle.md**
+>
+> You can proceed from **load Oracle Image file**
+> ```shell
+> scp V839960-01.zip root@172.16.229.132:/oracle12/V839960-01.zip
+> ```
+
+**restore profile**
+
+```shell
+cp /opt/reinstall/backup/.bash_profile_oracle /home/oracle/.bash_profile
+cp /opt/reinstall/backup/.vimrc_oracle /home/oracle/.vimrc
 ```
 
