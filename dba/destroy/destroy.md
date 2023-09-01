@@ -1,4 +1,4 @@
-# destory
+# destroy
 
 > 오라클 삭제 후, 재설치
 >
