@@ -29,7 +29,7 @@
    * Ubuntu    Stopped         2✅
    ```
 
-3. 1이면
+3. 만약 version 2가 확인되지 않는다면(=1이면)
 
    1. 설정 변경 필요
 
@@ -142,6 +142,8 @@ ldd 명령으로 libpq 라이브러리 참조를 꼭 살펴보아야한다
 
 
 
+## process & transaction 주요 문제상황
+
 ### zombie process
 
 client 입장에서 모든 요청에 대해 응답 또는 결과를 확인하고,
@@ -163,10 +165,42 @@ Client ➡ A ➡ B ❌ C ❌ Server
 Client ❌ A ❌ B ❌ C ❌ Server
 ```
 
+### idle in transaction
+
+auto commit이 아닐 경우에
+commit이든 rollback을 실행하지 않을 경우, 다음과 같이 프로세스가 계속 남는다.
+
+```shell
+begin;
+\! ps | grep idle | grep -v grep
+130 postgres postgres: postgres postgres [local] idle
+163 postgres postgres: postgres postgres [local] idle in transaction💥
+```
+
+### after when failure query in transaction
+
+```sql
+postgres=# begin;
+BEGIN
+postgres=*# select 1/0;💥
+ERROR:  division by zero
+
+
+postgres=!# select 1;💥
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+postgres=!# select 1;💥
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+postgres=!# select 1;💥
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+...
+```
+
+
+
 
 
 ---
 
-### 
+
 
 [^ WSL]: Windows Subsystem for Linux
