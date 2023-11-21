@@ -13,6 +13,8 @@
 
 - 비교적 충실한 트랜잭션 처리 - 이상적인 트랜잭션 처리는 없다!
 
+- OS에 의존도가 크다. (ex: cpu사용량이 궁금해? 그럼 os단에서 확인해!)
+
 - 이식성이 완벽하지 않다.
 
   > ASIS: same OS, same bit, TOBE: same OS, same CPU type, same bit
