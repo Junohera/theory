@@ -52,3 +52,11 @@ database의 나이를 0으로 만드려면, 가장 오래된 테이블들을 순
 평범한 서비스(게시판, ...)는 autovacuum의 파라미터를 손댈 일이 거의 없으나
 대표적으로 ito 같은 서비스에 활용될 경우, 파라미터 설정을 해야할 수도 있고
 더불어 테이블별, 데이터베이스별 설정도 가능하다.
+
+dead tuple과 live tuple을 완벽히 정리해주는 vacuum full,
+autovacuum이 해주지 않는다. (해당 작업이면 pg_repack도 있다. oracle reorg와 비슷)
+ dml을 허용하면서(=table exclusive lock없이) 정리하는 것이 `pg_repack`
+
+물론 pg_repack 또한 트레이드오프가 존재하는데, 이것에 대해 알아보고
+직접 확인해보며 체득 후 하도록...
+

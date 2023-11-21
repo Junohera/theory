@@ -13,6 +13,13 @@
 
 - 비교적 충실한 트랜잭션 처리 - 이상적인 트랜잭션 처리는 없다!
 
+- 이식성이 완벽하지 않다.
+
+  > ASIS: same OS, same bit, TOBE: same OS, same CPU type, same bit
+  >
+  > (100% 동일하지 않음. => 동일한 환경을 반드시 유지 => )
+  > BINARY 수준에서 완벽 호환 불가(OS단과 CPU칩 유형 반드시 동일하게)
+
 ---
 
 ## WSL[^ WSL]
